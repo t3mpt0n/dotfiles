@@ -1,0 +1,7 @@
+keys:
+  - &user_jd 6C112AFA4187246E358B40CA21917E9A19F9F3F2
+creation_rules:
+  - path_regex: secrets/[^/]+\.yaml$
+    key_groups:
+      - pgp:
+          - *user_jd
