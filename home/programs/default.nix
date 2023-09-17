@@ -1,5 +1,6 @@
 {
 	pkgs,
+	self,
 	...
 }: {
 	imports = [
@@ -25,5 +26,6 @@
 		android-tools
 		droidcam
 		dotnet-sdk
+		self.outputs.packages.x86_64-linux.streamrip
 	];
 }
