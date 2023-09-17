@@ -1,14 +1,13 @@
 {
-	config,
-	pkgs,
 	lib,
 	inputs,
-	fetchFromGitHub,
+	pkgs,
+	self,
 	...
 }: {
 	programs.emulationstation = {
 		enable = true;
-		package = inputs.self.packages.x86_64-linux.emulationstation-de;
+		package = self.outputs.packages.x86_64-linux.emulationstation-de;
 		systems = let
 			rompath = "/mnt/dhp/media/Games/ROMs";
 			commonExtensions = [ ".7z" ".7Z" ".zip" ".ZIP" ];

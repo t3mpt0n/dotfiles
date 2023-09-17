@@ -36,17 +36,15 @@
 		};
 	};
 
-	outputs = inputs:
+	outputs = inputs@{self, hm, nixpkgs, ...}:
 		inputs.flake-parts.lib.mkFlake { inherit inputs; } {
 			imports = [
-				./hosts
-				./home/profiles
-				./modules
-				./packages
+				inputs.flake-parts.flakeModules.easyOverlay
 			];
 
 			systems = [ "x86_64-linux" ];
-			perSystem = { config, self', inputs', pkgs, system, ... }: {
+			perSystem = pargs@{ config, self', inputs', pkgs, system, ... }: {
+				packages = import ./packages pargs;
 				devShells = {
 					default = pkgs.mkShell {
 						nativeBuildInputs = with pkgs; [
@@ -60,6 +58,17 @@
 					};
 				};
 			};
-		};
 
+			flake = {
+				nixosConfigurations = import ./hosts inputs;
+				# homeConfigurations = import ./home/profiles inputs;
+				nixosModules = {
+					core = import ./modules/core.nix;
+					network = import ./modules/network.nix;
+					nix = import ./modules/nix.nix;
+					audio = import ./modules/audio.nix;
+					agenix = import ./modules/secret.nix;
+				};
+			};
+		};
 }

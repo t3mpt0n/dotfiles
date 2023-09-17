@@ -11,7 +11,7 @@
 			userName = "t3mpt0n";
 
 			signing = {
-				key = "AAAAC3NzaC1lZDI1NTE5AAAAIGPuI0N/XtaAXIaSoSMsL9qmuuX1VvLh9nbpB6Tzj++h";
+				key = "~/.ssh/t3mpt0n_git.pub";
 				signByDefault = true;
 			};
 
