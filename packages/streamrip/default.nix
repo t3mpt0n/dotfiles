@@ -16,6 +16,7 @@
 	requests,
 	aiodns,
 	pick,
+	simple-term-menu,
 	pillow,
 	cleo,
 	appdirs,
@@ -48,6 +49,7 @@
 		deezer-py
 		pycryptodomex
 		cleo
+		simple-term-menu
 		appdirs
 		m3u8
 		aiofiles
@@ -57,7 +59,7 @@
 
 	meta = with lib; {
 		description = "A scriptable music downloader for Qobuz, Tidal, SoundCloud, and Deezer";
-		homepage = "https://github/nathom/streamrip/tree/dev";
+		homepage = "https://github.com/nathom/streamrip/tree/dev";
 		license = licenses.gpl3Plus;
 		platforms = platforms.linux;
 		maintainers = with maintainers; [ t3mpt0n ];

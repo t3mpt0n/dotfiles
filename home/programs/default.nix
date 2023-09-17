@@ -27,5 +27,6 @@
 		droidcam
 		dotnet-sdk
 		self.outputs.packages.x86_64-linux.streamrip
+		kid3
 	];
 }

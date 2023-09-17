@@ -16,7 +16,8 @@
 				type = nullOr str;
 				default = "${name}";
 				description = lib.mdDoc ''
-					Short name of the system and the default method of sorting systems.
+					EN: Short name of the system and the default method of sorting systems.
+					ES: Nombre corto del sistema y el metodo predeterminada para organizar sistemas.
 				'';
 				example = "nes";
 			};
@@ -25,7 +26,8 @@
 				type = nullOr str;
 				default = null;
 				description = lib.mdDoc ''
-					Name that overrides `name` in EmulationStation's sorting algorithm.
+					EN: Name that overrides `name` in EmulationStation's sorting algorithm.
+					ES: Nombre definido por el usario que EmulationStation usa en lugar de `name`.
 				'';
 			};
 
@@ -33,7 +35,8 @@
 				type = nullOr str;
 				default = null;
 				description = lib.mdDoc ''
-					Set the fullname of the system.
+					EN: Set the fullname of the system.
+					ES: Nombre completo del sistema.
 				'';
 				example = "Nintendo Entertainment System";
 			};
@@ -42,8 +45,10 @@
 				type = nullOr str;
 				default = "%ROMPATH%/${name}";
 				description = lib.mdDoc ''
-					Path to ROM directory.
-					Not of type path because it needs to be an absolute path.
+					EN: Path to ROM directory.
+					     Not of type path because it needs to be an absolute path.
+					ES: Ruta a la directorio de ROMs.
+					     No de tipo path porque necesita ser una ruta absoluta.
 				'';
 				example = "%ROMPATH%/nes";
 			};
@@ -52,7 +57,8 @@
 				type = listOf str;
 				default = [ ];
 				description = lib.mdDoc ''
-					Acceptable file extensions for system.
+					EN: Acceptable file extensions for system.
+					ES: Extenciones de archivos acceptables.
 				'';
 				example = [ ".nes" ".NES" ".zip" ".ZIP" ".7z" ".7Z" ];
 			};
@@ -61,7 +67,8 @@
 				type = attrsOf str;
 				default = { };
 				description = lib.mdDoc ''
-					Set your emulators here.
+					EN: Set your emulators here.
+					ES: Pon sus emuladores aquí.
 				'';
 			};
 
@@ -69,7 +76,8 @@
 				type = nullOr str;
 				default = "${name}";
 				description = lib.mdDoc ''
-					Platform name for scraping.
+					EN: Platform name for scraping.
+					ES: Nombre de plataforma para raspar.
 				'';
 			};
 
@@ -77,7 +85,8 @@
 				type = nullOr str;
 				default = "${name}";
 				description = lib.mdDoc ''
-					Theme name for scraping.
+					EN: Theme name for scraping.
+					ES: Nombre de tema para raspar.
 				'';
 			};
 		};
@@ -92,13 +101,19 @@
 					default = pkgs.emulationstation;
 					defaultText = literalExpression "pkgs.emulationstation";
 					description = lib.mdDoc ''
-						EmulationStation Desktop Edition is a frontend for browsing and launching games from your multi-platform game collection.
+						EN: EmulationStation is a frontend for browsing and launching games from your multi-platform game collection.
 
-						Available packages are:
-							pkgs.emulationstation [default]
-							github:t3mpt0n/dotfiles#emulationstation-de
+								Available packages are:
+								pkgs.emulationstation [default]
+								github:t3mpt0n/dotfiles#emulationstation-de
 
-						Set to `null` for default package.
+								Omit for default package.
+						ES: EmulationStation es un interfaz para navegar y jugar sus juegos de tu colleción de juegos multiplataforma.
+								Los paquetes disponibles son:
+								pkgs.emulationstation [por defecto]
+								github:t3mpt0n/dotfiles#emulationstation
+
+								Omitir para usar el paquete predeterminado.
 					'';
 				};
 
@@ -106,8 +121,10 @@
 					type = attrsOf (submodule [esdeSystemsOpts]);
 					default = { };
 					description = lib.mdDoc ''
-						Configure your retro systems here.
-						Configuration at: https://gitlab.com/es-de/emulationstation-de/-/blob/master/INSTALL.md#es_systemsxml
+						EN: Configure your retro systems here.
+								Configuration at -> https://gitlab.com/es-de/emulationstation-de/-/blob/master/INSTALL.md#es_systemsxml
+						ES: Configura sus sistemas retro aquí.
+								Configuración a -> https://gitlab.com/es-de/emulationstation-de/-/blob/master/INSTALL.md#es_systemsxml <- Lamentablemente solo en inglés.
 					'';
 					example = literalExpression ''
 						"nes" = {
