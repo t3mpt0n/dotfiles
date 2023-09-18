@@ -7,6 +7,7 @@
 		../terminal
 		../editor/emacs
 		../custom/es-de
+		../shell
 		../.
 	];
 }

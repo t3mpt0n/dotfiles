@@ -4,7 +4,20 @@
 	pkgs,
 	self,
 	...
-}: {
+}: let
+	inherit (pkgs) fetchFromGitHub punes ares;
+	fceux = (pkgs.fceux.overrideAttrs (oldAttrs: rec {
+		version = "2.6.6";
+		src = fetchFromGitHub {
+			owner = "TASEmulators";
+			repo = "fceux";
+			rev = "v${version}";
+			sha256 = "sha256-Wp23oLapMqQtL2DCkm2xX1vodtEr/XNSOErf3nrFRQs=";
+		};
+	}));
+	emulators.nes = [ fceux punes ];
+	emulators.multi = [ ares ];
+	in rec {
 	programs.emulationstation = {
 		enable = true;
 		package = self.outputs.packages.x86_64-linux.emulationstation-de;
@@ -18,8 +31,8 @@
 					extension = [ ".nes" ".NES" ] ++ commonExtensions;
 					path = "${rompath}/NES";
 					command = {
-						label = "FCEUX";
-						text = "${pkgs.fceux}/bin/fceux --fullscreen 1 --noframe 1 %ROM%";
+						label = "puNES";
+						text = "punes --hidden-gui %ROM%";
 					};
 				};
 				"snes" = {
@@ -35,15 +48,6 @@
 			};
 	};
 
-	home.packages = [
-		(pkgs.fceux.overrideAttrs (oldAttrs: rec {
-			version = "2.6.6";
-			src = pkgs.fetchFromGitHub {
-				owner = "TASEmulators";
-				repo = "fceux";
-				rev = "v${version}";
-				sha256 = "sha256-Wp23oLapMqQtL2DCkm2xX1vodtEr/XNSOErf3nrFRQs=";
-			};
-		}))
-	];
+	home.packages = with emulators;
+		nes ++ ares;
 }

@@ -1,6 +1,7 @@
 {
 	pkgs,
 	inputs,
+	lib,
 	...
 }: {
 	imports = [
@@ -9,6 +10,13 @@
 		./gpu.nix
 		./polkit.nix
 		./bluetooth.nix
+		./steam.nix
+	];
+	nixpkgs.config.allowUnfreePredicate = d: builtins.elem (lib.getName d) [
+		"discord"
+		"steam"
+		"steam-run"
+		"steam-original"
 	];
 
 	nix.settings.sandbox = true;

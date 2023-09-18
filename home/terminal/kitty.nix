@@ -10,5 +10,6 @@
 			size = 13;
 			package = pkgs.fira-code;
 		};
+		shellIntegration.enableFishIntegration = true;
 	};
 }
