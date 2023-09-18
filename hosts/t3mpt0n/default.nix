@@ -73,8 +73,8 @@
 		(pkgs.SDL2.override (old: { waylandSupport = true; x11Support = false; openglSupport = true; pipewireSupport = true; }))
 		appimagekit
 		appimage-run
-		xorg.libX11
-		xorg.libXi
+		qt5.qtwayland
+		qt6.qtwayland
 	];
 
 	environment.sessionVariables = {

@@ -31,8 +31,8 @@
 					extension = [ ".nes" ".NES" ] ++ commonExtensions;
 					path = "${rompath}/NES";
 					command = {
-						label = "puNES";
-						text = "punes --hidden-gui %ROM%";
+						label = "ares";
+						text = "ares --fullscreen --system Famicom %ROM%";
 					};
 				};
 				"snes" = {
@@ -49,5 +49,5 @@
 	};
 
 	home.packages = with emulators;
-		nes ++ ares;
+		nes ++ multi;
 }
