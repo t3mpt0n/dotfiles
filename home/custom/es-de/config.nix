@@ -44,7 +44,7 @@
 					path = "${rompath}/SNES";
 					command = {
 						label = "BSNES";
-						text = "balls";
+						text = "ares --fullscreen --system Super Famicom %ROM%";
 					};
 				};
 			};
