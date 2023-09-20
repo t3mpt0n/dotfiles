@@ -14,5 +14,5 @@ jobs:
         with:
           name: emulationstation-desktop-edition
           authToken: '${{ secrets.CACHIX_ESDE_AUTHTOKEN }}'
-      - run: nix-build
+      - run: nix-build -E 'let pkgs = import <nixpkgs> { }; in pkgs.callPackage ./packages/es-de/default.nix {}'
       - run: nix-shell --run "OK"
