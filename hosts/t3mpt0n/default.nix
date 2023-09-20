@@ -73,6 +73,9 @@
 		(pkgs.SDL2.override (old: { waylandSupport = true; x11Support = false; openglSupport = true; pipewireSupport = true; }))
 		appimagekit
 		appimage-run
+		gtk3
+		gtk4
+		gnome.adwaita-icon-theme
 		qt5.qtwayland
 		qt6.qtwayland
 	];
@@ -91,9 +94,7 @@
 			}];
 		};
 		sudo.enable = false;
-		tpm2.enable = true;
-		polkit.enable = true;
-	};
+		tpm2.enable = true; polkit.enable = true;};
 
 	programs.gnupg.agent = {
 		enable = true;
@@ -113,4 +114,10 @@
 	systemd.extraConfig = ''
 		DefaultTimeoutStopSec=10s
 	'';
+
+	xdg.portal = {
+		enable = true;
+		wlr.enable = true;
+		extraPortals = with pkgs; [xdg-desktop-portal-gtk];
+	};
 }

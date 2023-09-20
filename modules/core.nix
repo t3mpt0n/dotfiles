@@ -12,7 +12,10 @@
 			inputs.agenix.packages.x86_64-linux.doc
 			pkgs.age
 			pkgs.clang
+			pkgs.cachix
 		];
+
+		services.cachix-agent.enable = true;
 
 		documentation.dev.enable = true;
 
@@ -42,11 +45,12 @@
 		users.users.jd = {
 			isNormalUser = true;
 			shell = pkgs.fish;
-			extraGroups = [ "input" "video" "audio" "networkmanager" ];
+			extraGroups = [ "input" "video" "audio" "networkmanager" "wheel" ];
 		};
 
 		fonts.packages = with pkgs; [
 			noto-fonts
+			noto-fonts-cjk
 			noto-fonts-emoji
 			fira-code-nerdfont
 			fira-code-symbols

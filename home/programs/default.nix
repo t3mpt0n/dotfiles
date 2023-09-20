@@ -9,6 +9,7 @@
 		./mpv.nix
 		./pass.nix
 		./dunst.nix
+		./thunar.nix
 	];
 
 	programs = {
@@ -28,5 +29,6 @@
 		dotnet-sdk
 		self.outputs.packages.x86_64-linux.streamrip
 		kid3
+		pavucontrol
 	];
 }

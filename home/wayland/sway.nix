@@ -11,6 +11,7 @@
 
 	wayland.windowManager.sway = {
 		enable = true;
+		xwayland = true;
 		config = rec {
 			modifier = "Mod4";
 			output = let
@@ -22,7 +23,7 @@
 				in {
 					"${mon0}" = {
 						mode = "${res0}@60Hz";
-						position = "0,0";
+						position = "0,320";
 						bg = "${walldir}${res0}/Ginger\ Bread.jpg fill";
 					};
 					"${mon1}" = {
@@ -40,7 +41,7 @@
 					"${modifier}+Shift+Return" = "exec ${pkgs.kitty}/bin/kitty";
 					"${modifier}+Shift+q" = "kill";
 					"${modifier}+p" = "exec ${pkgs.wofi}/bin/wofi --show run";
-					"${modifier}+e" = "exec ${pkgs.emacs}/bin/emacsclient -c -a 'emacs'";
+					"${modifier}+e" = "exec ${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs'";
 					"${modifier}+Shift+d" = "exec ${pkgs.discord}/bin/discord";
 					"${modifier}+w" = "exec ${pkgs.firefox}/bin/firefox";
 					"${modifier}+Shift+P" = "exec wofi-pass";
@@ -58,6 +59,7 @@
 		};
 		extraConfig = ''
 			default_border pixel 5
+			exec corectrl
 			bar {
 				swaybar_command waybar
 			}

@@ -5,7 +5,8 @@
 	self,
 	...
 }: let
-	inherit (pkgs) fetchFromGitHub punes ares;
+	inherit (pkgs) fetchFromGitHub punes;
+	inherit (self.outputs.packages.x86_64-linux) nestopia emulationstation-de;
 	fceux = (pkgs.fceux.overrideAttrs (oldAttrs: rec {
 		version = "2.6.6";
 		src = fetchFromGitHub {
@@ -15,12 +16,13 @@
 			sha256 = "sha256-Wp23oLapMqQtL2DCkm2xX1vodtEr/XNSOErf3nrFRQs=";
 		};
 	}));
-	emulators.nes = [ fceux punes ];
-	emulators.multi = [ ares ];
+
+	emulators.nes = [ fceux punes nestopia ];
+	emulators.multi = with pkgs; [ ares ];
 	in rec {
 	programs.emulationstation = {
 		enable = true;
-		package = self.outputs.packages.x86_64-linux.emulationstation-de;
+		package = emulationstation-de;
 		systems = let
 			rompath = "/mnt/dhp/media/Games/ROMs";
 			commonExtensions = [ ".7z" ".7Z" ".zip" ".ZIP" ];
@@ -31,8 +33,8 @@
 					extension = [ ".nes" ".NES" ] ++ commonExtensions;
 					path = "${rompath}/NES";
 					command = {
-						label = "ares";
-						text = "ares --fullscreen --system Famicom %ROM%";
+						label = "nestopia";
+						text = "nestopia --fullscreen %ROM%";
 					};
 				};
 				"snes" = {
@@ -49,5 +51,6 @@
 	};
 
 	home.packages = with emulators;
-		nes ++ multi;
+		nes
+	++multi;
 }
