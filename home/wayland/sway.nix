@@ -55,11 +55,12 @@
 				};
 			startup = [
 				{ command = "emacs --daemon"; }
+				{ command = "corectrl"; }
+				{ command = "nix flake archive /etc/nixos"; always = true; }
 			];
 		};
 		extraConfig = ''
 			default_border pixel 5
-			exec corectrl
 			bar {
 				swaybar_command waybar
 			}
