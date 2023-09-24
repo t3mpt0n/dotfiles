@@ -7,6 +7,7 @@
 	home.packages = with pkgs; [
 		swaybg
 		swayidle
+		swaylock
 	];
 
 	wayland.windowManager.sway = {
@@ -49,6 +50,8 @@
 					"${modifier}+Alt+e" = "layout toggle split";
 					"${modifier}+Alt+v" = "splitv";
 					"${modifier}+Alt+h" = "splith";
+					"${modifier}+Alt+Tab" = "input type:keyboard xkb_switch_layout next";
+					"${modifier}+Alt+L" = "swaylock -c 000000";
 					"XF86AudioLowerVolume" = "exec amixer sset Master 5%-";
 					"XF86AudioRaiseVolume" = "exec amixer sset Master 5%+";
 					"XF86AudioMute" = "exec amixer sset Master toggle";
@@ -58,6 +61,11 @@
 				{ command = "corectrl"; }
 				{ command = "nix flake archive /etc/nixos"; always = true; }
 			];
+			input = {
+				"type:keyboard" = {
+					xkb_layout = "us,us_intl";
+				};
+			};
 		};
 		extraConfig = ''
 			default_border pixel 5

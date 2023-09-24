@@ -5,4 +5,7 @@ with pkgs; rec {
 	simple-term-menu = python3Packages.callPackage ./simple-term-menu {};
 	streamrip = python3Packages.callPackage ./streamrip { inherit simple-term-menu; };
 	nestopia = callPackage ./nestopia {};
+
+	/* TMUX PLUGINS */
+	tmux-ip-address = callPackage ./tmuxExtras/tmux-ip-addr.nix {};
 }

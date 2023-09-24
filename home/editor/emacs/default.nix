@@ -2,6 +2,7 @@
 	pkgs,
 	...
 }: {
+	imports = [ ./ob-tmux.nix ];
 	programs.emacs = {
 		enable = true;
 		package = pkgs.emacs29-pgtk;
@@ -19,10 +20,6 @@
 			nix-mode
 		];
 	};
-	services.emacs = {
-		enable = false;
-		package = pkgs.emacs29;
-	};
 
 	/* LSP Packages for Eglot */
 	home.packages = with pkgs; [
@@ -30,6 +27,21 @@
 		nodePackages_latest.bash-language-server
 		python310Packages.jedi-language-server
 		nodePackages_latest.yaml-language-server
-		eclipses.eclipse-java
+
+		/* JAVA */
+		jdk17
+		(pkgs.jdt-language-server.overrideAttrs (oldAttrs: rec {
+			fixupPhase = ''
+				mv $out/bin/jdt-language-server $out/bin/jdtls
+			'';
+		}))
+
+		/* LaTeX */
+		(pkgs.texlive.combine {
+			inherit (pkgs.texlive) scheme-basic
+				dvisvgm dvipng #HTML
+				wrapfig amsmath ulem hyperref capt-of pdftex;
+		})
+		texlab
 	];
 }
