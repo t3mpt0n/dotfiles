@@ -1,8 +1,8 @@
 {
-	...
+  ...
 }: {
-	imports = [
-		./define.nix
-		./config.nix
-	];
+  imports = [
+    ./define.nix
+    ./config.nix
+  ];
 }

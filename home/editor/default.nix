@@ -1,11 +1,11 @@
 {
-	...
+  ...
 }: {
-	imports = [
-		./emacs
-	];
+  imports = [
+    ./emacs
+  ];
 
-	home.sessionVariables = {
-		EDITOR = "emacsclient -c -a 'emacs'";
-	};
+  home.sessionVariables = {
+    EDITOR = "emacsclient -c -a 'emacs'";
+  };
 }

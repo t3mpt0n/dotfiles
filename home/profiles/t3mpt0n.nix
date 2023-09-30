@@ -1,13 +1,13 @@
 {
-	...
+  ...
 }: {
-	imports = [
-		../programs
-		../wayland
-		../terminal
-		../editor/emacs
-		../custom/es-de
-		../shell
-		../.
-	];
+  imports = [
+    ../programs
+    ../wayland
+    ../terminal
+    ../editor/emacs
+    ../custom/es-de
+    ../shell
+    ../.
+  ];
 }
