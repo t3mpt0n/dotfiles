@@ -153,7 +153,7 @@
 
 			home.activation = {
 				esconvertxml = lib.hm.dag.entryAfter ["writeBoundary"] ''
-					PYTHONPATH="${pkgs.python310Packages.xmltodict}/lib/python3.10/site-packages" $DRY_RUN_CMD ${lib.getExe pkgs.python3} /etc/nixos/home/custom/es-de/script/esxmlconvert.py
+					PYTHONPATH="${pkgs.python311Packages.xmltodict}/lib/python3.11/site-packages" $DRY_RUN_CMD ${lib.getExe pkgs.python3} /etc/nixos/home/custom/es-de/script/esxmlconvert.py
 				'';
 			};
 		};

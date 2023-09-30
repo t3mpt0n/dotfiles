@@ -48,14 +48,5 @@
 			extraGroups = [ "input" "video" "audio" "networkmanager" "wheel" ];
 		};
 
-		fonts.packages = with pkgs; [
-			noto-fonts
-			noto-fonts-cjk
-			noto-fonts-emoji
-			fira-code-nerdfont
-			fira-code-symbols
-			liberation_ttf
-		];
-
 		zramSwap.enable = true;
 	}

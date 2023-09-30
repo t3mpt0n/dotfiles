@@ -19,7 +19,7 @@
 	};
 
 	home.packages = with pkgs; [
-		discord
+		discord-canary
 		betterdiscordctl
 		betterdiscord-installer
 		corectrl /* Control AMDGPU Profiles */
@@ -30,5 +30,6 @@
 		self.outputs.packages.x86_64-linux.streamrip
 		kid3
 		pavucontrol
+		keepassxc
 	];
 }

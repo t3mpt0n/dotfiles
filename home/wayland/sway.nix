@@ -2,12 +2,14 @@
 	config,
 	lib,
 	pkgs,
+	self,
 	...
 }: {
 	home.packages = with pkgs; [
 		swaybg
 		swayidle
 		swaylock
+		self.outputs.packages.x86_64-linux.sway-alternating-layout
 	];
 
 	wayland.windowManager.sway = {
@@ -39,12 +41,14 @@
 				let
 					modifier = config.wayland.windowManager.sway.config.modifier;
 				in mkOptionDefault {
-					"${modifier}+Shift+Return" = "exec ${pkgs.kitty}/bin/kitty";
+					"${modifier}+Return" = "exec ${pkgs.kitty}/bin/kitty";
+					"${modifier}+Shift+Return" = "exec ${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs' -e '(multi-vterm)'";
 					"${modifier}+Shift+q" = "kill";
 					"${modifier}+p" = "exec ${pkgs.wofi}/bin/wofi --show run";
 					"${modifier}+e" = "exec ${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs'";
 					"${modifier}+Shift+d" = "exec ${pkgs.discord}/bin/discord";
 					"${modifier}+w" = "exec ${pkgs.firefox}/bin/firefox";
+					"${modifier}+Shift+S" = "exec ${pkgs.steam}/bin/steam";
 					"${modifier}+Shift+P" = "exec wofi-pass";
 					"${modifier}+Alt+w" = "layout tabbed";
 					"${modifier}+Alt+e" = "layout toggle split";
@@ -72,6 +76,7 @@
 			bar {
 				swaybar_command waybar
 			}
+			exec ${self.outputs.packages.x86_64-linux.sway-alternating-layout}/bin/swayi3-alternating-layout
 		'';
 	};
 }

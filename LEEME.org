@@ -1,0 +1,30 @@
+#+title: LEEME
+#+date: <2023-09-30 Sat>
+#+author: t3mpt0n
+#+email: t3mpt0n@tutanota.com
+#+language: es
+
+* Sobre
+Mi configuración personal de NixOS usando [[https://github.com/nix-community/home-manager][home-manager]] and [[https://github.com/hercules-ci/flake-parts][flake-parts]].
+(Muy) Inspirado por [[https://github.com/fufexan/dotfiles][los dotfiles de fufexan]].
+
+Puedes ver mis entradas con el comando:
+#+BEGIN_SRC sh
+nix flake metadata github:t3mpt0n/dotfiles
+#+END_SRC
+
+Similarmente, puedes ver mis salidas con el comando:
+#+BEGIN_SRC sh
+nix flake show github:t3mpt0n/dotfiles
+#+END_SRC
+
+* Contenidos
+- [[./modules][modules]] :: Configuraciones comunes sobre todas mis sistemas.
+- [[./hosts][hosts]] :: Configuraciones del _sistema_ específico al servidor.
+- [[./home][home]] :: Configuraciones del _hogar_ específico al servidor. Presentado por home-manager.
+- [[./packages][packages]] :: Mis derivaciones personales.
+- [[./secrets][secrets]] :: Mi (_perfectamente legal_ y vacio) directorio sin contenidos ilegales.
+
+* Gracias a
+- [[https://github.com/fufexan][Fufexan]] :: Por inspiración.
+- [[https://github.com/Skarlett][Lunarix]] :: Por ayudarme a mejorar a mi configuración.

@@ -9,13 +9,6 @@
 	};
 
 	services = {
-		openssh = {
-			enable = true;
-			settings.UseDns = true;
-			settings.PasswordAuthentication = false;
-			settings.PermitRootLogin = "no";
-		};
-
 		resolved.enable = true;
 	};
 }

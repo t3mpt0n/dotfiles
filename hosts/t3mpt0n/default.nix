@@ -14,7 +14,9 @@
 		./ssh.nix
 	];
 	nixpkgs.config.allowUnfreePredicate = d: builtins.elem (lib.getName d) [
+		"unrar"
 		"discord"
+		"discord-canary"
 		"steam"
 		"steam-run"
 		"steam-original"
@@ -79,10 +81,13 @@
 		gnome.adwaita-icon-theme
 		qt5.qtwayland
 		qt6.qtwayland
+		unrar
 	];
 
-	environment.sessionVariables = {
-		DOTNET_ROOT = "${pkgs.dotnet-sdk}";
+	environment = {
+		sessionVariables = {
+			DOTNET_ROOT = "${pkgs.dotnet-sdk}";
+		};
 	};
 
 	security = { /* DOAS NOT SUDO */
@@ -116,6 +121,7 @@
 				rtkit
 			];
 		};
+		flatpak.enable = true;
 	};
 
 	systemd.extraConfig = ''
@@ -125,6 +131,6 @@
 	xdg.portal = {
 		enable = true;
 		wlr.enable = true;
-		extraPortals = with pkgs; [xdg-desktop-portal-gtk];
+		extraPortals = with pkgs; [ xdg-desktop-portal-gtk xdg-desktop-portal-hyprland ];
 	};
 }

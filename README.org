@@ -1,0 +1,31 @@
+#+title: README
+#+date: <2023-09-30 Sat>
+#+author: t3mpt0n
+#+email: t3mpt0n@tutanota.com
+#+language: en
+Para leer este archivo en español, haz clic [[./LEEME.org][aquí.]]
+
+* About
+My personal NixOS configuration using both [[https://github.com/nix-community/home-manager][home-manager]] and [[https://github.com/hercules-ci/flake-parts][flake-parts]].
+(Heavily) Inspired by [[https://github.com/fufexan/dotfiles][fufexan's dotfiles]].
+
+See my flake inputs with the command:
+#+BEGIN_SRC sh
+nix flake metadata github:t3mpt0n/dotfiles
+#+END_SRC
+
+Similarly, see my flake outputs with the command:
+#+BEGIN_SRC sh
+nix flake show github:t3mpt0n/dotfiles
+#+END_SRC
+
+* Contents
+- [[./modules][modules]] :: Common configs across all my systems.
+- [[./hosts][hosts]] :: Host-specific _system_ configurations.
+- [[./home][home]] :: Host-specific _home_ configurations. Powered by home-manager.
+- [[./packages][packages]] :: My custom derivations.
+- [[./secrets][secrets]] :: My (currently empty and _perfectly legal_) no illegal contents directory.
+
+* Special Thanks
+- [[https://github.com/fufexan][Fufexan]] :: For the inspiration.
+- [[https://github.com/Skarlett][Lunarix]] :: For helping me pimp my config.

@@ -38,9 +38,8 @@
 
 		/* LaTeX */
 		(pkgs.texlive.combine {
-			inherit (pkgs.texlive) scheme-basic
-				dvisvgm dvipng #HTML
-				wrapfig amsmath ulem hyperref capt-of pdftex;
+			inherit (pkgs.texlive) scheme-basic collection-latex collection-latexextra collection-mathscience
+				dvisvgm dvipng wrapfig amsmath ulem hyperref capt-of pdftex metafont pgfplots;
 		})
 		texlab
 	];
