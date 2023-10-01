@@ -7,11 +7,11 @@
   programs = {
     git = {
       enable = true;
-      userEmail = "t3mpt0n@tutanota.com";
       userName = "t3mpt0n";
+      userEmail = "t3mpt0n@users.noreply.github.com";
 
       signing = {
-        key = "~/.ssh/t3mpt0n_sign-git.pub";
+        key = "/home/jd/.ssh/t3mpt0n_sign-git";
         signByDefault = true;
       };
 
