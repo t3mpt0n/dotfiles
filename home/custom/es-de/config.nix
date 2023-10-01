@@ -20,7 +20,7 @@
   emulators = with pkgs; {
     nes = [ fceux punes nestopia ];
     n64 = [ mupen64plus ];
-    multi = [ ares ];
+    multi = [ ares dolphin-emu ];
   };
 in rec {
   programs.emulationstation = {

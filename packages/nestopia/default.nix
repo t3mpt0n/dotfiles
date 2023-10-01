@@ -18,7 +18,7 @@
   gdk-pixbuf,
   unzip,
   makeWrapper,
-  wrapGAppsHook
+  wrapGAppsHook,
 }: stdenv.mkDerivation rec {
   pname = "nestopia";
   version = "1.52.0";

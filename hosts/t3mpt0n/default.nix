@@ -82,6 +82,7 @@
     qt5.qtwayland
     qt6.qtwayland
     unrar
+    tree-sitter-grammars.tree-sitter-nix
   ];
 
   environment = {
@@ -112,6 +113,8 @@
     enable = true;
     enableSSHSupport = true;
   };
+
+  programs.noisetorch.enable = true;
 
   services = {
     dbus = {

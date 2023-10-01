@@ -27,6 +27,9 @@
     nodePackages_latest.bash-language-server
     python310Packages.jedi-language-server
     nodePackages_latest.yaml-language-server
+    nodePackages_latest.vscode-html-languageserver-bin
+    nodePackages_latest.vscode-css-languageserver-bin
+    nodePackages_latest.vscode-json-languageserver-bin
 
     /* JAVA */
     jdk17
@@ -42,5 +45,8 @@
         dvisvgm dvipng wrapfig amsmath ulem hyperref capt-of pdftex metafont pgfplots;
     })
     texlab
+
+    /* RUST */
+    rustup
   ];
 }
