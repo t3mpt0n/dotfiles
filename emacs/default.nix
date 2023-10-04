@@ -1,6 +1,7 @@
 {
   self,
   pkgs,
+  lib,
   ...
 }: {
   imports = [
@@ -11,17 +12,14 @@
 
   environment.systemPackages = [
     (pkgs.emacsWithPackagesFromUsePackage {
-      config = ./init.el;
+      config = ./readme.org;
       defaultInitFile = true;
-      package = pkgs.emacsPgtk;
       extraEmacsPackages = epkgs: with epkgs; [
-        use-package # Install use-package to use in tandem w/ elpaca
+        use-package # install use-package to use in tandem w/ elpaca
       ];
       alwaysEnsure = true;
     })
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" "Iosevka" "NerdFontsSymbolsOnly" ]; })
     pkgs.fira-code-symbols
   ];
-
-  services.emacs.enable = true;
 }

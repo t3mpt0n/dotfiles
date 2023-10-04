@@ -32,7 +32,6 @@ in {
     specialArgs = { inherit inputs self; };
     modules = [
       ./t3mpt0n
-      ../emacs
       {
         home-manager.users.jd = import ../home/profiles/t3mpt0n.nix;
         home-manager.useGlobalPkgs = true;

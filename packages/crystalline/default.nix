@@ -9,11 +9,14 @@
   version = "0.10.0";
   src = fetchurl {
     url = "https://github.com/elbywan/${pname}/releases/download/v${version}/${pname}_x86_64-unknown-linux-musl.gz";
-    sha256 = lib.fakeSha256;
+    sha256 = "sha256-FQhLmcgQJoIj6K1Vf6L0JknTe5lJGTX2F/WTg5Ktqrs=";
   };
 
   buildInputs = [ gzip ];
-  unpackCmd = "${gzip}/bin/gzip -d $curSrc"
+  unpackPhase = ''
+    cp $src crystalline.gz
+    gzip -d crystalline.gz
+  '';
 
   installPhase = ''
     chmod u+x crystalline

@@ -48,7 +48,7 @@
     texlab
 
     /* CLOJURE */
-    inputs.clj-lsp.packages.x86_64-linux.default
+    #inputs.clj-lsp.packages.x86_64-linux.default
 
     /* RUBY */
     (ruby.withPackages (r: with r; [

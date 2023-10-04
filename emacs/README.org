@@ -91,7 +91,7 @@ My personal choice of package manager, however, *NOT* configured in elisp.
       (pkgs.emacsWithPackagesFromUsePackage {
         config = ./init.el;
         defaultInitFile = true;
-        package = pkgs.emacsPgtk;
+        package = pkgs.emacs-pgtk;
         extraEmacsPackages = epkgs: with epkgs; [
           use-package # Install use-package to use in tandem w/ elpaca
         ];
@@ -951,7 +951,11 @@ The code below just imports all the LSP files:
     ...
   }: {
     imports = [
-      ./
+      ./bls.nix
+      ./crystal.nix
+      ./jedi.nix
+      ./nil.nix
+      ./ruby.nix
     ];
   }
 #+end_src
@@ -1023,7 +1027,7 @@ Emacs is its own LSP so just push =company-elisp= to =company-backends=
 Install bash-language-server to Nix.
 #+begin_src nix :mkdirp yes :tangle ./lsp/bls.nix
   {
-    pgks,
+    pkgs,
     ...
   }: {
     environment.systemPackages = with pkgs; [
@@ -1049,7 +1053,7 @@ The config's also pretty simple:
     pkgs,
     ...
   }: {
-    environment.systemPackages = with pkgs.python311Packages; = [
+    environment.systemPackages = with pkgs.python311Packages; [
       jedi
       pylint
     ];
@@ -1132,11 +1136,14 @@ For =src.sha256=, add =lib.fakeSha256= to it and then copy whatever the =got:= s
     version = "0.10.0";
     src = fetchurl {
       url = "https://github.com/elbywan/${pname}/releases/download/v${version}/${pname}_x86_64-unknown-linux-musl.gz";
-      sha256 = lib.fakeSha256;
+      sha256 = "sha256-FQhLmcgQJoIj6K1Vf6L0JknTe5lJGTX2F/WTg5Ktqrs=";
     };
 
     buildInputs = [ gzip ];
-    unpackCmd = "${gzip}/bin/gzip -d $curSrc"
+    unpackPhase = ''
+      cp $src crystalline.gz
+      gzip -d crystalline.gz
+    '';
 
     installPhase = ''
       chmod u+x crystalline
