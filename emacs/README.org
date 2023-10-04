@@ -944,6 +944,18 @@ Auto tag all my feed files.
     :config (setq debug-on-error t)
     :custom (defalias 'eglot--major-mode 'eglot--major-modes))
 #+end_src
+
+The code below just imports all the LSP files:
+#+begin_src nix :mkdirp yes :tangle ./lsp/default.nix
+  {
+    ...
+  }: {
+    imports = [
+      ./
+    ];
+  }
+#+end_src
+
 Below is a comprehensive configuration of all the languages I currently use:
 *** Nix
 **** [[https://github.com/oxalica/nil][NIL]]
