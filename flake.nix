@@ -28,15 +28,32 @@
       url = "git+https://git.sr.ht/~bwolf/language-servers.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    clj-lsp = {
+      url = "github:clojure-lsp/clojure-lsp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    ru-ov = {
+      url = "github:oxalica/rust-overlay";
+    };
+
 
     /* SECRETS */
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    /* EMACS */
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
   };
 
-  outputs = inputs@{self, hm, nixpkgs, ...}:
+  outputs = inputs@{self, hm, nixpkgs, flake-utils, ...}:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.flake-parts.flakeModules.easyOverlay
@@ -69,7 +86,6 @@
           audio = import ./modules/audio.nix;
           agenix = import ./modules/secret.nix;
         };
-        
       };
     };
 }

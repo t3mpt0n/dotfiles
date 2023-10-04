@@ -14,7 +14,7 @@
           "DP-3"
           "HDMI-A-1"
         ];
-        modules-left = [ "sway/workspaces" "custom/padding3" "disk" "custom/padding3" "disk#hdd" "custom/padding6" "custom/kernel_icon" "custom/kernel" "custom/padding6" "mpd" "sway/mode" ];
+        modules-left = [ "sway/workspaces" "custom/padding3" "disk" "custom/padding3" "disk#hdd" "custom/padding6" "custom/kernel_icon" "custom/kernel" "custom/padding6" "sway/mode" ];
         modules-center = [ "clock" ];
         modules-right = [ "network" "custom/padding5" "custom/cpu_icon" "cpu" "custom/cpu_temp" "custom/padding2" "memory" "custom/padding1" "pulseaudio" "custom/padding0" "tray" ];
 
@@ -108,34 +108,34 @@
           format-ethernet = "󰈀  {bandwidthDownBits}  {bandwidthUpBits}";
           tooltip-format-ethernet = "󰈀 {ipaddr}/{cidr}";
         };
-        "mpd" = {
-          format = "󰎈 {stateIcon}{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}// {artist}// {title}";
-          format-disconnected = "";
-          format-stopped = "󰎈 󰓛";
-          server = "0.0.0.0";
-          port = 6601;
-          interval = 2;
-          state-icons = {
-            paused = "󰏤";
-            playing = "󰐊";
-          };
-          repeat-icons = {
-            off = "";
-            on = " ";
-          };
-          random-icons = {
-            off = "";
-            on = "󰒟 ";
-          };
-          single-icons = {
-            off = "";
-            on = "1";
-          };
-          consume-icons = {
-            off = "";
-            on = " ";
-          };
-        };
+#         "mpd" = {
+#           format = "󰎈 {stateIcon}{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}// {artist}// {title}";
+#           format-disconnected = "";
+#           format-stopped = "󰎈 󰓛";
+#           server = "0.0.0.0";
+#           port = 6601;
+#           interval = 2;
+#           state-icons = {
+#             paused = "󰏤";
+#             playing = "󰐊";
+#           };
+#           repeat-icons = {
+#             off = "";
+#             on = " ";
+#           };
+#           random-icons = {
+#             off = "";
+#             on = "󰒟 ";
+#           };
+#           single-icons = {
+#             off = "";
+#             on = "1";
+#           };
+#           consume-icons = {
+#             off = "";
+#             on = " ";
+#           };
+#         };
 
         /* CUSTOM MODULES */
         "custom/cpu_temp" = {

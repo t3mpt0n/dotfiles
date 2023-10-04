@@ -64,6 +64,7 @@
         { command = "emacs --daemon"; }
         { command = "corectrl"; }
         { command = "nix flake archive /etc/nixos"; always = true; }
+        { command = "${self.outputs.packages.x86_64-linux.sway-alternating-layout}/bin/swayi3-alternating-layout"; }
       ];
       input = {
         "type:keyboard" = {
@@ -76,7 +77,6 @@
       bar {
         swaybar_command waybar
       }
-      exec ${self.outputs.packages.x86_64-linux.sway-alternating-layout}/bin/swayi3-alternating-layout
     '';
   };
 }

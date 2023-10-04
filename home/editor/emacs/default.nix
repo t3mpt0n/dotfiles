@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   ...
 }: {
   imports = [ ./ob-tmux.nix ];
@@ -46,7 +47,18 @@
     })
     texlab
 
-    /* RUST */
-    rustup
+    /* CLOJURE */
+    inputs.clj-lsp.packages.x86_64-linux.default
+
+    /* RUBY */
+    (ruby.withPackages (r: with r; [
+      solargraph
+      rails
+    ]))
+  ];
+
+  nixpkgs.overlays = [
+    /* CLOJURE */
+    inputs.clj-lsp.overlays.default
   ];
 }

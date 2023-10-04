@@ -5,7 +5,7 @@
     ../programs
     ../wayland
     ../terminal
-    ../editor/emacs
+#    ../editor/emacs [DEPRECATED -- Use system config]
     ../custom/es-de
     ../shell
     ../.

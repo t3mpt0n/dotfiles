@@ -21,6 +21,8 @@
     };
 
     packages = with pkgs; [
+      webcord
+      imv
       grim
       slurp
       wl-clipboard

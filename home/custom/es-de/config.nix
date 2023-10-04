@@ -60,6 +60,26 @@ in rec {
           text = "flatpak run --filesystem=host:ro io.github.simple64.simple64 --nogui %ROM%";
         };
       };
+      "gc" = {
+        fullname = "Nintendo GameCube";
+        systemsortname = "04";
+        extension = [ ".iso" ".ISO" ".wbfs" ".WBFS" ".ciso" ".CISO" ".rvz" ".RVZ" ] ++ commonExtensions;
+        path = "${rompath}/GCN";
+        command = {
+          label = "Dolphin";
+          text = "env AMD_VULKAN_ICD=RADV dolphin-emu-nogui -e %ROM%";
+        };
+      };
+      "wii" = {
+        fullname = "Nintendo Wii";
+        systemsortname = "05";
+        extension = [ ".iso" ".ISO" ".wbfs" ".WBFS" ".ciso" ".CISO" ".rvz" ".RVZ" ] ++ commonExtensions;
+        path = "${rompath}/Wii";
+        command = {
+          label = "Dolphin";
+          text = "env AMD_VULKAN_ICD=RADV dolphin-emu-nogui -e %ROM%";
+        };
+      };
     };
   };
 

@@ -6,6 +6,7 @@ with pkgs; rec {
   streamrip = python3Packages.callPackage ./streamrip { inherit simple-term-menu; };
   nestopia = callPackage ./nestopia {};
   sway-alternating-layout = callPackage ./sway-alt-layout {};
+  crystalline = callPackage ./crystalline {};
 
   /* TMUX PLUGINS */
   tmux-ip-address = callPackage ./tmuxExtras/tmux-ip-addr.nix {};
