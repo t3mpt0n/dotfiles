@@ -53,7 +53,7 @@
     };
   };
 
-  outputs = inputs@{self, hm, nixpkgs, flake-utils, ...}:
+  outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, ...}:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.flake-parts.flakeModules.easyOverlay

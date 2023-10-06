@@ -5,13 +5,6 @@
 * Introduction
 This is the configutation to my Emacs, enjoy!
 
-Use this to set your config directory:
-#+begin_src elisp :tangle ./init.el
-  (setq-default user-emacs-directory "/etc/nixos/modules/emacs")
-  (let ((default-directory (expand-file-name "modules" user-emacs-directory)))
-    (normal-top-level-add-subdirs-to-load-path))
-#+end_src
-
 * Package Managers
 ** [[https://github.com/progfolio/elpaca][Elpaca]]
 The package manager used for my configuration along with nix for the Emacs package itself
@@ -22,49 +15,59 @@ Requirements:
 
 This will clone Elpaca to =user-emacs-directory/elpaca=
 *** Installer
-#+begin_src elisp :mkdirp yes :tangle ./modules/elpaca/installer.el
-  (defvar elpaca-installer-version 0.5)
-  (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
-  (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
-  (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
-  (defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
-                                :ref nil
-                                :files (:defaults (:exclude "extensions"))
-                                :build (:not elpaca--activate-package)))
-  (let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
-         (build (expand-file-name "elpaca/" elpaca-builds-directory))
-         (order (cdr elpaca-order))
-         (default-directory repo))
-    (add-to-list 'load-path (if (file-exists-p build) build repo))
-    (unless (file-exists-p repo)
-      (make-directory repo t)
-      (when (< emacs-major-version 28) (require 'subr-x))
-      (condition-case-unless-debug err
-          (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
-                   ((zerop (call-process "git" nil buffer t "clone"
-                                         (plist-get order :repo) repo)))
-                   ((zerop (call-process "git" nil buffer t "checkout"
-                                         (or (plist-get order :ref) "--"))))
-                   (emacs (concat invocation-directory invocation-name))
-                   ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
-                                         "--eval" "(byte-recompile-directory \".\" 0 'force)")))
-                   ((require 'elpaca))
-                   ((elpaca-generate-autoloads "elpaca" repo)))
-              (progn (message "%s" (buffer-string)) (kill-buffer buffer))
-            (error "%s" (with-current-buffer buffer (buffer-string))))
-        ((error) (warn "%s" err) (delete-directory repo 'recursive))))
-    (unless (require 'elpaca-autoloads nil t)
-      (require 'elpaca)
-      (elpaca-generate-autoloads "elpaca" repo)
-      (load "./elpaca-autoloads")))
-  (add-hook 'after-init-hook #'elpaca-process-queues)
-  (elpaca `(,@elpaca-order))
+#+begin_src elisp :mkdirp yes :tangle ./early-init.el
+(defvar elpaca-installer-version 0.5)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil
+                              :files (:defaults (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                 ((zerop (call-process "git" nil buffer t "clone"
+                                       (plist-get order :repo) repo)))
+                 ((zerop (call-process "git" nil buffer t "checkout"
+                                       (or (plist-get order :ref) "--"))))
+                 (emacs (concat invocation-directory invocation-name))
+                 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                       "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                 ((require 'elpaca))
+                 ((elpaca-generate-autoloads "elpaca" repo)))
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
 #+end_src
+
 *** Configuration
+#+begin_src elisp :mkdirp yes :tangle ./early-init.el
+(setq package-enable-at-startup nil)
+(defvar t3mpt0n/font "FiraCode Nerd Font"
+  "Font for Emacs")
+
+(provide 'early-init)
+;;early-init.el ends here
+#+end_src
 #+begin_src elisp :mkdirp yes :tangle ./modules/elpaca/config.el
   (elpaca elpaca-use-package
-     (elpaca-use-package)
-     (setq elpaca-use-package-by-default t))
+     (elpaca-use-package-mode)
+     (setq elpaca-use-package-by-default t
+           use-package-always-ensure t))
   (elpaca-wait)
 #+end_src
 Also, make sure that any =after-init-hook= or =emacs-startup-hook= is changed to =elpaca-after-init-hook=.
@@ -94,14 +97,13 @@ My personal choice of package manager, however, *NOT* configured in elisp.
         package = pkgs.emacs-pgtk;
         extraEmacsPackages = epkgs: with epkgs; [
           use-package # Install use-package to use in tandem w/ elpaca
+          vterm # Avoid annoying 'vterm-module' error
         ];
         alwaysEnsure = true;
       })
       (pkgs.nerdfonts.override { fonts = [ "FiraCode" "Iosevka" "NerdFontsSymbolsOnly" ]; })
       pkgs.fira-code-symbols
     ];
-
-    services.emacs.enable = true;
   }
 #+end_src
 
@@ -109,9 +111,8 @@ My personal choice of package manager, however, *NOT* configured in elisp.
 By default, Emacs looks like shit... let's fix that!
 *** Some initial setup
 #+begin_src elisp :tangle ./modules/UI.el
-  (setq use-package-always-ensure t)
-
   (use-package emacs
+    :elpaca nil
     :init
     (setq inhibit-startup-message t
           visible-bell t
@@ -123,13 +124,10 @@ By default, Emacs looks like shit... let's fix that!
     (set-fringe-mode 10)
     (menu-bar-mode -1)
     (global-prettify-symbols-mode 1)
-    (defvar t3mpt0n/font "FiraCode Nerd Font"
-      "Font for Emacs.")
     :hook
     (prog-mode . menu-bar--display-line-numbers-mode-relative)
     (org-mode . menu-bar--display-line-numbers-mode-relative)
-    (find-file . (lambda () (set-face-attribute 'default nil :font t3mpt0n/font :height 148)))
-    )
+    (find-file . (lambda () (set-face-attribute 'default nil :font t3mpt0n/font :height 148))))
 #+end_src
 
 *** Ligatures
@@ -150,6 +148,7 @@ Like every zoomer, I like my ligatures :).
 
         (use-package ligature
           :after emacs
+          :config
           (ligature-set-ligatures 't '("www"))))
     (use-package ligature
       :after emacs
@@ -239,6 +238,7 @@ Hodgepodge of menu stuff that's worked for me so far.
     (vertico-mode))
 
   (use-package savehist
+    :elpaca nil
     :init
     (savehist-mode))
 
@@ -271,7 +271,7 @@ Fix emacs bugginess on Sway (for the most part).
 ** Garbage Cleanup
 Move backup files to one folder to save me writing an MLA format =.gitignore=.
 #+begin_src elisp :mkdirp yes :tangle ./modules/startup.el
-  (setq backup-directory-alist '(("" . (expand-file-name "backup" user-emacs-directory)))
+  (setq backup-directory-alist '("" . "~/.cache/emacs/")
         backup-by-copying t
         version-control t
         delete-old-backups t
@@ -295,10 +295,12 @@ Move backup files to one folder to save me writing an MLA format =.gitignore=.
 I don't want to open a frame just to see an empty scratch buffer.
 #+begin_src elisp :mkdirp yes :tangle ./modules/startup.el
   (use-package dashboard
-    :init
-    (dashboard-setup-startup-hook)
+    :hook
+    (elpaca-after-init . dashboard-insert-startupify-lists)
+    (elpaca-after-init . dashboard-initialize)
 
     :config
+    (dashboard-setup-startup-hook)
     (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*"))
           dashboard-items '((bookmarks . 7)
                             (agenda . 3)
@@ -312,18 +314,7 @@ I don't want to open a frame just to see an empty scratch buffer.
 ** Enable Keybindings
 Useful for configuring keybindings later.
 #+begin_src elisp :mkdirp yes :tangle ./modules/startup.el
-  (use-package general
-    :init
-    (general-create-definer t3mpt0n/leader-keys
-      :keymaps '(normal insert visual emacs)
-      :states '(normal visual)
-      :prefix "SPC"
-      :global-prefix "C-SPC")
-    (winner-mode 1)
-
-    :config
-    (general-evil-setup t))
-
+  (use-package hydra)
   (use-package which-key
     :init
     (setq which-key-side-window-location 'bottom
@@ -334,7 +325,17 @@ Useful for configuring keybindings later.
     :diminish
     which-key-mode)
 
-  (use-package hydra)
+  (use-package general
+    :init
+    (general-create-definer t3mpt0n/leader-keys
+      :keymaps 'override
+      :states '(normal visual)
+      :prefix "SPC"
+      :global-prefix "M-SPC")
+    (winner-mode 1)
+
+    :config
+    (general-evil-setup t)
 #+end_src
 
 *** Some convinient keys
@@ -403,7 +404,8 @@ Useful for configuring keybindings later.
     "f R" '(rename-file :which-key "Rename file")
     "f S" '(write-file :which-key "Save File As...")
     "f U" '(sudo-edit :which-key "Sudo Edit File")
-    "f b" '(byte-compile-file :which-key "Byte Compile File"))
+    "f b" '(byte-compile-file :which-key "Byte Compile File")
+    "f r" '(counsel-recentf :which "Recent Files"))
 #+end_src
 
 **** Help (SPC h)
@@ -419,7 +421,7 @@ Useful for configuring keybindings later.
 #+begin_src elisp :mkdirp yes :tangle ./modules/startup.el
   (t3mpt0n/leader-keys
     "SPC" '(counsel-M-x :which-key "M-x")
-    "R 3" '((lambda () (interactive) (load-file "~/.emacs.d/init.el")) :which-key "Reload Emacs Config"))
+    "R 3" '((lambda () (interactive) (load-file "/etc/nixos/emacs/init.el")) :which-key "Reload Emacs Config")))
 #+end_src
 
 ** Fix Tabs and other Stuff (Lunarix Mode)
@@ -446,8 +448,9 @@ Useful for configuring keybindings later.
   (setq-default evil-shift-width custom-tab-width)
 
   (use-package whitespace
+    :elpaca nil
     :init
-    (global-whitespace-mode)
+    (global-whitespace-mode -1)
 
     :config
     (setq whitespace-mode '(face tabs tab-mark trailing) ;; Visualize tabs as a pipe char = "|"
@@ -457,7 +460,9 @@ Useful for configuring keybindings later.
 ** EVIL -- Vim Keybindings
 As much as I adore Emacs, it's default keybindings leave me with carpal tunnel.
 #+begin_src elisp :mkdirp yes :tangle ./modules/startup.el
+  (use-package undo-tree)
   (use-package evil
+    :after undo-tree
     :init
     (setq evil-want-keybinding nil)
     (global-undo-tree-mode 1)
@@ -465,7 +470,7 @@ As much as I adore Emacs, it's default keybindings leave me with carpal tunnel.
     :config
     (evil-mode 1)
     (evil-set-undo-system 'undo-tree)
-    (setq undo-tree-history-directory-alist '(("." . (expand-file-name "undo-tree" user-emacs-directory)))))
+    (setq undo-tree-history-directory-alist '(("." . "~/.cache/emacs/undo-tree"))))
 
   (use-package evil-collection
     :after evil
@@ -484,6 +489,7 @@ Enable editing files over sudo and over SSH.
   (use-package sudo-edit)
 
   (use-package tramp
+    :elpaca nil
     :init
     (setq tramp-default-method "ssh"))
 #+end_src
@@ -492,10 +498,11 @@ Enable editing files over sudo and over SSH.
 ** Initial Setup
 #+begin_src elisp :mkdirp yes :tangle ./modules/org.el
   (use-package org
+    :elpaca nil
     :hook (org-mode . org-indent-mode)
     :config
     (setq org-directory "~/Docs/Org"
-          org-agenda-files '("Docs/Org/Agenda.org")
+          org-agenda-files '("Agenda.org")
           org-default-notes-file (expand-file-name "Notes.org" org-directory)
           org-log-done 'time
           org-journal-dir "~/Docs/Org/Journal"
@@ -515,17 +522,8 @@ Enable editing files over sudo and over SSH.
              "DONE(d@)" ; Normal Completion
              "CANCELED(c@)" ; Not Going to do it
              "DUPLICATE(p@)" ; Already did it
-             )))
-    (t3mpt0n/leader-keys
-      "o" '(:which-key "Org Mode"))
-
-    :custom
-    (defun risky-local-variable-p (sym &optional _ignored) nil))
-
-  (use-package org-contrib
-    :after org
-    :config
-    (setq org-src-preserve-indentation t
+             ))
+          org-src-preserve-indentation t
           org-src-tab-acts-natively t
           org-edit-src-content-indentation 2
           org-src-tab-acts-natively t
@@ -533,13 +531,18 @@ Enable editing files over sudo and over SSH.
           org-confirm-babel-evaluate nil
           org-edit-src-content-indentation 0
           org-highlight-latex-and-related '(latex script entities))
+
+    :custom
+    (defun risky-local-variable-p (sym &optional _ignored) nil))
+
+  (use-package org-contrib :after org)
 #+end_src
 
 ** Org Roam
 Great note-taking thing.
 #+begin_src elisp :mkdirp yes :tangle ./modules/org.el
   (use-package org-roam
-    :after org
+    :after (org general)
     :custom
     (org-roam-directory "~/Docs/Org/Roam")
     (org-roam-completion-everywhere t)
@@ -552,26 +555,38 @@ Great note-taking thing.
 
     :config
     (org-roam-setup)
-    (t3mpt0n/leader-keys
+    (general-def
+      :states '(normal visual)
+      :keymaps 'override
+      :prefix "SPC"
+      :global-prefix "M-SPC"
+      "o" '(:which-key "Org Mode")
       "o r" '(:which-key "Org Roam")
       "o r b" '(:which-key "Org Roam Buffer")
       "o r b t" '(org-roam-buffer-toggle :which-key "Open/Close Org Roam Buffer")
       "o r n" '(:which-key "Org Roam Node")
       "o r n f" '(org-roam-node-find :which-key "Find Org Roam Node")
       "o r n i" '(org-roam-node-insert :which-key "Insert Org Roam Node")
-      "o r n I" '(org-roam-node-insert-immediate :which-key "Insert Org Roam Node No New Buffer")))
+      "o r n I" '(org-roam-node-insert-immediate :which-key "Insert Org Roam Node No New Buffer")
+      "o r u"   '(:which-key "Org Roam UI")
+      "o r u o" '(org-roam-ui-open :which-key "Org Roam UI Open")))
 
   (use-package org-roam-ui
-    :after org-roam
+    :after (org-roam general)
     :hook (org-roam-mode . org-roam-ui-mode)
+
     :config
+    (general-def
+      :states '(normal visual)
+      :keymaps 'override
+      :prefix "SPC"
+      :global-prefix "M-SPC"
+      "o r u"   '(:which-key "Org Roam UI")
+      "o r u o" '(org-roam-ui-open :which-key "Org Roam UI Open"))
     (setq org-roam-ui-sync-theme t
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
-          org-roam-ui-open-on-start t)
-    (t3mpt0n/leader-keys
-      "o r u"   '(:which-key "Org Roam UI")
-      "o r u o" '(org-roam-ui-open :which-key "Org Roam UI Open")))
+          org-roam-ui-open-on-start t))
 #+end_src
 
 ** Misc. Addons
@@ -594,9 +609,7 @@ Pretty bullets for Org files.
 *** CDLaTeX
 Get the best of both Org and LaTeX.
 #+begin_src elisp :mkdirp yes :tangle ./modules/org.el
-  (use-package cdlatex
-    :config
-    (setq org-format-latex-options (plist-put org-format-latex-options :scale 3.5)))
+  (use-package cdlatex)
 #+end_src
 
 *** Org Babel TMUX
@@ -640,7 +653,9 @@ Integrate EMMS & Elfeed to play YouTube videos from RSS.
 ** EMMS (Music, Movies)
 EMMS is the best multimedia system available for Emacs.
 #+begin_src elisp :mkdirp yes :tangle ./modules/media.el
+  (use-package emms-info-mediainfo :after emms)
   (use-package emms
+    :after general
     :init
     (emms-all)
     (emms-default-players)
@@ -650,55 +665,50 @@ EMMS is the best multimedia system available for Emacs.
     (emms-browser-mode . visual-line-mode)
 
     :config
-    (setq emms-browser-covers 'emms-browser-cache-thumbnail
-          emms-browser-thumbnail-directory (expand-file-name "thumbnails" "~/.cache/emms/")
-          emms-seek-seconds 5
-          emms-info-asynchronously t)
-    (t3mpt0n/leader-keys
+    (general-def
+      :keymaps 'override
+      :states '(normal visual)
+      :prefix "SPC"
+      :global-prefix "M-SPC"
       "m" '(:which-key "EMMS")
       "m m" '(emms :which-key "Playlist Buffer")
       "m b" '(emms-smart-browse :which "Smart Browse")
+      "m SPC" '(emms-pause :which-key "Pause Playback")
       "m h" '(emms-seek-backward :which-key "Seek 5 Seconds Back")
       "m l" '(emms-seek-forward :which-key "Seek 5 Seconds Forward")
-      "m /" '(emms-seek-to :which-key "Seek Specific Point")
-      "m H" '(emms-player-mpd-previous :which-key "Prev Song")
-      "m L" '(emms-player-mpd-next :which-key "Next Song")
-      "m SPC" '(emms-pause :which-key "Pause Playback")))
-
-  (use-package emms-info-libtag
-    :after emms
-    :init
-    (push 'emms-info-libtag emms-info-functions))
-
-  (use-package emms-info-mediainfo :after emms)
+      "m /" '(emms-seek-to :which-key "Seek Specific Point"))
+    (setq emms-browser-covers 'emms-browser-cache-thumbnail
+          emms-browser-thumbnail-directory '(expand-file-name "thumbnails" "~/.cache/emms/")
+          emms-seek-seconds 5
+          emms-info-asynchronously t
+          emms-player-list '(emms-player-mpd emms-player-mpv)
+          emms-info-functions '(emms-info-mpd emms-info-libtag emms-info-mediainfo)
 #+end_src
 
 *** MPD
 EMMS can integrate with MPD pretty well.
 #+begin_src elisp :mkdirp yes :tangle ./modules/media.el
-  (use-package emms-player-mpd
-    :after emms
-    :init
-    (emms-player-mpd-connect)
-    (emms-player-mpd-update-all-reset-cache)
-    (push 'emms-info-mpd emms-info-functions
-          'emms-player-mpd emms-player-list)
-
-    :config
-    (setq emms-player-mpd-server-name "0.0.0.0"
+          emms-player-mpd-server-name "0.0.0.0"
           emms-player-mpd-server-port "6601"
           mpc-host "0.0.0.0:6601"
           emms-browser-covers 'emms-browser-cache-thumbnail
           emms-browser-thumbnail-directory (expand-file-name "thumbnails" "~/.cache/emms/"))
+    (emms-player-mpd-connect)
+    (emms-player-mpd-update-all-reset-cache)
     (emms-player-set emms-player-mpd
                      'regex
                      (emms-player-simple-regexp
                       "mp3" "opus" "ogg" "flac" "wav" "m4a"))
-    (t3mpt0n/leader-keys
+    (general-def
+      :keymaps 'override
+      :states '(normal visual)
+      :prefix "SPC"
+      :global-prefix "M-SPC"
+      "m H" '(emms-player-mpd-previous :which-key "Prev Song")
+      "m L" '(emms-player-mpd-next :which-key "Next Song")
       "m +" '(mpc-volup :which-key "Volume +5")
       "m -" '(mpc-voldown :which-key "Volume -5"))
 
-    :custom
     (defun mpc-volup ()
       (interactive)
       (let* ((mpd_host emms-player-mpd-server-name)
@@ -717,20 +727,12 @@ EMMS can integrate with MPD pretty well.
         (if (string-equal (shell-command-to-string mpd_hostport)  "MPD error: Connection refused
   ")
             (message "%s" "MPD not connected")
-          (message "%s" (replace-regexp-in-string "\n" "" (format "%s" (shell-command-to-string (concat mpd_hostport " volume -5 | awk 'NR==3 { print $1\" \"$2 }' | sed 's/v/V/g'")))))))))
+          (message "%s" (replace-regexp-in-string "\n" "" (format "%s" (shell-command-to-string (concat mpd_hostport " volume -5 | awk 'NR==3 { print $1\" \"$2 }' | sed 's/v/V/g'"))))))))
 #+end_src
 
 *** MPV
 EMMS can also play videos with MPV.
 #+begin_src elisp :mkdirp yes :tangle ./modules/media.el
-  (use-package emms-player-mpv
-    :after emms
-    :init
-    (t3mpt0n/emms-player-mpv-parameters)
-    (push 'emms-info-mediainfo emms-info-functions
-          'emms-player-mpv emms-player-list)
-
-    :config
     (emms-player-set emms-player-mpv
                      'regex
                      (rx (or (: "https://" (* nonl) "youtube.com" (* nonl))
@@ -738,10 +740,9 @@ EMMS can also play videos with MPV.
                                 (* nonl)
                                 (regexp (eval (emms-player-simple-regexp
                                                "mp4" "mov" "wmv" "avi" "webm" "flv" "mkv")))))))
-    :custom
     (defvar yt-video-quality "1440p")
     (defun t3mpt0n/emms-player-mpv-parameters ()
-      (let* ((res yt-vid-qual)
+      (let* ((res yt-video-quality)
              (epmdp emms-player-mpv-default-parameters)
              (res2 (replace-regexp-in-string "\\b[0-9]+\\b" "\\0" resolution)))
         (setq emms-player-mpv-parameters `(,@epmdp ,(format "--ytdl-format=bestvideo[height<=%s]+bestaudio/best" res2)))))
@@ -772,13 +773,17 @@ EMMS can also play videos with MPV.
                  emms-cache-db)
         (dolist (key keys-to-delete)
           (remhash key emms-cache-db)))
-      (setq emms-cache-dirty t)))
+      (setq emms-cache-dirty t))
+
+    (t3mpt0n/emms-player-mpv-parameters))
+
 #+end_src
 
 ** Elfeed (RSS)
 Elfeed is a great RSS reader for Emacs.
 #+begin_src elisp :mkdirp yes :tangle ./modules/media.el
   (use-package elfeed
+    :after emms
     :hook (elfeed-show-mode . visual-line-mode)
     :config
     (advice-add #'elfeed-insert-html
@@ -805,7 +810,6 @@ Elfeed is a great RSS reader for Emacs.
       (kbd "Q") 'elfeed-kill-buffer
       (kbd "u") 'elfeed-update)
 
-    :custom
     (defun t3mpt0n/elfeed-add-emms-youtube ()
       (interactive)
       (emms-add-elfeed elfeed-show-entry)
@@ -869,26 +873,25 @@ Auto tag all my feed files.
 ** Code Completion (Enabling Company)
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
   (use-package company
-    :hook
-    (after-init . global-company-mode)
+    :init
+    (global-company-mode)
 
     :config
-    (setq company-backends (list company-files))
+    (push 'company-files company-backends)
     (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common))
 #+end_src
 
 ** Syntax Highlighting (Tree Sitter)
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
   (use-package tree-sitter
-    :init (global-tree-sitter-mode)
-    :config (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
+    :init (global-tree-sitter-mode))
 #+end_src
 
 ** Error Checking (Enabling Flycheck)
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
   (use-package flycheck
     :init
-    (elpaca-after-init . global-flycheck-mode))
+    (global-flycheck-mode))
 
   (use-package flycheck-color-mode-line
     :after flycheck
@@ -899,8 +902,13 @@ Auto tag all my feed files.
 ** MaGit (Git Interface)
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
   (use-package magit
+    :after general
     :config
-    (t3mpt0n/leader-keys
+    (general-def
+      :states '(normal visual)
+      :keymaps 'override
+      :prefix "SPC"
+      :global-prefix "M-SPC"
       "g" '(:which-key "Magit")
       "g S" '(magit-status :which-key "Magit Status")
       "g s" '(:which-key "Staging")
@@ -917,18 +925,6 @@ Auto tag all my feed files.
     :init
     (smartparens-global-mode 1)
     (show-smartparens-global-mode 1))
-
-  (use-package elec-pair
-    :after smartparens
-    :hook
-    (prog-mode . electric-pair-local-mode)
-    (smartparens-mode . (lambda () electric-pair-local-mode -1)))
-
-  (use-package parens
-    :after smartparens
-    :hook
-    (prog-mode . show-paren-mode)
-    (smartparens-mode . (lambda () show-paren-mode -1)))
 
   (use-package rainbow-delimiters ;; Colorful Parantheses
     :hook (prog-mode . rainbow-delimiters-mode))
@@ -989,6 +985,8 @@ And then install it:
 **** Configuration
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
   (use-package nix-mode
+    :mode "\\.nix\\'"
+    :interpreter "nix"
     :after eglot
     :hook
     (nix-mode . eglot-ensure)
@@ -1005,21 +1003,24 @@ And then install it:
 #+end_src
 
 *** Emacs Lisp
-Emacs is its own LSP so just push =company-elisp= to =company-backends=
+Emacs is its own LSP so just push =company-elisp= to =company-backends= and configure general.
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
+(use-package emacs
+  :after (general company)
+  :elpaca nil
+  :config
   (push 'company-elisp company-backends)
-#+end_src
-
-**** Keybindings
-***** Evalute eLisp (SPC e)
-#+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
-  (t3mpt0n/leader-keys
+  (general-def
+    :states '(normal visual)
+    :keymaps 'override
+    :prefix "SPC"
+    :global-prefix "M-SPC"
     "e"   '(:which-key "Eval")
     "e b" '(eval-buffer :which-key "Eval Elisp in Buffer")
     "e d" '(eval-defun :which-key "Eval Defun")
     "e e" '(eval-expression :which-key "Eval Elisp Expression")
     "e l" '(eval-last-sexp :which-key "Eval Last Expression")
-    "e r" '(eval-region :which-key "Eval Region"))
+    "e r" '(eval-region :which-key "Eval Region")))
 #+end_src
 
 *** Shell
@@ -1040,6 +1041,7 @@ Install bash-language-server to Nix.
 The config's also pretty simple:
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
   (use-package sh-script
+    :elpaca nil
     :after eglot
     :hook
     (sh-mode . eglot-ensure))
@@ -1066,11 +1068,9 @@ The config's also pretty simple:
     :after eglot
     :hook
     (python-mode . eglot-ensure)
-    (python-mode . tree-sitter-hl-mode)
 
     :config
-    (push '(python-mode . "jedi") eglot-server-programs)
-    (push '(python "https://github.com/tree-sitter/tree-sitter-python") treesit-language-source-alist))
+    (push '(python-mode . "jedi") eglot-server-programs))
 #+end_src
 
 **** [[https://github.com/tkf/emacs-jedi][Jedi.el]]
@@ -1104,6 +1104,7 @@ Install robe for better ruby navigation.
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
   (use-package robe)
   (use-package ruby-mode
+    :elpaca nil
     :after (eglot robe)
     :init
     (push '(ruby-mode . robe-mode) major-mode-remap-alist)
@@ -1113,8 +1114,7 @@ Install robe for better ruby navigation.
     (robe-mode . tree-sitter-hl-mode)
 
     :config
-    (push 'company-robe company-backends)
-    (push '(ruby "https://github.com/tree-sitter/tree-sitter-ruby") treesit-language-source-alist))
+    (push 'company-robe company-backends))
 #+end_src
 
 *** Crystal
@@ -1192,7 +1192,7 @@ Now that we have installed both packages let's configure them with eglot:
   (use-package crystal-mode
     :after eglot
     :hook (crystal-mode . eglot-ensure)
-    :config (push '(crystal-mode . ("crystalline") eglot-server-programs)))
+    :config (push '(crystal-mode . ("crystalline")) eglot-server-programs))
 
   (use-package flycheck-crystal :after crystal-mode)
   (use-package inf-crystal :after crystal-mode)
@@ -1203,28 +1203,31 @@ Now that we have installed both packages let's configure them with eglot:
   (use-package flycheck-ameba :after ameba)
 #+end_src
 
-*** Org-Src Mode Compatibility
-#+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
-  (use-package org-src
-    :hook (org-src-mode . eglot-ensure))
-#+end_src
-
 * Dired
 #+begin_src elisp :mkdirp yes :tangle ./modules/dired.el
   (use-package dired
+    :after (general evil)
+    :elpaca nil
+    :ensure nil
+    :demand nil
     :config
     (setq dired-listing-switches "-agho --group-directories-first"
           dired-recursive-copies 'top
           dired-recursive-deletes 'top
           dired-dwim-target t
           dired-auto-revert-buffer t)
-    (t3mpt0n/leader-keys
-      "d" '(:which-key "Dired")
-      "d d" '(dired :which-key "Open Dired")
-      "d j" '(dired-jump :which "Jump to Current Buffer Dir"))
     (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
     (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file)
     (evil-define-key 'normal dired-mode-map (kbd "RET") 'dired-open-file)
+    (general-def
+      :states '(normal visual)
+      :keymaps 'override
+      :prefix "SPC"
+      :global-prefix "M-SPC"
+      "d" '(:which-key "Dired")
+      "d d" '(dired :which-key "Open Dired")
+      "d j" '(dired-jump :which "Jump to Current Buffer Dir")
+      "d p" '(peep-dired :which "Peep Dired")))
 
     :custom
     (if (< emacs-major-version 28)
@@ -1233,7 +1236,7 @@ Now that we have installed both packages let's configure them with eglot:
           (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
           (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file ".."))))
       (progn
-        (setq dired-kill-when-opening-new-dired-buffer t))))
+        (setq dired-kill-when-opening-new-dired-buffer t)))
 #+end_src
 
 ** Icons for Dired
@@ -1250,9 +1253,7 @@ Peep a file in Dired.
     :hook (peep-dired . evil-normalize-keymaps)
     :config
     (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
-    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
-    (t3mpt0n/leader-keys
-      "d p" '(peep-dired :which "Peep Dired")))
+    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file))
 #+end_src
 
 ** File Compression Programs
@@ -1300,12 +1301,9 @@ Peep a file in Dired.
 ** RecentF
 #+begin_src elisp :mkdirp yes :tangle ./modules/other.el
   (use-package recentf
+    :elpaca nil
     :init
-    (recentf-mode)
-
-    :config
-    (t3mpt0n/leader-keys
-      "f r" '(counsel-recentf :which "Recent Files")))
+    (recentf-mode))
 #+end_src
 
 ** Projectile
@@ -1323,4 +1321,17 @@ Peep a file in Dired.
           projectile-file-exists-remote-cache-expire (* 10 60)
           projectile-completion-system 'ivy
           projectile-switch-project-action #'projectile-dired))
+#+end_src
+
+* Now, load all the modules!
+#+begin_src elisp :mkdirp yes :tangle ./init.el
+(progn
+  (load "/etc/nixos/emacs/modules/elpaca/config.el")
+  (load "/etc/nixos/emacs/modules/UI.el")
+  (load "/etc/nixos/emacs/modules/org.el")
+  (load "/etc/nixos/emacs/modules/startup.el")
+  (load "/etc/nixos/emacs/modules/media.el")
+  (load "/etc/nixos/emacs/modules/prgm.el")
+  (load "/etc/nixos/emacs/modules/dired.el")
+  (load "/etc/nixos/emacs/modules/other.el"))
 #+end_src

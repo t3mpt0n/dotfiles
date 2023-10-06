@@ -1,197 +1,187 @@
-(use-package emms
-  :init
-  (emms-all)
-  (emms-default-players)
+  (use-package emms-info-mediainfo :after emms)
+  (use-package emms
+    :after general
+    :init
+    (emms-all)
+    (emms-default-players)
 
-  :hook
-  (emms-playlist-cleared . emms-player-mpd-clear)
-  (emms-browser-mode . visual-line-mode)
+    :hook
+    (emms-playlist-cleared . emms-player-mpd-clear)
+    (emms-browser-mode . visual-line-mode)
 
-  :config
-  (setq emms-browser-covers 'emms-browser-cache-thumbnail
-        emms-browser-thumbnail-directory (expand-file-name "thumbnails" "~/.cache/emms/")
-        emms-seek-seconds 5
-        emms-info-asynchronously t)
-  (t3mpt0n/leader-keys
-    "m" '(:which-key "EMMS")
-    "m m" '(emms :which-key "Playlist Buffer")
-    "m b" '(emms-smart-browse :which "Smart Browse")
-    "m h" '(emms-seek-backward :which-key "Seek 5 Seconds Back")
-    "m l" '(emms-seek-forward :which-key "Seek 5 Seconds Forward")
-    "m /" '(emms-seek-to :which-key "Seek Specific Point")
-    "m H" '(emms-player-mpd-previous :which-key "Prev Song")
-    "m L" '(emms-player-mpd-next :which-key "Next Song")
-    "m SPC" '(emms-pause :which-key "Pause Playback")))
+    :config
+    (general-def
+      :keymaps 'override
+      :states '(normal visual)
+      :prefix "SPC"
+      :global-prefix "M-SPC"
+      "m" '(:which-key "EMMS")
+      "m m" '(emms :which-key "Playlist Buffer")
+      "m b" '(emms-smart-browse :which "Smart Browse")
+      "m SPC" '(emms-pause :which-key "Pause Playback")
+      "m h" '(emms-seek-backward :which-key "Seek 5 Seconds Back")
+      "m l" '(emms-seek-forward :which-key "Seek 5 Seconds Forward")
+      "m /" '(emms-seek-to :which-key "Seek Specific Point"))
+    (setq emms-browser-covers 'emms-browser-cache-thumbnail
+          emms-browser-thumbnail-directory '(expand-file-name "thumbnails" "~/.cache/emms/")
+          emms-seek-seconds 5
+          emms-info-asynchronously t
+          emms-player-list '(emms-player-mpd emms-player-mpv)
+          emms-info-functions '(emms-info-mpd emms-info-libtag emms-info-mediainfo)
 
-(use-package emms-info-libtag
-  :after emms
-  :init
-  (push 'emms-info-libtag emms-info-functions))
+          emms-player-mpd-server-name "0.0.0.0"
+          emms-player-mpd-server-port "6601"
+          mpc-host "0.0.0.0:6601"
+          emms-browser-covers 'emms-browser-cache-thumbnail
+          emms-browser-thumbnail-directory (expand-file-name "thumbnails" "~/.cache/emms/"))
+    (emms-player-mpd-connect)
+    (emms-player-mpd-update-all-reset-cache)
+    (emms-player-set emms-player-mpd
+                     'regex
+                     (emms-player-simple-regexp
+                      "mp3" "opus" "ogg" "flac" "wav" "m4a"))
+    (general-def
+      :keymaps 'override
+      :states '(normal visual)
+      :prefix "SPC"
+      :global-prefix "M-SPC"
+      "m H" '(emms-player-mpd-previous :which-key "Prev Song")
+      "m L" '(emms-player-mpd-next :which-key "Next Song")
+      "m +" '(mpc-volup :which-key "Volume +5")
+      "m -" '(mpc-voldown :which-key "Volume -5"))
 
-(use-package emms-info-mediainfo :after emms)
+    (defun mpc-volup ()
+      (interactive)
+      (let* ((mpd_host emms-player-mpd-server-name)
+             (mpd_port emms-player-mpd-server-port)
+             (mpd_hostport (concat "mpc --host=" mpd_host " --port=" mpd_port)))
+        (if (string-equal (shell-command-to-string mpd_hostport)  "MPD error: Connection refused
+  ")
+            (message "%s" "MPD not connected")
+          (message "%s" (replace-regexp-in-string "\n" "" (format "%s" (shell-command-to-string (concat mpd_hostport " volume +5 | awk 'NR==3 { print $1\" \"$2 }' | sed 's/v/V/g'"))))))))
 
-(use-package emms-player-mpd
-  :after emms
-  :init
-  (emms-player-mpd-connect)
-  (emms-player-mpd-update-all-reset-cache)
-  (push 'emms-info-mpd emms-info-functions
-        'emms-player-mpd emms-player-list)
+    (defun mpc-voldown ()
+      (interactive)
+      (let* ((mpd_host emms-player-mpd-server-name)
+             (mpd_port emms-player-mpd-server-port)
+             (mpd_hostport (concat "mpc --host=" mpd_host " --port=" mpd_port)))
+        (if (string-equal (shell-command-to-string mpd_hostport)  "MPD error: Connection refused
+  ")
+            (message "%s" "MPD not connected")
+          (message "%s" (replace-regexp-in-string "\n" "" (format "%s" (shell-command-to-string (concat mpd_hostport " volume -5 | awk 'NR==3 { print $1\" \"$2 }' | sed 's/v/V/g'"))))))))
 
-  :config
-  (setq emms-player-mpd-server-name "0.0.0.0"
-        emms-player-mpd-server-port "6601"
-        mpc-host "0.0.0.0:6601"
-        emms-browser-covers 'emms-browser-cache-thumbnail
-        emms-browser-thumbnail-directory (expand-file-name "thumbnails" "~/.cache/emms/"))
-  (emms-player-set emms-player-mpd
-                   'regex
-                   (emms-player-simple-regexp
-                    "mp3" "opus" "ogg" "flac" "wav" "m4a"))
-  (t3mpt0n/leader-keys
-    "m +" '(mpc-volup :which-key "Volume +5")
-    "m -" '(mpc-voldown :which-key "Volume -5"))
+    (emms-player-set emms-player-mpv
+                     'regex
+                     (rx (or (: "https://" (* nonl) "youtube.com" (* nonl))
+                             (+ (? (or "https://" "http://"))
+                                (* nonl)
+                                (regexp (eval (emms-player-simple-regexp
+                                               "mp4" "mov" "wmv" "avi" "webm" "flv" "mkv")))))))
+    (defvar yt-video-quality "1440p")
+    (defun t3mpt0n/emms-player-mpv-parameters ()
+      (let* ((res yt-video-quality)
+             (epmdp emms-player-mpv-default-parameters)
+             (res2 (replace-regexp-in-string "\\b[0-9]+\\b" "\\0" resolution)))
+        (setq emms-player-mpv-parameters `(,@epmdp ,(format "--ytdl-format=bestvideo[height<=%s]+bestaudio/best" res2)))))
 
-  :custom
-  (defun mpc-volup ()
-    (interactive)
-    (let* ((mpd_host emms-player-mpd-server-name)
-           (mpd_port emms-player-mpd-server-port)
-           (mpd_hostport (concat "mpc --host=" mpd_host " --port=" mpd_port)))
-      (if (string-equal (shell-command-to-string mpd_hostport)  "MPD error: Connection refused
-")
-          (message "%s" "MPD not connected")
-        (message "%s" (replace-regexp-in-string "\n" "" (format "%s" (shell-command-to-string (concat mpd_hostport " volume +5 | awk 'NR==3 { print $1\" \"$2 }' | sed 's/v/V/g'"))))))))
+    (defun t3mpt0n/yt-res-select ()
+      (interactive)
+      (let ((availres '("480p" "720p" "1080p" "1440p" "2160p")))
+        (ivy-read "  Select Video Quality: " availres
+                  :action (lambda (quality)
+                            (setq yt-video-quality quality)))))
 
-  (defun mpc-voldown ()
-    (interactive)
-    (let* ((mpd_host emms-player-mpd-server-name)
-           (mpd_port emms-player-mpd-server-port)
-           (mpd_hostport (concat "mpc --host=" mpd_host " --port=" mpd_port)))
-      (if (string-equal (shell-command-to-string mpd_hostport)  "MPD error: Connection refused
-")
-          (message "%s" "MPD not connected")
-        (message "%s" (replace-regexp-in-string "\n" "" (format "%s" (shell-command-to-string (concat mpd_hostport " volume -5 | awk 'NR==3 { print $1\" \"$2 }' | sed 's/v/V/g'")))))))))
+    (defun t3mpt0n/get-yt-url (link)
+      (let ((watch-id (cadr
+                       (assoc "watch?v"
+                              (url-parse-query-string
+                               (substring
+                                (url-filename
+                                 (url-generic-parse-url link))
+                                1))))))
+        (concat "https://www.youtube.com/watch?v=" watch-id)))
 
-(use-package emms-player-mpv
-  :after emms
-  :init
-  (t3mpt0n/emms-player-mpv-parameters)
-  (push 'emms-info-mediainfo emms-info-functions
-        'emms-player-mpv emms-player-list)
+    (defun t3mpt0n/emms-cleanup-urls ()
+      (interactive)
+      (let ((keys-to-delete '()))
+        (maphash (lambda (key value)
+                   (when (eq (cdr (assoc 'type value)) 'url)
+                     (add-to-list 'keys-to-delete key)))
+                 emms-cache-db)
+        (dolist (key keys-to-delete)
+          (remhash key emms-cache-db)))
+      (setq emms-cache-dirty t))
 
-  :config
-  (emms-player-set emms-player-mpv
-                   'regex
-                   (rx (or (: "https://" (* nonl) "youtube.com" (* nonl))
-                           (+ (? (or "https://" "http://"))
-                              (* nonl)
-                              (regexp (eval (emms-player-simple-regexp
-                                             "mp4" "mov" "wmv" "avi" "webm" "flv" "mkv")))))))
-  :custom
-  (defvar yt-video-quality "1440p")
-  (defun t3mpt0n/emms-player-mpv-parameters ()
-    (let* ((res yt-vid-qual)
-           (epmdp emms-player-mpv-default-parameters)
-           (res2 (replace-regexp-in-string "\\b[0-9]+\\b" "\\0" resolution)))
-      (setq emms-player-mpv-parameters `(,@epmdp ,(format "--ytdl-format=bestvideo[height<=%s]+bestaudio/best" res2)))))
+    (t3mpt0n/emms-player-mpv-parameters))
 
-  (defun t3mpt0n/yt-res-select ()
-    (interactive)
-    (let ((availres '("480p" "720p" "1080p" "1440p" "2160p")))
-      (ivy-read "  Select Video Quality: " availres
-                :action (lambda (quality)
-                          (setq yt-video-quality quality)))))
+  (use-package elfeed
+    :after emms
+    :hook (elfeed-show-mode . visual-line-mode)
+    :config
+    (advice-add #'elfeed-insert-html
+                :around
+                (lambda (fun &rest r)
+                  (let ((shr-use-fonts nil))
+                    (apply fun r))))
+    (setq elfeed-enclosure-default-dir (expand-file-name "~/Downloads"))
+    (setq-default elfeed-search-filter "@2-weeks-ago -read +unread -junk")
+    (evil-define-key 'normal elfeed-show-mode-map
+      (kbd "J") 'elfeed-goodies/split-show-next
+      (kbd "K") 'elfeed-goodies/split-show-prev
+      (kbd "RET") 'elfeed-search-show-entry
+      (kbd "q") 'elfeed-search-quit-window
+      (kbd "Q") 'elfeed-kill-buffer
+      (kbd "u") 'elfeed-update
+      (kbd "P") 't3mpt0n/elfeed-play-emms-youtube
+      (kbd "+") 't3mpt0n/elfeed-add-emms-youtube)
+    (evil-define-key 'normal elfeed-search-mode-map
+      (kbd "J") 'elfeed-goodies/split-show-next
+      (kbd "K") 'elfeed-goodies/split-show-prev
+      (kbd "RET") 'elfeed-search-show-entry
+      (kbd "q") 'elfeed-search-quit-window
+      (kbd "Q") 'elfeed-kill-buffer
+      (kbd "u") 'elfeed-update)
 
-  (defun t3mpt0n/get-yt-url (link)
-    (let ((watch-id (cadr
-                     (assoc "watch?v"
-                            (url-parse-query-string
-                             (substring
-                              (url-filename
-                               (url-generic-parse-url link))
-                              1))))))
-      (concat "https://www.youtube.com/watch?v=" watch-id)))
+    (defun t3mpt0n/elfeed-add-emms-youtube ()
+      (interactive)
+      (emms-add-elfeed elfeed-show-entry)
+      (elfeed-tag elfeed-show-entry 'watched)
+      (elfeed-show-refresh))
 
-  (defun t3mpt0n/emms-cleanup-urls ()
-    (interactive)
-    (let ((keys-to-delete '()))
-      (maphash (lambda (key value)
-                 (when (eq (cdr (assoc 'type value)) 'url)
-                   (add-to-list 'keys-to-delete key)))
-               emms-cache-db)
-      (dolist (key keys-to-delete)
-        (remhash key emms-cache-db)))
-    (setq emms-cache-dirty t)))
+    (defun t3mpt0n/elfeed-play-emms-youtube ()
+      (interactive)
+      (emms-play-elfeed elfeed-show-entry)
+      (elfeed-tag elfeed-show-entry 'watched)
+      (elfeed-show-refresh))
 
-(use-package elfeed
-  :hook (elfeed-show-mode . visual-line-mode)
-  :config
-  (advice-add #'elfeed-insert-html
-              :around
-              (lambda (fun &rest r)
-                (let ((shr-use-fonts nil))
-                  (apply fun r))))
-  (setq elfeed-enclosure-default-dir (expand-file-name "~/Downloads"))
-  (setq-default elfeed-search-filter "@2-weeks-ago -read +unread -junk")
-  (evil-define-key 'normal elfeed-show-mode-map
-    (kbd "J") 'elfeed-goodies/split-show-next
-    (kbd "K") 'elfeed-goodies/split-show-prev
-    (kbd "RET") 'elfeed-search-show-entry
-    (kbd "q") 'elfeed-search-quit-window
-    (kbd "Q") 'elfeed-kill-buffer
-    (kbd "u") 'elfeed-update
-    (kbd "P") 't3mpt0n/elfeed-play-emms-youtube
-    (kbd "+") 't3mpt0n/elfeed-add-emms-youtube)
-  (evil-define-key 'normal elfeed-search-mode-map
-    (kbd "J") 'elfeed-goodies/split-show-next
-    (kbd "K") 'elfeed-goodies/split-show-prev
-    (kbd "RET") 'elfeed-search-show-entry
-    (kbd "q") 'elfeed-search-quit-window
-    (kbd "Q") 'elfeed-kill-buffer
-    (kbd "u") 'elfeed-update)
+    (with-eval-after-load 'emms
+      (define-emms-source elfeed (entry)
+                          (let ((track (emms-track
+                                        'url (t3mpt0n/get-yt-url (elfeed-entry-link entry)))))
+                            (emms-track-set track 'info-title (elfeed-entry-title entry))
+                            (emms-playlist-insert-track track)))))
 
-  :custom
-  (defun t3mpt0n/elfeed-add-emms-youtube ()
-    (interactive)
-    (emms-add-elfeed elfeed-show-entry)
-    (elfeed-tag elfeed-show-entry 'watched)
-    (elfeed-show-refresh))
+  (use-package elfeed-goodies
+    :after elfeed
+    :init
+    (elfeed-goodies/setup)
 
-  (defun t3mpt0n/elfeed-play-emms-youtube ()
-    (interactive)
-    (emms-play-elfeed elfeed-show-entry)
-    (elfeed-tag elfeed-show-entry 'watched)
-    (elfeed-show-refresh))
+    :config
+    (setq elfeed-goodies/entry-pane-size 0.5))
 
-  (with-eval-after-load 'emms
-    (define-emms-source elfeed (entry)
-                        (let ((track (emms-track
-                                      'url (t3mpt0n/get-yt-url (elfeed-entry-link entry)))))
-                          (emms-track-set track 'info-title (elfeed-entry-title entry))
-                          (emms-playlist-insert-track track)))))
+  (use-package elfeed-org
+    :after elfeed
+    :init
+    (elfeed-org)
 
-(use-package elfeed-goodies
-  :after elfeed
-  :init
-  (elfeed-goodies/setup)
+    :config
+    (setq rmh-elfeed-org-files (list (expand-file-name "FEEDS.org" user-emacs-directory) (expand-file-name "Org/FEEDS.org" "~/Docs/"))))
 
-  :config
-  (setq elfeed-goodies/entry-pane-size 0.5))
+  (use-package elfeed-autotag
+    :after elfeed
+    :init
+    (elfeed-autotag)
+    (elfeed-apply-hooks-now)
 
-(use-package elfeed-org
-  :after elfeed
-  :init
-  (elfeed-org)
-
-  :config
-  (setq rmh-elfeed-org-files (list (expand-file-name "FEEDS.org" user-emacs-directory) (expand-file-name "Org/FEEDS.org" "~/Docs/"))))
-
-(use-package elfeed-autotag
-  :after elfeed
-  :init
-  (elfeed-autotag)
-  (elfeed-apply-hooks-now)
-
-  :config
-  (setq elfeed-autotag-files rmh-elfeed-org-files))
+    :config
+    (setq elfeed-autotag-files rmh-elfeed-org-files))

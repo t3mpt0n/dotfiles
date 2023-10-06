@@ -9,7 +9,6 @@ in {
   # configuration shared by all hosts
   environment.systemPackages = [
     inputs.agenix.packages.x86_64-linux.agenix
-    inputs.agenix.packages.x86_64-linux.doc
     pkgs.age
     pkgs.clang
     pkgs.cachix
