@@ -24,10 +24,6 @@
       url = "github:oxalica/nil";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    lsrv = {
-      url = "git+https://git.sr.ht/~bwolf/language-servers.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     clj-lsp = {
       url = "github:clojure-lsp/clojure-lsp";
       inputs.nixpkgs.follows = "nixpkgs";
