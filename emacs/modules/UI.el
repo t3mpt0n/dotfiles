@@ -16,7 +16,7 @@
     (org-mode . menu-bar--display-line-numbers-mode-relative)
     (find-file . (lambda () (set-face-attribute 'default nil :font t3mpt0n/font :height 148))))
 
-  (if (and (= (string-search "FiraCode" t3mpt0n/font) 1) (> emacs-major-version 28))
+  (if (and (= (string-search "FiraCode" t3mpt0n/font) 0) (> emacs-major-version 28))
       (progn
         (use-package fira-code-mode
           :after emacs

@@ -20,6 +20,7 @@
 
   home.packages = with pkgs; [
     discord-canary
+    webcord
     betterdiscordctl
     betterdiscord-installer
     corectrl /* Control AMDGPU Profiles */
@@ -28,8 +29,15 @@
     droidcam
     dotnet-sdk
     self.outputs.packages.x86_64-linux.streamrip
+    winetricks
     kid3
     pavucontrol
     keepassxc
+    protontricks
+    protonup-qt
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    (nerdfonts.override { fonts = [ "FiraCode" "AnonymousPro" "3270" "Iosevka" "NerdFontsSymbolsOnly" ]; })
   ];
 }

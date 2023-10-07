@@ -21,7 +21,6 @@
     };
 
     packages = with pkgs; [
-      webcord
       imv
       grim
       slurp
@@ -29,11 +28,8 @@
       wlr-randr
       wlogout
       xorg.libX11
+      winePackages.wayland
       xwayland
-      noto-fonts
-      noto-fonts-cjk
-      noto-fonts-emoji
-      (nerdfonts.override { fonts = [ "FiraCode" "AnonymousPro" "3270" "Iosevka" "NerdFontsSymbolsOnly" ]; })
     ];
   };
 }

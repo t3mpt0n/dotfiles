@@ -228,21 +228,6 @@
       }
     },
     "flake-utils_3": {
-      "locked": {
-        "lastModified": 1656928814,
-        "narHash": "sha256-RIFfgBuKz6Hp89yRr7+NR5tzIAbn52h8vT6vXkYjZoM=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "7e2a3b3dfd9af950a856d66b0a7d01e3c18aa249",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_4": {
       "inputs": {
         "systems": "systems_4"
       },
@@ -260,7 +245,7 @@
         "type": "github"
       }
     },
-    "flake-utils_5": {
+    "flake-utils_4": {
       "inputs": {
         "systems": "systems_5"
       },
@@ -319,30 +304,9 @@
         "type": "github"
       }
     },
-    "lsrv": {
-      "inputs": {
-        "flake-utils": "flake-utils_3",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1673891911,
-        "narHash": "sha256-ayBHJQpJItWrUsTy/uFDFRkDuaGTkGn4Y7Xka35rFY0=",
-        "ref": "refs/heads/master",
-        "rev": "be9c9b24c0fce29baaaf6b0f5cb4dd3cacad83ad",
-        "revCount": 9,
-        "type": "git",
-        "url": "https://git.sr.ht/~bwolf/language-servers.nix"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://git.sr.ht/~bwolf/language-servers.nix"
-      }
-    },
     "nil": {
       "inputs": {
-        "flake-utils": "flake-utils_4",
+        "flake-utils": "flake-utils_3",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -478,7 +442,6 @@
         "flake-parts": "flake-parts_2",
         "flake-utils": "flake-utils_2",
         "hm": "hm",
-        "lsrv": "lsrv",
         "nil": "nil",
         "nixpkgs": "nixpkgs",
         "ru-ov": "ru-ov"
@@ -486,7 +449,7 @@
     },
     "ru-ov": {
       "inputs": {
-        "flake-utils": "flake-utils_5",
+        "flake-utils": "flake-utils_4",
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
