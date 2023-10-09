@@ -45,7 +45,7 @@
           "${modifier}+Shift+Return" = "exec ${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs' -e '(multi-vterm)'";
           "${modifier}+Shift+q" = "kill";
           "${modifier}+p" = "exec ${pkgs.wofi}/bin/wofi --show run";
-          "${modifier}+e" = "exec ${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs' -e '(dashboard-open)";
+          "${modifier}+e" = "exec ${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs' -e '(dashboard-open)'";
           "${modifier}+Shift+d" = "exec ${pkgs.discord}/bin/discord";
           "${modifier}+w" = "exec ${pkgs.firefox}/bin/firefox";
           "${modifier}+Shift+S" = "exec ${pkgs.steam}/bin/steam";

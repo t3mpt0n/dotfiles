@@ -20,7 +20,8 @@
       (progn
         (use-package fira-code-mode
           :after emacs
-          :hook prog-mode)
+          :hook prog-mode
+          :custom (fira-code-mode-disabled-ligatures '("www" ":" "*" "x")))
 
         (use-package ligature
           :after emacs

@@ -7,4 +7,8 @@
   programs.steam = {
     enable = true;
   };
+
+  environment.systemPackages = [
+    pkgs.gamemode
+  ];
 }

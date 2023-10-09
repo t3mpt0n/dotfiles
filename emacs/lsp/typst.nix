@@ -3,6 +3,8 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
-    nodePackages_latest.bash-language-server
+    typst
+    typst-lsp
+    typst-fmt
   ];
 }

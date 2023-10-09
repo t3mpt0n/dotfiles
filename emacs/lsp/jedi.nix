@@ -1,9 +1,10 @@
-  {
-    pkgs,
-    ...
-  }: {
-    environment.systemPackages = with pkgs.python311Packages; [
-      jedi
-      pylint
-    ];
-  }
+{
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs.python311Packages; [
+    jedi
+    jedi-language-server
+    pylint
+  ];
+}

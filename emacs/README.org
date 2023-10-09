@@ -144,7 +144,8 @@ Like every zoomer, I like my ligatures :).
       (progn
         (use-package fira-code-mode
           :after emacs
-          :hook prog-mode)
+          :hook prog-mode
+          :custom (fira-code-mode-disabled-ligatures '("www" ":" "*" "x")))
 
         (use-package ligature
           :after emacs
@@ -682,7 +683,7 @@ EMMS is the best multimedia system available for Emacs.
         emms-seek-seconds 5
         emms-info-asynchronously t
         emms-player-list '(emms-player-mpd emms-player-mpv)
-        emms-info-functions '(emms-info-mpd emms-info-libtag emms-info-mediainfo)
+        emms-info-functions '(emms-info-mpd emms-info-mediainfo)
 #+end_src
 
 *** MPD
@@ -743,8 +744,8 @@ EMMS can also play videos with MPV.
   (defvar yt-video-quality "1440p")
   (defun t3mpt0n/emms-player-mpv-parameters ()
     (let* ((res yt-video-quality)
-           (epmdp emms-player-mpv-default-parameters)
-           (res2 (replace-regexp-in-string "\\b[0-9]+\\b" "\\0" resolution)))
+           (epmdp emms-player-mpv-parameters)
+           (res2 (replace-regexp-in-string "\\b[0-9]+\\b" "\\0" res)))
       (setq emms-player-mpv-parameters `(,@epmdp ,(format "--ytdl-format=bestvideo[height<=%s]+bestaudio/best" res2)))))
 
   (defun t3mpt0n/yt-res-select ()
@@ -885,6 +886,9 @@ Auto tag all my feed files.
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
 (use-package tree-sitter
   :init (global-tree-sitter-mode))
+
+(use-package tree-sitter-langs :after tree-sitter)
+(use-package tree-sitter-indent :after tree-sitter)
 #+end_src
 
 ** Error Checking (Enabling Flycheck)
@@ -930,6 +934,14 @@ Auto tag all my feed files.
   :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
+** Code Snippets (YASnippet)
+#+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
+(use-package yasnippet
+  :config
+  (setq yas-snippet-dirs '("~/Docs/YASnippet/snippets"))
+  (yas-global-mode 1))
+#+end_src
+
 ** Language Configurations (Eglot)
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
 (use-package eglot
@@ -952,6 +964,7 @@ The code below just imports all the LSP files:
     ./jedi.nix
     ./nil.nix
     ./ruby.nix
+    ./typst.nix
   ];
 }
 #+end_src
@@ -987,13 +1000,11 @@ And then install it:
 (use-package nix-mode
   :mode "\\.nix\\'"
   :interpreter "nix"
-  :after eglot
+  :after (eglot smartparens tree-sitter tree-sitter-langs)
   :hook
   (nix-mode . eglot-ensure)
-  (nix-mode . tree-sitter-hl-mode)
   :config
   (push '(nix-mode . ("nil")) eglot-server-programs)
-  (push 'company-nixos-options company-backends)
   (sp-with-modes 'nix-mode
     (sp-local-pair "\"" "\"")
     (sp-local-pair "{" "};" :unless '(sp-in-comment-p
@@ -1015,7 +1026,7 @@ Emacs is its own LSP so just push =company-elisp= to =company-backends= and conf
     :keymaps 'override
     :prefix "SPC"
     :global-prefix "M-SPC"
-    "e"   '(:which-key "Eval")
+    "e"   '(:which-key "Elisp")
     "e b" '(eval-buffer :which-key "Eval Elisp in Buffer")
     "e d" '(eval-defun :which-key "Eval Defun")
     "e e" '(eval-expression :which-key "Eval Elisp Expression")
@@ -1057,6 +1068,7 @@ The config's also pretty simple:
 }: {
   environment.systemPackages = with pkgs.python311Packages; [
     jedi
+    jedi-language-server
     pylint
   ];
 }
@@ -1070,7 +1082,7 @@ The config's also pretty simple:
   (python-mode . eglot-ensure)
 
   :config
-  (push '(python-mode . "jedi") eglot-server-programs))
+  (push '(python-mode . "jedi-language-server") eglot-server-programs))
 #+end_src
 
 **** [[https://github.com/tkf/emacs-jedi][Jedi.el]]
@@ -1203,6 +1215,44 @@ Now that we have installed both packages let's configure them with eglot:
 (use-package flycheck-ameba :after ameba)
 #+end_src
 
+*** Typst
+Rust alternative to LaTeX.
+Doesn't that well yet as Typst is a new language.
+**** Installing [[https://github.com/typst/typst][Typst]]
+#+begin_src nix :mkdirp yes :tangle ./lsp/typst.nix
+{
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
+    typst
+    typst-lsp
+    typst-fmt
+  ];
+}
+#+end_src
+
+**** Configuration
+#+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
+(use-package typst-ts-mode
+  :after (eglot tree-sitter tree-sitter-langs company)
+  :mode "\\.typ\\'"
+  :interpreter "typst"
+  :hook (typst-ts-mode . eglot-ensure)
+  :elpaca
+  (
+   :repo "https://git.sr.ht/~meow_king/typst-ts-mode"
+   :branch "main"
+   :protocol https
+   :main "typst-ts-mode.el"
+   :files (:defaults "highlight.compare.scm")
+   )
+
+  :config
+  (push '(typst "https://github.com/uben0/tree-sitter-typst") treesit-language-source-alist)
+  (push '(typst-ts-mode . ("typst-lsp")) eglot-server-programs))
+#+end_src
+
 * Dired
 #+begin_src elisp :mkdirp yes :tangle ./modules/dired.el
 (use-package dired
@@ -1291,11 +1341,26 @@ Peep a file in Dired.
 ** VTerm
 #+begin_src elisp :mkdirp yes :tangle ./modules/other.el
 (use-package vterm
+  :after general
   :config
   (setq shell-file-name "/run/current-system/sw/bin/fish"
-        vterm-max-scrollback 5000))
+        vterm-max-scrollback 5000)
+  (general-def
+    :states '(normal visual)
+    :keymaps 'override
+    :prefix "SPC"
+    :global-prefix "M-SPC"
+    "O" '(:which-key "Open Misc. Programs")))
 
-(use-package multi-vterm :after vterm)
+(use-package multi-vterm
+  :after vterm
+  :config
+  (general-def
+    :states '(normal visual)
+    :keymaps 'override
+    :prefix "SPC"
+    :global-prefix "M-SPC"
+    "O v" '(multi-vterm :which-key "Open new Vterm buffer")))
 #+end_src
 
 ** RecentF
