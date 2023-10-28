@@ -68,7 +68,7 @@
       ];
       input = {
         "type:keyboard" = {
-          xkb_layout = "us,us_intl";
+          xkb_layout = "us,us(intl)";
         };
       };
     };

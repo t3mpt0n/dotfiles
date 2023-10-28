@@ -19,7 +19,10 @@
 
   emulators = with pkgs; {
     nes = [ fceux punes nestopia ];
+    gb = [ sameboy ];
     n64 = [ mupen64plus ];
+    wiiu = [ cemu ];
+    nx = [ yuzu-early-access ryujinx ];
     multi = [ ares dolphin-emu ];
   };
 in rec {
@@ -38,6 +41,26 @@ in rec {
         command = {
           label = "nestopia";
           text = "nestopia --fullscreen %ROM%";
+        };
+      };
+      "gb" = {
+        fullname = "Nintendo GameBoy";
+        systemsortname = "01a";
+        extension = [ ".gb" ".GB" ] ++ commonExtensions;
+        path = "${rompath}/GB";
+        command = {
+          label = "sameboy";
+          text = "sameboy -f %ROM%";
+        };
+      };
+      "gbc" = {
+        fullname = "Nintendo GameBoy Color";
+        systemsortname = "01b";
+        extension = [ ".gbc" ".GBC" ] ++ commonExtensions;
+        path = "${rompath}/GBC";
+        command = {
+          label = "sameboy";
+          text = "sameboy -f %ROM%";
         };
       };
       "snes" = {
@@ -80,11 +103,33 @@ in rec {
           text = "env AMD_VULKAN_ICD=RADV dolphin-emu-nogui -e %ROM%";
         };
       };
+      "wiiu" = {
+        fullname = "Nintendo Wii U";
+        systemsortname = "06";
+        extension = [ ".wua" ".WUA" ] ++ commonExtensions;
+        path = "${rompath}/Wii U";
+        command = {
+          label = "CEMU";
+        };
+      };
+      "switch" = {
+        fullname = "Nintendo Switch";
+        systemsortname = "07";
+        extension = [ ".xci" ".XCI" ".nsp" ".NSP" ] ++ commonExtensions;
+        path = "${rompath}/Switch";
+        command = {
+          label = "Ryujinx";
+          text = "ryujinx %ROM%";
+        };
+      };
     };
   };
 
   home.packages = with emulators;
     nes
+      ++gb
       ++n64
+      ++wiiu
+      ++nx
       ++multi;
 }

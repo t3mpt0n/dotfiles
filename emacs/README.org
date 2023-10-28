@@ -141,16 +141,10 @@ Requirements:
 Like every zoomer, I like my ligatures :).
 #+begin_src elisp :mkdirp yes :tangle ./modules/UI.el
   (if (and (= (string-search "FiraCode" t3mpt0n/font) 0) (> emacs-major-version 28))
-      (progn
         (use-package fira-code-mode
           :after emacs
           :hook prog-mode
-          :custom (fira-code-mode-disabled-ligatures '("www" ":" "*" "x")))
-
-        (use-package ligature
-          :after emacs
-          :config
-          (ligature-set-ligatures 't '("www"))))
+          :custom (fira-code-mode-disabled-ligatures '("www" ":" "*" "x" "&&")))
     (use-package ligature
       :after emacs
       :config
@@ -169,6 +163,23 @@ Like every zoomer, I like my ligatures :).
                                            "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                                            "\\\\" "://"))
       (global-ligature-mode t)))
+(defun t3mpt0n/prog-mode/customligs ()
+  "Custom Ligatures for prog-mode"
+  (mapc (lambda (pair) (push pair prettify-symbols-alist))
+        '(
+          ("defun" . #x1d453)
+          ("def" . #x1d453)
+          ("or" . #x2228)
+          ("&&" . #x2227)
+          ("and" . #x2227)
+          ("in" . #x2208)
+          ("true" . #x22a5)
+          ("false" . #x22a4)
+          ("int" . #x2124)
+          ("float" . #x211d)
+          ("not" . #xac)
+          ("from" . #x21a6)
+          ("import" . #x21a7))))
 #+end_src
 
 *** Icons
@@ -192,8 +203,7 @@ I like the modeline from Spacemacs.
           spacemacs-theme-underline-parens t))
 
   (use-package spaceline-all-the-icons
-    :after all-the-icons
-    :after all-the-icons-nerd-fonts)
+    :after (all-the-icons all-the-icons-nerd-fonts))
 #+end_src
 
 **** DOOM
@@ -272,7 +282,7 @@ Fix emacs bugginess on Sway (for the most part).
 ** Garbage Cleanup
 Move backup files to one folder to save me writing an MLA format =.gitignore=.
 #+begin_src elisp :mkdirp yes :tangle ./modules/startup.el
-  (setq backup-directory-alist '("" . "~/.cache/emacs/")
+  (setq backup-directory-alist '(("" . "~/.cache/emacs/"))
         backup-by-copying t
         version-control t
         delete-old-backups t
@@ -693,7 +703,7 @@ EMMS can integrate with MPD pretty well.
         emms-player-mpd-server-port "6601"
         mpc-host "0.0.0.0:6601"
         emms-browser-covers 'emms-browser-cache-thumbnail
-        emms-browser-thumbnail-directory (expand-file-name "thumbnails" "~/.cache/emms/"))
+        emms-browser-thumbnail-directory "~/.cache/emms/thumbnails/")
   (emms-player-mpd-connect)
   (emms-player-mpd-update-all-reset-cache)
   (emms-player-set emms-player-mpd
@@ -948,8 +958,13 @@ Auto tag all my feed files.
   :hook
   (prog-mode . lunarix-mode)
   (prog-mode . disable-tabs)
+  (prog-mode . t3mpt0n/prog-mode/customligs)
+  (eglot--managed-mode . (lambda () (flymake-mode -1)))
 
-  :config (setq debug-on-error t)
+  :config
+  (setq debug-on-error t
+        eglot-workspace-configuration '())
+
   :custom (defalias 'eglot--major-mode 'eglot--major-modes))
 #+end_src
 
@@ -1001,26 +1016,28 @@ And then install it:
   :mode "\\.nix\\'"
   :interpreter "nix"
   :after (eglot smartparens tree-sitter tree-sitter-langs)
-  :hook
-  (nix-mode . eglot-ensure)
+  :hook (nix-mode . eglot-ensure)
+
   :config
   (push '(nix-mode . ("nil")) eglot-server-programs)
-  (sp-with-modes 'nix-mode
-    (sp-local-pair "\"" "\"")
-    (sp-local-pair "{" "};" :unless '(sp-in-comment-p
-                                      sp-in-string-quotes-p))
-    (sp-local-pair "[" "];" :unless '(sp-in-comment-p
-                                      sp-in-string-quotes-p))))
+  (setq eglot-workspace-configuration '(list (:nil (:formatting (:command ["nixpkgs-fmt"])
+                                                     :nix (:binary "/run/current-system/sw/bin/nix"
+                                                           :flake (:autoArchive t
+                                                                   :autoEvalInputs t
+                                                                   :nixpkgsInputName "nixpkgs")))))))
 #+end_src
 
 *** Emacs Lisp
 Emacs is its own LSP so just push =company-elisp= to =company-backends= and configure general.
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
 (use-package emacs
-  :after (general company)
+  :after (general company smartparens)
   :elpaca nil
   :config
   (push 'company-elisp company-backends)
+  (sp-with-modes 'emacs-lisp-mode
+    (sp-local-pair "'" nil :actions nil)
+    (sp-local-pair "`" nil :actions nil))
   (general-def
     :states '(normal visual)
     :keymaps 'override
@@ -1085,10 +1102,8 @@ The config's also pretty simple:
   (push '(python-mode . "jedi-language-server") eglot-server-programs))
 #+end_src
 
-**** [[https://github.com/tkf/emacs-jedi][Jedi.el]]
+**** Jedi
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
-(use-package jedi-core :after python-mode)
-
 (use-package company-jedi
   :after company
   :init
@@ -1114,16 +1129,13 @@ The config's also pretty simple:
 **** Configuration
 Install robe for better ruby navigation.
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
-(use-package robe)
-(use-package ruby-mode
-  :elpaca nil
-  :after (eglot robe)
-  :init
-  (push '(ruby-mode . robe-mode) major-mode-remap-alist)
-
+(use-package robe
+  :mode "\\.rb\\'"
+  :interpreter "ruby"
+  :after (eglot company)
   :hook
+  (ruby-mode . robe-mode)
   (robe-mode . eglot-ensure)
-  (robe-mode . tree-sitter-hl-mode)
 
   :config
   (push 'company-robe company-backends))
@@ -1251,6 +1263,37 @@ Doesn't that well yet as Typst is a new language.
   :config
   (push '(typst "https://github.com/uben0/tree-sitter-typst") treesit-language-source-alist)
   (push '(typst-ts-mode . ("typst-lsp")) eglot-server-programs))
+#+end_src
+
+*** Rust
+**** Installing [[https://github.com/oxalica/rust-overlay][Rust Overlay]] && Rust Packages
+#+begin_src nix :mkdirp yes :tangle ./lsp/rust.nix
+{
+  self,
+  pkgs,
+  ...
+}: {
+  nixpkgs.overlays = [ (import self.inputs.ru-ov.overlays.default) ];
+  environment.systemPackages = with pkgs; [
+    (rust-bin.stable.latest.default.override {
+      extensions = [ "rust-src" ];
+    })
+    rust-analyzer-unwrapped
+  ];
+}
+#+end_src
+
+**** Configuration
+#+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
+(use-package rust-mode)
+(use-package rustic
+  :mode "\\.rs\\'"
+  :after (rust-mode eglot)
+  :hook (rustic-mode . eglot-ensure)
+
+  :config
+  (add-to-list 'major-mode-remap-alist '(rust-mode . rustic-mode))
+  (setq rustic-lsp-client 'eglot))
 #+end_src
 
 * Dired

@@ -17,16 +17,10 @@
     (find-file . (lambda () (set-face-attribute 'default nil :font t3mpt0n/font :height 148))))
 
   (if (and (= (string-search "FiraCode" t3mpt0n/font) 0) (> emacs-major-version 28))
-      (progn
         (use-package fira-code-mode
           :after emacs
           :hook prog-mode
-          :custom (fira-code-mode-disabled-ligatures '("www" ":" "*" "x")))
-
-        (use-package ligature
-          :after emacs
-          :config
-          (ligature-set-ligatures 't '("www"))))
+          :custom (fira-code-mode-disabled-ligatures '("www" ":" "*" "x" "&&")))
     (use-package ligature
       :after emacs
       :config
@@ -45,6 +39,23 @@
                                            "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                                            "\\\\" "://"))
       (global-ligature-mode t)))
+(defun t3mpt0n/prog-mode/customligs ()
+  "Custom Ligatures for prog-mode"
+  (mapc (lambda (pair) (push pair prettify-symbols-alist))
+        '(
+          ("defun" . #x1d453)
+          ("def" . #x1d453)
+          ("or" . #x2228)
+          ("&&" . #x2227)
+          ("and" . #x2227)
+          ("in" . #x2208)
+          ("true" . #x22a5)
+          ("false" . #x22a4)
+          ("int" . #x2124)
+          ("float" . #x211d)
+          ("not" . #xac)
+          ("from" . #x21a6)
+          ("import" . #x21a7))))
 
   (use-package all-the-icons)
   (use-package all-the-icons-nerd-fonts :after all-the-icons)
@@ -59,8 +70,7 @@
           spacemacs-theme-underline-parens t))
 
   (use-package spaceline-all-the-icons
-    :after all-the-icons
-    :after all-the-icons-nerd-fonts)
+    :after (all-the-icons all-the-icons-nerd-fonts))
 
   (use-package doom-themes
     :init

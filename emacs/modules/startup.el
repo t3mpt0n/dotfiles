@@ -1,4 +1,4 @@
-  (setq backup-directory-alist '("" . "~/.cache/emacs/")
+  (setq backup-directory-alist '(("" . "~/.cache/emacs/"))
         backup-by-copying t
         version-control t
         delete-old-backups t

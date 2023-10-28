@@ -12,7 +12,7 @@
       gau = "git add -u";
       nixconf = "cd /etc/nixos";
       naf = "nix flake archive /etc/nixos";
-      dnrs = "doas nixos-rebuild switch --show-trace";
+      dnrs = "doas mount /dev/disk/by-uuid/7B4B-9071 /boot && doas nixos-rebuild switch --show-trace && doas umount /boot";
       nbdef = "nix-build -E 'let pkgs = import <nixpkgs> { }; in pkgs.callPackage ./default.nix {}'";
     };
     functions = {

@@ -33,7 +33,7 @@
         emms-player-mpd-server-port "6601"
         mpc-host "0.0.0.0:6601"
         emms-browser-covers 'emms-browser-cache-thumbnail
-        emms-browser-thumbnail-directory (expand-file-name "thumbnails" "~/.cache/emms/"))
+        emms-browser-thumbnail-directory "~/.cache/emms/thumbnails/")
   (emms-player-mpd-connect)
   (emms-player-mpd-update-all-reset-cache)
   (emms-player-set emms-player-mpd

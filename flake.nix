@@ -47,9 +47,18 @@
         flake-utils.follows = "flake-utils";
       };
     };
+
+    /* GAMING */
+    prism_mc = {
+      url = "github:PrismLauncher/PrismLauncher";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
   };
 
-  outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, ...}:
+  outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, prism_mc, ...}:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.flake-parts.flakeModules.easyOverlay

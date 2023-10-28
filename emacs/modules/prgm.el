@@ -55,30 +55,37 @@
   :hook
   (prog-mode . lunarix-mode)
   (prog-mode . disable-tabs)
+  (prog-mode . t3mpt0n/prog-mode/customligs)
+  (eglot--managed-mode . (lambda () (flymake-mode -1)))
 
-  :config (setq debug-on-error t)
+  :config
+  (setq debug-on-error t
+        eglot-workspace-configuration '())
+
   :custom (defalias 'eglot--major-mode 'eglot--major-modes))
 
 (use-package nix-mode
   :mode "\\.nix\\'"
   :interpreter "nix"
   :after (eglot smartparens tree-sitter tree-sitter-langs)
-  :hook
-  (nix-mode . eglot-ensure)
+  :hook (nix-mode . eglot-ensure)
+
   :config
   (push '(nix-mode . ("nil")) eglot-server-programs)
-  (sp-with-modes 'nix-mode
-    (sp-local-pair "\"" "\"")
-    (sp-local-pair "{" "};" :unless '(sp-in-comment-p
-                                      sp-in-string-quotes-p))
-    (sp-local-pair "[" "];" :unless '(sp-in-comment-p
-                                      sp-in-string-quotes-p))))
+  (setq eglot-workspace-configuration '(list (:nil (:formatting (:command ["nixpkgs-fmt"])
+                                                     :nix (:binary "/run/current-system/sw/bin/nix"
+                                                           :flake (:autoArchive t
+                                                                   :autoEvalInputs t
+                                                                   :nixpkgsInputName "nixpkgs")))))))
 
 (use-package emacs
-  :after (general company)
+  :after (general company smartparens)
   :elpaca nil
   :config
   (push 'company-elisp company-backends)
+  (sp-with-modes 'emacs-lisp-mode
+    (sp-local-pair "'" nil :actions nil)
+    (sp-local-pair "`" nil :actions nil))
   (general-def
     :states '(normal visual)
     :keymaps 'override
@@ -105,23 +112,18 @@
   :config
   (push '(python-mode . "jedi-language-server") eglot-server-programs))
 
-(use-package jedi-core :after python-mode)
-
 (use-package company-jedi
   :after company
   :init
   (push 'company-jedi company-backends))
 
-(use-package robe)
-(use-package ruby-mode
-  :elpaca nil
-  :after (eglot robe)
-  :init
-  (push '(ruby-mode . robe-mode) major-mode-remap-alist)
-
+(use-package robe
+  :mode "\\.rb\\'"
+  :interpreter "ruby"
+  :after (eglot company)
   :hook
+  (ruby-mode . robe-mode)
   (robe-mode . eglot-ensure)
-  (robe-mode . tree-sitter-hl-mode)
 
   :config
   (push 'company-robe company-backends))
@@ -156,3 +158,13 @@
   :config
   (push '(typst "https://github.com/uben0/tree-sitter-typst") treesit-language-source-alist)
   (push '(typst-ts-mode . ("typst-lsp")) eglot-server-programs))
+
+(use-package rust-mode)
+(use-package rustic
+  :mode "\\.rs\\'"
+  :after (rust-mode eglot)
+  :hook (rustic-mode . eglot-ensure)
+
+  :config
+  (add-to-list 'major-mode-remap-alist '(rust-mode . rustic-mode))
+  (setq rustic-lsp-client 'eglot))

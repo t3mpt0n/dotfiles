@@ -10,6 +10,8 @@
     ./pass.nix
     ./dunst.nix
     ./thunar.nix
+    ./obs.nix
+    ./minecraft.nix
   ];
 
   programs = {
@@ -35,9 +37,12 @@
     keepassxc
     protontricks
     protonup-qt
+    monero-gui
+    xmrig
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
+    gimp-with-plugins
     (nerdfonts.override { fonts = [ "FiraCode" "AnonymousPro" "3270" "Iosevka" "NerdFontsSymbolsOnly" ]; })
   ];
 }

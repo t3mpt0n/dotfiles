@@ -2,6 +2,7 @@
   pkgs,
   inputs,
   lib,
+  config,
   ...
 }: {
   imports = [
@@ -28,6 +29,8 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
+    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback.out ];
+    kernelModules = [ "v4l2loopback" ];
     loader = {
       efi = {
         canTouchEfiVariables = true;
