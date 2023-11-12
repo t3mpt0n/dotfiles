@@ -15,13 +15,13 @@
   alsa-lib
 }: stdenv.mkDerivation rec {
   pname = "emulationstation-de";
-  version = "2.2.0-beta";
+  version = "2.2.1";
 
   src = fetchFromGitLab {
     owner = "es-de";
     repo = "emulationstation-de";
-    rev = "00a226062fff37209d98e0ab048ac89af50ecacc";
-    sha256 = "sha256-DOyFLHaK2Q4+3RymzX8Tz5Z1n2H/N0C85qSZ1w8iww8=";
+    rev = "5120f8b440909d06060a9c68e879a160ffa71b28";
+    sha256 = "sha256-BQ+//R89rzqj/0NP6dPxLbAxGPgGxaxKlj/ijTzz5CQ=";
   };
 
   nativeBuildInputs = [ gnumake cmake pkg-config ];
