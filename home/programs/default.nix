@@ -12,13 +12,8 @@
     ./thunar.nix
     ./obs.nix
     ./minecraft.nix
+    ./browser.nix
   ];
-
-  programs = {
-    firefox = {
-      enable = true;
-    };
-  };
 
   home.packages = with pkgs; [
     discord-canary

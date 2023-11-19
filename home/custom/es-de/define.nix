@@ -7,8 +7,30 @@
   inherit (lib) filterAttrs literalExpression optionalAttrs types;
   inherit (lib.options) mkEnableOption mkOption;
   inherit (lib.modules) mkIf mkMerge;
+  inherit (lib.lists) imap0 flatten;
   cfg = config.programs.emulationstation;
-  jsonFormat = pkgs.formats.json {};
+  commandOpts = {config, lib, name, ...}: with types; {
+    options = {
+      cmd = mkOption {
+        type = nullOr str;
+        default = "";
+        description = lib.mdDoc ''
+          EN: Game launch command.
+          ES: Commando de lanzar el juego.
+        '';
+        example = "nestopia --fullscreen %ROM%";
+      };
+      label = mkOption {
+        type = nullOr str;
+        default = "${name}";
+        description = lib.mdDoc ''
+          EN: Emulator name.
+          ES: Nombre de emulador.
+        '';
+        example = "nestopia";
+      };
+    };
+  };
 
   esdeSystemsOpts = { config, lib, name, ... }: with types; {
     options = {
@@ -64,7 +86,7 @@
       };
 
       command = mkOption {
-        type = attrsOf str;
+        type = attrsOf (submodule [commandOpts]);
         default = { };
         description = lib.mdDoc ''
           EN: Set your emulators here.
@@ -87,6 +109,16 @@
         description = lib.mdDoc ''
           EN: Theme name for scraping.
           ES: Nombre de tema para raspar.
+        '';
+      };
+
+      emulators = mkOption {
+        type = listOf package;
+        default = [];
+        defaultText = literalExpression "with pkgs; [nestopia ares];";
+        description = lib.mdDoc ''
+          EN: Same as `programs.emulationstation.emulators` but for specific systems.
+          ES: Igual a `programs.emulationstation.emulators` pero para sistemas específicos.
         '';
       };
     };
@@ -117,6 +149,16 @@ in {
           '';
       };
 
+      emulators = mkOption {
+        type = listOf package;
+        default = [];
+        defaultText = literalExpression "with pkgs; [nestopia ares];";
+        description = lib.mdDoc ''
+          EN: General list of emulators to download.
+          ES: Lista general de emuladores para descargar.
+        '';
+      };
+
       systems = mkOption {
         type = attrsOf (submodule [esdeSystemsOpts]);
         default = { };
@@ -143,18 +185,30 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ cfg.package ];
-    home.file.".local/tmp/es_systems.json" =
+    home.packages =
       let
-        cfgFile = pkgs.writeText "es.json" (builtins.toJSON cfg.systems);
+        SystemEMUS = conf:
+          imap0 (n: v: v.emulators) (lib.attrValues conf);
+      in [cfg.package] ++ cfg.emulators ++ (flatten (SystemEMUS cfg.systems));
+    home.file.".emulationstation/custom_systems/es_systems.xml" =
+      let
+        confcomms = conf:
+          imap0 (n: v: "<command label=\"${v.label}\">" + "${v.cmd}" + "</command>\n") (lib.attrValues conf);
+        toESDE = conf:
+          imap0 (n: v: "<system>\n" +
+                       "<name>" + "${v.name}" + "</name>\n" +
+                       (toString (confcomms v.command)) +
+                       "<fullname>" + "${v.fullname}" + "</fullname>\n" +
+                       "<systemsortname>" + "${v.systemsortname}" + "</systemsortname>\n" +
+                       "<extension>" + "${toString v.extension}" + "</extension>\n" +
+                       "<path>" + "${v.path}" + "</path>\n" +
+                       "<theme>" + "${v.theme}" + "</theme>\n" +
+                       "<platform>" + "${v.platform}" + "</platform>\n"
+                       + "</system>\n") (lib.attrValues conf);
+        systemlists = toString (toESDE cfg.systems);
+        header = "<?xml version=\"1.0\" ?>\n<systemList>\n";
       in {
-        source = cfgFile;
+        text = header + systemlists + "</systemList>";
       };
-
-    home.activation = {
-      esconvertxml = lib.hm.dag.entryAfter ["writeBoundary"] ''
-          PYTHONPATH="${pkgs.python311Packages.xmltodict}/lib/python3.11/site-packages" $DRY_RUN_CMD ${lib.getExe pkgs.python3} /etc/nixos/home/custom/es-de/script/esxmlconvert.py
-        '';
-    };
   };
 }
