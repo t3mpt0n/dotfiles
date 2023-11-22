@@ -13,10 +13,12 @@
     ./obs.nix
     ./minecraft.nix
     ./browser.nix
+    ./flatpak.nix
   ];
 
   home.packages = with pkgs; [
     discord-canary
+    lutris
     webcord
     betterdiscordctl
     betterdiscord-installer

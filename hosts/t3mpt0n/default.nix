@@ -66,6 +66,7 @@
     usbutils
     libgccjit
     lsb-release
+    xdg-utils
     file
     lm_sensors
     (python311.withPackages (p: with p; [

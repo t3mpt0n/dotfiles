@@ -16,6 +16,7 @@
       sha256 = "sha256-Wp23oLapMqQtL2DCkm2xX1vodtEr/XNSOErf3nrFRQs=";
     };
   }));
+
 in rec {
   programs.emulationstation = {
     enable = true;
@@ -51,7 +52,7 @@ in rec {
       "gbc" = {
         inherit (gb) emulators;
         fullname = "Nintendo GameBoy Color";
-        systemsortname = "02a";
+        systemsortname = "03a";
         extension = [ ".gbc" ".GBC" ] ++ commonExtensions;
         path = "${rompath}/GBC";
         command = {
@@ -59,6 +60,7 @@ in rec {
         };
       };
       "snes" = {
+        emulators = with pkgs; [ bsnes-hd ];
         fullname = "Super Nintendo Entertainment System";
         systemsortname = "02";
         extension = [ ".smc" ".SMC" ".sfc" ".SFC" ] ++ commonExtensions;
@@ -75,6 +77,7 @@ in rec {
         path = "${rompath}/N64";
         command = {
           "Simple64 (Flatpak)" = {cmd = "flatpak run --filesystem=host:ro io.github.simple64.simple64 --nogui %ROM%";};
+          "RMG (Flatpak)" = {cmd = "flatpak run --filesystem=host com.github.Rosalie241.RMG -f -n %ROM%";};
         };
       };
       "gc" = {
@@ -115,6 +118,27 @@ in rec {
         path = "${rompath}/Switch";
         command = {
           "Ryujinx" = {cmd = "ryujinx %ROM%";};
+          "Yuzu" = {cmd = "yuzu %ROM%";};
+        };
+      };
+      "psx" = {
+        emulators = with pkgs; [ duckstation ];
+        fullname = "Sony PlayStation";
+        systemsortname = "08";
+        extension = [".bin" ".BIN" ".chd" ".CHD" ".m3u" ".M3U" ] ++ commonExtensions;
+        path = "${rompath}/PSX";
+        command = {
+          "Duckstation (Standalone)" = {};
+        };
+      };
+      "ps2" = {
+        emulators = with pkgs; [ pcsx2 ];
+        fullname = "Sony PlayStation 2";
+        systemsortname = "09";
+        inherit (psx) extension;
+        path = "${rompath}/PS2";
+        command = {
+          "PCSX2 (Standalone)" = {};
         };
       };
     };

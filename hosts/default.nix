@@ -3,6 +3,7 @@ inputs@ {
     hm,
     nixpkgs,
     ru-ov,
+    nix-flatpak,
     ...
 }: let
   inherit (nixpkgs.lib) nixosSystem;

@@ -1,4 +1,5 @@
 {
+  self,
   ...
 }: {
   imports = [
@@ -8,5 +9,6 @@
     ../custom/es-de
     ../shell
     ../.
+    self.inputs.nix-flatpak.homeManagerModules.nix-flatpak
   ];
 }

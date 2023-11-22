@@ -48,6 +48,11 @@
       };
     };
 
+    /* FLATPAK */
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak";
+    };
+
     /* GAMING */
     prism_mc = {
       url = "github:PrismLauncher/PrismLauncher";
@@ -58,7 +63,7 @@
     };
   };
 
-  outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, prism_mc, ...}:
+  outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, prism_mc, nix-flatpak, ...}:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.flake-parts.flakeModules.easyOverlay
