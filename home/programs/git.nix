@@ -33,7 +33,7 @@
             header = "bold white";
           };
         };
-        commit.gpgSign = true;
+        commit.gpgSign = false;
         gpg = {
           format = "ssh";
         };
