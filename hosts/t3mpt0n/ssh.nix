@@ -17,11 +17,5 @@ in {
     };
   };
 
-  programs.ssh.knownHosts = {
-    github = {
-      publicKey = gitsignpub;
-    };
-  };
-
   users.users.jd.openssh.authorizedKeys.keys = [ user_jd gitsignpub hostkey ];
 }

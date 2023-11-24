@@ -8,10 +8,10 @@
     git = {
       enable = true;
       userName = "t3mpt0n";
-      userEmail = "t3mpt0n@users.noreply.github.com";
+      userEmail = "git@t3mpt0n.com";
 
       signing = {
-        key = "/home/jd/.ssh/t3mpt0n_sign-git";
+        key = "/home/jd/.ssh/t3mpt0n_sign-git.pub";
         signByDefault = true;
       };
 

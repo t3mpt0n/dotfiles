@@ -16,7 +16,6 @@
       sha256 = "sha256-Wp23oLapMqQtL2DCkm2xX1vodtEr/XNSOErf3nrFRQs=";
     };
   }));
-
 in rec {
   programs.emulationstation = {
     enable = true;
@@ -139,6 +138,16 @@ in rec {
         path = "${rompath}/PS2";
         command = {
           "PCSX2 (Standalone)" = {};
+        };
+      };
+      "ps3" = {
+        emulators = with pkgs; [ rpcs3 ];
+        fullname = "Sony PlayStation 3";
+        systemsortname = "10";
+        extension = [ ".ps3" ".PS3" ] ++ commonExtensions;
+        path = "${rompath}/PS3";
+        command = {
+          "RPCS3 (Standalone)" = {};
         };
       };
     };
