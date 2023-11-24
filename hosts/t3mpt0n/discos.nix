@@ -36,7 +36,7 @@
       bigdisk = "/dev/disk/by-uuid/20ae7037-8594-4de3-93dc-95c49d08a9fb";
       hddfs = "btrfs";
       fisys = "btrfs";
-      ssdopts = [ "noatime" "relatime" "compress=zstd" "ssd" "space_cache=v2" ];
+      ssdopts = [ "noatime" "relatime" "compress=zstd" "ssd" "space_cache=v2" ]; # `space_cache=v2` -> btrfs exclusive.
       hddopts = [ "defaults" "noatime" "autodefrag" "compress=zstd" "commit=120" ];
     in {
       /* SSD */

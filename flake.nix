@@ -5,6 +5,7 @@
   inputs = {
     /* NIX */
     nixpkgs.url = "github:NixOs/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOs/nixpkgs/23.05";
 
     /* FLAKE */
     flake-utils.url = "github:numtide/flake-utils";

@@ -26,8 +26,6 @@ in {
     ];
   };
 
-  hardware.opengl.enable = true;
-
   # necessary programs
   programs = {
     less.enable = true;

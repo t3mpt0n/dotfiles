@@ -2,20 +2,24 @@ inputs@ {
     self,
     hm,
     nixpkgs,
+    nixpkgs-stable,
     ru-ov,
     nix-flatpak,
     ...
 }: let
   inherit (nixpkgs.lib) nixosSystem;
+  system = "x86_64-linux";
   sharedModules = with self.nixosModules; [
-    { home-manager.useGlobalPkgs = true; }
-    hm.nixosModules.home-manager
     inputs.agenix.nixosModules.default
     core
     network
     nix
     audio
     agenix
+  ];
+  hm_setup = [
+    { home-manager.useGlobalPkgs = true; }
+    hm.nixosModules.home-manager
   ];
   ru-ov_setup = [
     ({pkgs, ...}: {
@@ -28,8 +32,12 @@ inputs@ {
       ];
     })
   ];
+ overlay-2305 = final: prev: {
+   stable = nixpkgs-stable.legacyPackages.${prev.system};
+ };
 in {
   t3mpt0n = nixosSystem {
+    inherit system;
     specialArgs = { inherit inputs self; };
     modules = [
       ./t3mpt0n
@@ -38,8 +46,23 @@ in {
         home-manager.users.jd = import ../home/profiles/t3mpt0n.nix;
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = { inherit inputs self sharedModules; };
+        home-manager.extraSpecialArgs = { inherit inputs self sharedModules hm_setup; };
       }
-    ] ++ sharedModules ++ ru-ov_setup;
+    ] ++ sharedModules ++ ru-ov_setup ++ hm_setup;
+  };
+
+  t3mpt0n-laptop = nixosSystem {
+    inherit system;
+    specialArgs = { inherit inputs self; };
+    modules = [
+      ({config, pkgs, ...}: { nixpkgs.overlays = [ overlay-2305 ]; })
+      ./t3mpt0n-laptop
+      {
+        home-manager.users.jd = import ../home/profiles/t3mpt0n-laptop.nix;
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.extraSpecialArgs = { inherit inputs self sharedModules hm_setup; };
+      }
+    ] ++ sharedModules ++ hm_setup;
   };
 }
