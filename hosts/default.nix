@@ -63,6 +63,12 @@ in {
         home-manager.useUserPackages = true;
         home-manager.extraSpecialArgs = { inherit inputs self sharedModules hm_setup; };
       }
+      {
+        age.secrets = {
+          nextcloud.file = ../secrets/nextcloud.age;
+          nextcloud_jd.file = ../secrets/nextcloud_user.age;
+        };
+      }
     ] ++ sharedModules ++ hm_setup;
   };
 }
