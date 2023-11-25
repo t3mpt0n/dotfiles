@@ -4,14 +4,15 @@
   lib,
   ...
 }: let
-  user_jd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILahBGSNQ5H0uaBpecdKd9UEJkAr+E7iB9Sty+nXxJLF jd@t3mpt0n";
+  user_jd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGevSfbQaLny/CRYXKAIfCyUdDp6G3VSfz+I0sa2fFB3 jd@t3mpt0n";
   hostkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGPuI0N/XtaAXIaSoSMsL9qmuuX1VvLh9nbpB6Tzj++h root@t3mpt0n";
 in {
   services.openssh = {
     enable = true;
+    startWhenNeeded = true;
     settings = {
       PasswordAuthentication = false;
-      UseDns = true;
+      KbdInteractiveAuthentication = false;
       PermitRootLogin = "no";
     };
   };

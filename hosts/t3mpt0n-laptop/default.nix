@@ -8,7 +8,7 @@
   imports = [
     ./hardware-configuration.nix
     ./boot.nix
-    ./network.nix
+    # ./network.nix
     ./gpu.nix
   ];
 
@@ -17,7 +17,7 @@
   ];
   nix.settings.sandbox = true;
 
-  networking.hostname = "t3mpt0n-laptop";
+  networking.hostName = "t3mpt0n-laptop";
 
   environment.systemPackages = with pkgs; [
     neovim
@@ -29,5 +29,17 @@
     unrar
   ];
 
-  services.logind.lidSwitchExternalPower = "ignore";
+  services = {
+    logind.lidSwitchExternalPower = "ignore";
+    dbus = {
+      enable = true;
+      packages = [ pkgs.gcr ];
+    };
+  };
+
+  programs.gnupg.agent ={
+    enable = true;
+    enableSSHSupport = true;
+    pinentryFlavor = "tty";
+  };
 }

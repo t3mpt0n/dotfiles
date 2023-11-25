@@ -8,29 +8,55 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "sdhci_pci" ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "sdhci_pci" ];
+  boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/b3d11caa-19dc-4f7d-a7a6-4910dd2f97c9";
-      fsType = "ext4";
+    { device = "/dev/disk/by-uuid/2d1ff13c-1000-4b6e-93cd-a6973509dc2a";
+      fsType = "btrfs";
+      options = [ "subvol=@" ];
+    };
+
+  boot.initrd.luks.devices."stick".device = "/dev/disk/by-uuid/10af15ba-8377-43d8-aaee-b40f4ca01983";
+
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/2d1ff13c-1000-4b6e-93cd-a6973509dc2a";
+      fsType = "btrfs";
+      options = [ "subvol=@home" ];
+    };
+
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/2d1ff13c-1000-4b6e-93cd-a6973509dc2a";
+      fsType = "btrfs";
+      options = [ "subvol=@nix" ];
+    };
+
+  fileSystems."/swap" =
+    { device = "/dev/disk/by-uuid/2d1ff13c-1000-4b6e-93cd-a6973509dc2a";
+      fsType = "btrfs";
+      options = [ "subvol=@swap" ];
+    };
+
+  fileSystems."/tmp" =
+    { device = "/dev/disk/by-uuid/2d1ff13c-1000-4b6e-93cd-a6973509dc2a";
+      fsType = "btrfs";
+      options = [ "subvol=@tmp" ];
+    };
+
+  fileSystems."/etc/nixos" =
+    { device = "/dev/disk/by-uuid/2d1ff13c-1000-4b6e-93cd-a6973509dc2a";
+      fsType = "btrfs";
+      options = [ "subvol=@nixconfig" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/6069-3994";
+    { device = "/dev/disk/by-uuid/58DD-D244";
       fsType = "vfat";
     };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/5ca06827-a870-4c7d-8791-4f3b8a5fdd27";
-      fsType = "ext4";
-    };
-
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/788b70b6-b8cd-449a-8fc0-7686b01dc4fd"; }
-    ];
+  swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

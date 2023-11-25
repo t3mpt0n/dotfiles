@@ -4,42 +4,72 @@
   lib,
   ...
 }: {
-  services.lvm2 = {
-    enable = true;
-  };
+  environment.systemPackages = with pkgs; [
+    btrfs-progs
+    btrfs-snap
+  ];
 
   boot = {
     loader.grub.enableCryptodisk = true;
     initrd = {
       availableKernelModules = [
         "cryptd"
-        "lvm"
       ];
       luks.devices = {
-        "cryptlvm" = {
-          device = "/dev/disk/by-uuid/ef6af3e5-1d46-4b0a-9a82-6a8e5dd7e4fc";
+        "stick" = {
+          device = "/dev/disk/by-uuid/39af3d4f-05a1-467f-9a5f-326e78f8ad51";
           allowDiscards = true;
         };
       };
     };
   };
 
-  filesystems = let
-    nix-root = "/dev/disk/by-uuid/b3d11caa-19dc-4f7d-a7a6-4910dd2f97c9";
-    nix-home = "/dev/disk/by-uuid/5ca06827-a870-4c7d-8791-4f3b8a5fdd27";
-    ssdopts = [ "noatime" "relatime" "compress=zstd" "ssd" ];
-    fisys = "ext4";
-  in {
-    "/" = {
-      device = nix-root;
-      fsType = fisys;
-      options = ssdopts;
+  fileSystems =
+    let
+      fsdisk = "/dev/disk/by-uuid/2d1ff13c-1000-4b6e-93cd-a6973509dc2a";
+      fisys = "btrfs";
+      ssdopts = [ "noatime" "relatime" "compress=zstd" "ssd" "space_cache=v2" ]; # `space_cache=v2` -> btrfs exclusive.
+    in {
+      /* SSD */
+      "/" = {
+        device = "${fsdisk}";
+        fsType = "${fisys}";
+        options = ssdopts ++ [ "subvol=@" ];
+      };
+      "/home" = {
+        device = "${fsdisk}";
+        fsType = "${fisys}";
+        options = ssdopts ++ [ "subvol=@home" ];
+      };
+      "/swap" = {
+        device = "${fsdisk}";
+        fsType = "${fisys}";
+        options = ssdopts ++ [ "subvol=@swap" ];
+      };
+      "/tmp" = {
+        device = "${fsdisk}";
+        fsType = "${fisys}";
+        options = ssdopts ++ [ "subvol=@tmp" ];
+      };
+      "/.snapshots" = {
+        device = "${fsdisk}";
+        fsType = "${fisys}";
+        options = ssdopts ++ [ "subvol=@snapshots" ];
+      };
+      "/etc/nixos" = {
+        device = "${fsdisk}";
+        fsType = "${fisys}";
+        options = ssdopts ++ [ "subvol=@nixconfig" ];
+      };
     };
-    "/home" = {
-      device = nix-home;
-      fsType = fisys;
-      options = ssdopts;
+  swapDevices = [ { device = "/swap/swapfile"; } ];
+
+  services = {
+    btrfs.autoScrub = {
+      enable = true;
+      interval = "monthly";
+      fileSystems = [ "/" ];
     };
+    fstrim.enable = lib.mkDefault true;
   };
-  swapDevices = [ { device = "/dev/disk/by-uuid/788b70b6-b8cd-449a-8fc0-7686b01dc4fd"; } ];
 }

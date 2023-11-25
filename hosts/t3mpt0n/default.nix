@@ -13,7 +13,6 @@
     ./polkit.nix
     ./bluetooth.nix
     ./steam.nix
-    ./ssh.nix
   ];
   nixpkgs.config.allowUnfreePredicate = d: builtins.elem (lib.getName d) [
     "unrar"
