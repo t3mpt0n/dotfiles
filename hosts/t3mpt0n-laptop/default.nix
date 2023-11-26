@@ -8,7 +8,8 @@
   imports = [
     ./hardware-configuration.nix
     ./boot.nix
-    # ./network.nix
+    ./network.nix
+    ./nextcloud.nix
     ./gpu.nix
   ];
 
@@ -16,8 +17,6 @@
     "unrar"
   ];
   nix.settings.sandbox = true;
-
-  networking.hostName = "t3mpt0n-laptop";
 
   environment.systemPackages = with pkgs; [
     neovim
