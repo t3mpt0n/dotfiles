@@ -8,6 +8,9 @@
     nextcloud = {
       enable = true;
       package = pkgs.nextcloud27;
+      extraApps = with config.services.nextcloud.package.packages.apps; {
+        inherit news calendar bookmarks twofactor_nextcloud_notification tasks files_texteditor keeweb;
+      };
       hostName = "nextcloud.t3mpt0n.com";
       https = true;
       configureRedis = true;
@@ -21,7 +24,7 @@
       };
     };
 
-    nginx.virtualHosts.${config.services.nextcloud.hostName} = {
+    nginx.virtualHosts."nextcloud.t3mpt0n.com" = {
       forceSSL = true;
       enableACME = true;
     };
