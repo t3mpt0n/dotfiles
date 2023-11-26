@@ -65,8 +65,16 @@ in {
       }
       {
         age.secrets = {
-          nextcloud.file = ../secrets/nextcloud.age;
-          nextcloud_jd.file = ../secrets/nextcloud_user.age;
+          nextcloud = {
+            file = ../secrets/nextcloud.age;
+            owner = "nextcloud";
+            group = "nextcloud";
+          };
+          nextcloud_jd = {
+            file = ../secrets/nextcloud_user.age;
+            owner = "nextcloud";
+            group = "nextcloud";
+          };
         };
       }
     ] ++ sharedModules ++ hm_setup;
