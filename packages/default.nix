@@ -7,6 +7,7 @@ with pkgs; rec {
   nestopia = callPackage ./nestopia {};
   sway-alternating-layout = callPackage ./sway-alt-layout {};
   crystalline = callPackage ./crystalline {};
+  dsda-doom = callPackage ./dsda-doom {};
 
   /* TMUX PLUGINS */
   tmux-ip-address = callPackage ./tmuxExtras/tmux-ip-addr.nix {};

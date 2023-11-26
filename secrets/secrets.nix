@@ -11,4 +11,5 @@ let
 in {
   "nextcloud.age".publicKeys = all_laptop;
   "nextcloud_user.age".publicKeys = all;
+  "doom1.wad.bfg.age".publicKeys = all;
 }

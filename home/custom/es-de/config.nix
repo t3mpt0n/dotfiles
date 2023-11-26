@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (pkgs) fetchFromGitHub;
-  inherit (self.outputs.packages.x86_64-linux) nestopia emulationstation-de;
+  inherit (self.outputs.packages.x86_64-linux) nestopia emulationstation-de dsda-doom;
   fceux = (pkgs.fceux.overrideAttrs (oldAttrs: rec {
     version = "2.6.6";
     src = fetchFromGitHub {
@@ -20,8 +20,9 @@ in rec {
   programs.emulationstation = {
     enable = true;
     package = emulationstation-de;
-    emulators = with pkgs; [
-      ares
+    emulators = [
+      pkgs.ares
+      dsda-doom
     ];
     systems = let
       rompath = "/mnt/dhp/media/Games/ROMs";

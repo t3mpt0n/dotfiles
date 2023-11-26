@@ -48,6 +48,13 @@ in {
         home-manager.useUserPackages = true;
         home-manager.extraSpecialArgs = { inherit inputs self sharedModules hm_setup; };
       }
+      {
+        age.secrets = {
+          doom1_wad = {
+            file = ../secrets/doom1.wad.bfg.age;
+          };
+        };
+      }
     ] ++ sharedModules ++ ru-ov_setup ++ hm_setup;
   };
 
@@ -65,8 +72,16 @@ in {
       }
       {
         age.secrets = {
-          nextcloud.file = ../secrets/nextcloud.age;
-          nextcloud_jd.file = ../secrets/nextcloud_user.age;
+          nextcloud = {
+            file = ../secrets/nextcloud.age;
+            owner = "nextcloud";
+            group = "nextcloud";
+          };
+          nextcloud_jd = {
+            file = ../secrets/nextcloud_user.age;
+            owner = "nextcloud";
+            group = "nextcloud";
+          };
         };
       }
     ] ++ sharedModules ++ hm_setup;
