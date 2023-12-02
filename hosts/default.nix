@@ -18,7 +18,6 @@ inputs@ {
     agenix
   ];
   hm_setup = [
-    { home-manager.useGlobalPkgs = true; }
     hm.nixosModules.home-manager
   ];
   ru-ov_setup = [
@@ -32,7 +31,7 @@ inputs@ {
       ];
     })
   ];
- overlay-2305 = final: prev: {
+ overlay-2311 = final: prev: {
    stable = nixpkgs-stable.legacyPackages.${prev.system};
  };
 in {
@@ -62,6 +61,20 @@ in {
             owner = "jd";
             group = "wheel";
           };
+          davsec = {
+            file = ../secrets/davsec.age;
+            path = "/home/jd/.davfs2/secrets";
+            owner = "jd";
+            group = "wheel";
+            mode = "600";
+          };
+          davsec_root = {
+            file = ../secrets/davsec.age;
+            path = "/etc/davfs2/secrets";
+            owner = "root";
+            group = "root";
+            mode = "600";
+          };
         };
       }
     ] ++ sharedModules ++ ru-ov_setup ++ hm_setup;
@@ -71,7 +84,7 @@ in {
     inherit system;
     specialArgs = { inherit inputs self; };
     modules = [
-      ({config, pkgs, ...}: { nixpkgs.overlays = [ overlay-2305 ]; })
+      ({config, pkgs, ...}: { nixpkgs.overlays = [ overlay-2311 ]; })
       ./t3mpt0n-laptop
       {
         home-manager.users.jd = import ../home/profiles/t3mpt0n-laptop.nix;

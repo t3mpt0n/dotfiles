@@ -8,6 +8,7 @@
   imports = [
     ./hardware-configuration.nix
     ./nextcloud.nix
+    ./nfs.nix
     ./discos.nix
     ./gpu.nix
     ./polkit.nix
@@ -16,6 +17,7 @@
   ];
   nixpkgs.config.allowUnfreePredicate = d: builtins.elem (lib.getName d) [
     "unrar"
+    "rar"
     "discord"
     "discord-canary"
     "steam"
@@ -54,6 +56,7 @@
 
   environment.systemPackages = with pkgs; [
     neovim
+    rar
     wget
     openssh
     git

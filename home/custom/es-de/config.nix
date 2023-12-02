@@ -23,6 +23,8 @@ in rec {
     emulators = [
       pkgs.ares
       dsda-doom
+      pkgs.mame.out
+      pkgs.mame.tools
     ];
     systems = let
       rompath = "/mnt/dhp/media/Games/ROMs";

@@ -5,7 +5,7 @@
     ./bls.nix
     ./crystal.nix
     ./jedi.nix
-    ./nil.nix
+    ./nix.nix
     ./ruby.nix
     ./typst.nix
   ];
