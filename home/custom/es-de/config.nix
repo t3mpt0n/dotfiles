@@ -22,11 +22,12 @@ in rec {
     package = emulationstation-de;
     emulators = [
       pkgs.ares
+      pkgs.retroarchFull
       dsda-doom
     ];
     systems = let
       rompath = "/mnt/dhp/media/Games/ROMs";
-      commonExtensions = [ ".7z" ".7Z" ".zip" ".ZIP" ];
+      commonExtensions = [ ".7z" ".7Z" ".zip" ".ZIP" ".m3u" ".M3U"];
     in rec {
       "nes" = {
         emulators = with pkgs; [ fceux punes nestopia ];
@@ -59,7 +60,7 @@ in rec {
           "sameboy" = {cmd = "sameboy -f %ROM%";};
         };
       };
-      "snes" = {
+      "snesna" = {
         emulators = with pkgs; [ bsnes-hd ];
         fullname = "Super Nintendo Entertainment System";
         systemsortname = "02";
@@ -149,6 +150,15 @@ in rec {
         path = "${rompath}/PS3";
         command = {
           "RPCS3 (Standalone)" = {};
+        };
+      };
+      "lutris" = rec {
+        fullname = "Lutris";
+        systemsortname = fullname;
+        extension = [ ".desktop" ".DESKTOP" ".sh" ".SH" ] ++ commonExtensions;
+        path = "/home/jd/Games/ESDE/";
+        command = {
+          "Run Script" = {cmd = "bash %ROM%";};
         };
       };
     };

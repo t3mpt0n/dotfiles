@@ -59,8 +59,7 @@
   (eglot--managed-mode . (lambda () (flymake-mode -1)))
 
   :config
-  (setq debug-on-error t
-        eglot-workspace-configuration '())
+  (setq debug-on-error t)
 
   :custom (defalias 'eglot--major-mode 'eglot--major-modes))
 
@@ -71,12 +70,12 @@
   :hook (nix-mode . eglot-ensure)
 
   :config
-  (push '(nix-mode . ("nil")) eglot-server-programs)
-  (setq eglot-workspace-configuration '(list (:nil (:formatting (:command ["nixpkgs-fmt"])
+  (push '(nix-mode . ("nil" :initializationOptions (:nil
+                                                    (:formatting (:command ["nixpkgs-fmt"])
                                                      :nix (:binary "/run/current-system/sw/bin/nix"
                                                            :flake (:autoArchive t
                                                                    :autoEvalInputs t
-                                                                   :nixpkgsInputName "nixpkgs")))))))
+                                                                   :nixpkgsInputName "nixpkgs")))))) eglot-server-programs))
 
 (use-package emacs
   :after (general company smartparens)

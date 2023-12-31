@@ -8,6 +8,7 @@ with pkgs; rec {
   sway-alternating-layout = callPackage ./sway-alt-layout {};
   crystalline = callPackage ./crystalline {};
   dsda-doom = callPackage ./dsda-doom {};
+  attractplus = callPackage ./attractplus {};
 
   /* TMUX PLUGINS */
   tmux-ip-address = callPackage ./tmuxExtras/tmux-ip-addr.nix {};

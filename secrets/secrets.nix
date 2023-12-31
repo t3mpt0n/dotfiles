@@ -9,7 +9,7 @@ let
   all_laptop = [ jd_laptop laptop ];
   all_t3mpt0n = [ jd_t3mpt0n t3mpt0n ];
 in {
-  "nextcloud.age".publicKeys = all_laptop;
+  "nextcloud.age".publicKeys = hosts;
   "nextcloud_user.age".publicKeys = all;
   "doom1.wad.bfg.age".publicKeys = all_t3mpt0n;
   "doom2.wad.age".publicKeys = all_t3mpt0n;

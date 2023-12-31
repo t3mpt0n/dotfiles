@@ -20,7 +20,9 @@
   pillow,
   cleo,
   appdirs,
-  m3u8
+  m3u8,
+  rich,
+  aiolimiter
 }: buildPythonPackage rec {
   pname = "streamrip";
   version = "dev";
@@ -31,7 +33,7 @@
     owner = "nathom";
     repo = pname;
     rev = version;
-    sha256 = "sha256-Mdj3zO4YJM++PetEhk0g24UABE4Sii0JkPVJP9D4AtI=";
+    sha256 = "sha256-qVUEjWXKxGe07v421eHvxQzc4CGubKAGvw5zJ4e9GHQ=";
   };
 
   doCheck = false;
@@ -41,6 +43,7 @@
     poetry-core
     mutagen
     click
+    aiolimiter
     tqdm
     tomlkit
     pathvalidate
@@ -55,6 +58,7 @@
     aiofiles
     aiohttp
     aiodns
+    rich
   ];
 
   meta = with lib; {

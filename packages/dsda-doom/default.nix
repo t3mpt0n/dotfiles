@@ -33,7 +33,15 @@
 
   cmakeFlags = [
     "-S ../prboom2"
+    "-Wno-dev"
     "-DCMAKE_BUILD_TYPE=Release"
     "-G Ninja"
   ];
+
+  meta = with lib; {
+    description = "This is a successor of prboom+ with extra tooling for demo recording and playback, with a focus on speedrunning and quality of life.";
+    homepage = "https://github.com/${owner}/${repo}";
+    license = licenses.gpl2Only;
+    maintainers = with maintainers; [ t3mpt0n ];
+  };
 }

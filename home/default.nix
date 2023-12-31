@@ -5,7 +5,7 @@
   home = {
     username = "jd";
     homeDirectory = "/home/jd";
-    stateVersion = "23.05";
+    stateVersion = "24.05";
     extraOutputsToInstall = [ "doc" "devdoc" ];
   };
 

@@ -12,7 +12,9 @@
     ./gpu.nix
     ./polkit.nix
     ./bluetooth.nix
-    ./steam.nix
+    ./kodi.nix
+    ./xdg.nix
+    ./android.nix
   ];
   nixpkgs.config.allowUnfreePredicate = d: builtins.elem (lib.getName d) [
     "unrar"
@@ -60,6 +62,7 @@
     htop
     psmisc
     doas
+    p7zip
     gnupg
     pinentry
     gnumake
@@ -87,6 +90,7 @@
     qt6.qtwayland
     unrar
     tree-sitter-grammars.tree-sitter-nix
+    tor-browser
   ];
 
   environment = {

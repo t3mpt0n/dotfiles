@@ -28,7 +28,7 @@
       wlr-randr
       wlogout
       xorg.libX11
-      winePackages.wayland
+      wineWowPackages.waylandFull
       xwayland
     ];
   };

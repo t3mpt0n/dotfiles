@@ -48,7 +48,7 @@
           "${modifier}+e" = "exec ${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs' -e '(dashboard-open)'";
           "${modifier}+Shift+d" = "exec ${pkgs.discord}/bin/discord";
           "${modifier}+w" = "exec ${pkgs.firefox}/bin/firefox";
-          "${modifier}+Shift+S" = "exec ${pkgs.steam}/bin/steam";
+          "${modifier}+Shift+S" = "exec steam";
           "${modifier}+Shift+P" = "exec wofi-pass";
           "${modifier}+Alt+w" = "layout tabbed";
           "${modifier}+Alt+e" = "layout toggle split";
@@ -74,6 +74,7 @@
     };
     extraConfig = ''
       default_border pixel 5
+      for_window [class="Hiro"] fullscreen toggle
       bar {
         swaybar_command waybar
       }

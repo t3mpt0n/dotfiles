@@ -62,6 +62,11 @@ in {
             owner = "jd";
             group = "wheel";
           };
+#           "oot-debug.z64" = {
+#             file = ../secrets/soh_baserom.age;
+#             owner = "jd";
+#             group = "wheel";
+#           };
         };
       }
     ] ++ sharedModules ++ ru-ov_setup ++ hm_setup;

@@ -1,6 +1,7 @@
 {
   pkgs,
   self,
+  lib,
   ...
 }: {
   imports = [
@@ -11,20 +12,18 @@
     ./dunst.nix
     ./thunar.nix
     ./obs.nix
-    ./minecraft.nix
     ./browser.nix
     ./flatpak.nix
+    ./games.nix
   ];
 
   home.packages = with pkgs; [
     discord-canary
-    lutris
     webcord
     betterdiscordctl
     betterdiscord-installer
     corectrl /* Control AMDGPU Profiles */
     home-manager
-    android-tools
     droidcam
     dotnet-sdk
     self.outputs.packages.x86_64-linux.streamrip
@@ -32,8 +31,6 @@
     kid3
     pavucontrol
     keepassxc
-    protontricks
-    protonup-qt
     monero-gui
     xmrig
     noto-fonts

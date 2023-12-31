@@ -6,6 +6,7 @@
     alsa-lib
     alsa-utils
     pulsemixer
+    pulseaudio
     ffmpeg
   ];
 
