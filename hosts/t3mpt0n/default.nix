@@ -11,10 +11,9 @@
     ./discos.nix
     ./gpu.nix
     ./polkit.nix
-    ./bluetooth.nix
-    ./kodi.nix
     ./xdg.nix
-    ./android.nix
+    ./vm.nix
+    ./cpu.nix
   ];
   nixpkgs.config.allowUnfreePredicate = d: builtins.elem (lib.getName d) [
     "unrar"
@@ -31,8 +30,6 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
-    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback.out ];
-    kernelModules = [ "v4l2loopback" ];
     loader = {
       efi = {
         canTouchEfiVariables = true;

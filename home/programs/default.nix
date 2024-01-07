@@ -9,7 +9,7 @@
     ./mpd.nix
     ./mpv.nix
     ./pass.nix
-    ./dunst.nix
+    ./mako.nix
     ./thunar.nix
     ./obs.nix
     ./browser.nix
@@ -24,7 +24,6 @@
     betterdiscord-installer
     corectrl /* Control AMDGPU Profiles */
     home-manager
-    droidcam
     dotnet-sdk
     self.outputs.packages.x86_64-linux.streamrip
     winetricks

@@ -4,7 +4,10 @@
   pkgs,
   ...
 }: {
-  programs.adb.enable = true;
+  programs = {
+    adb.enable = true;
+    droidcam.enable = true;
+  };
   environment.systemPackages = with pkgs; [
     android-tools
     android-udev-rules

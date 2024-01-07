@@ -22,18 +22,15 @@
     "m h" '(emms-seek-backward :which-key "Seek 5 Seconds Back")
     "m l" '(emms-seek-forward :which-key "Seek 5 Seconds Forward")
     "m /" '(emms-seek-to :which-key "Seek Specific Point"))
-  (setq emms-browser-covers 'emms-browser-cache-thumbnail
-        emms-browser-thumbnail-directory '(expand-file-name "thumbnails" "~/.cache/emms/")
-        emms-seek-seconds 5
+  (setq emms-seek-seconds 5
         emms-info-asynchronously t
         emms-player-list '(emms-player-mpd emms-player-mpv)
         emms-info-functions '(emms-info-mpd emms-info-mediainfo)
 
         emms-player-mpd-server-name "0.0.0.0"
         emms-player-mpd-server-port "6601"
-        mpc-host "0.0.0.0:6601"
-        emms-browser-covers 'emms-browser-cache-thumbnail
-        emms-browser-thumbnail-directory "~/.cache/emms/thumbnails/")
+        mpc-host "0.0.0.0:6601")
+
   (emms-player-mpd-connect)
   (emms-player-mpd-update-all-reset-cache)
   (emms-player-set emms-player-mpd

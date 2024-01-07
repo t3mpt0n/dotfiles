@@ -17,6 +17,12 @@ inputs@ {
     audio
     agenix
   ];
+  shared_pc_modules = with self.nixosModules; [
+    android
+    steam
+    kodi
+    bluetooth
+  ];
   hm_setup = [
     { home-manager.useGlobalPkgs = true; }
     hm.nixosModules.home-manager
@@ -41,6 +47,7 @@ in {
     specialArgs = { inherit inputs self; };
     modules = [
       ./t3mpt0n
+      inputs.chaotic.nixosModules.default
       ../emacs
       {
         home-manager.users.jd = import ../home/profiles/t3mpt0n.nix;
@@ -62,14 +69,15 @@ in {
             owner = "jd";
             group = "wheel";
           };
-#           "oot-debug.z64" = {
-#             file = ../secrets/soh_baserom.age;
-#             owner = "jd";
-#             group = "wheel";
-#           };
+          spotifyd = {
+            file = ../secrets/spotify.age;
+            path = "/home/jd/.local/share/spotifyd/.pwd";
+            owner = "jd";
+            group = "wheel";
+          };
         };
       }
-    ] ++ sharedModules ++ ru-ov_setup ++ hm_setup;
+    ] ++ sharedModules ++ shared_pc_modules ++ ru-ov_setup ++ hm_setup;
   };
 
   t3mpt0n-laptop = nixosSystem {

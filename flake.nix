@@ -62,6 +62,7 @@
         flake-parts.follows = "flake-parts";
       };
     };
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
   };
 
   outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, prism_mc, nix-flatpak, ...}:
@@ -96,6 +97,10 @@
           nix = import ./modules/nix.nix;
           audio = import ./modules/audio.nix;
           agenix = import ./modules/secret.nix;
+          steam = import ./modules/steam.nix;
+          bluetooth = import ./modules/bluetooth.nix;
+          android = import ./modules/android.nix;
+          kodi = import ./modules/kodi.nix;
         };
       };
     };

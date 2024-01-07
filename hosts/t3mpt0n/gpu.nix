@@ -11,6 +11,10 @@
     "amdgpu.ppfeaturemask=0xffffffff"
   ];
 
+  chaotic.hdr = {
+    enable = true;
+  };
+
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -20,7 +24,6 @@
       rocm-opencl-runtime
       libva
       libva-utils
-      amdvlk
       libplacebo
       shaderc
       vulkan-headers
@@ -29,7 +32,6 @@
       vulkan-tools
     ];
     extraPackages32 = with pkgs.driversi686Linux; [
-      amdvlk
       glxinfo
     ];
   };
@@ -41,9 +43,5 @@
       hwdata
       corectrl
     ] ++ config.hardware.opengl.extraPackages ++ config.hardware.opengl.extraPackages32;
-    variables = {
-      AMD_VULKAN_ICD = "RADV";
-      RADV_PERFTEST = "aco";
-    };
   };
 }

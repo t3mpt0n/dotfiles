@@ -7,8 +7,6 @@
   home.packages = with pkgs; [
     parsec-bin
     lutris
-    steam
-    steam-run
     steam-rom-manager
     protontricks
     protonup-qt
@@ -16,6 +14,6 @@
     prismlauncher-qt5
     heroic-unwrapped
     gamemode
-    gamescope
+    libsForQt5.kget
   ];
 }

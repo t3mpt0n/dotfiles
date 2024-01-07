@@ -12,6 +12,7 @@ in {
     pkgs.age
     pkgs.clang
     pkgs.cachix
+    pkgs.pciutils
   ];
 
   services.cachix-agent.enable = true;
