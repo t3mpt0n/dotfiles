@@ -25,13 +25,16 @@
     corectrl /* Control AMDGPU Profiles */
     home-manager
     dotnet-sdk
-    self.outputs.packages.x86_64-linux.streamrip
+#    self.outputs.packages.x86_64-linux.streamrip ## [py312 BROKEN]
     winetricks
     kid3
     pavucontrol
     keepassxc
     monero-gui
     xmrig
+    cosmic-comp
+    cosmic-icons
+    cosmic-settings
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji

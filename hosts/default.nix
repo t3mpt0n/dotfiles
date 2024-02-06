@@ -5,6 +5,7 @@ inputs@ {
     nixpkgs-stable,
     ru-ov,
     nix-flatpak,
+    prism_mc,
     ...
 }: let
   inherit (nixpkgs.lib) nixosSystem;
@@ -38,6 +39,13 @@ inputs@ {
       ];
     })
   ];
+
+  prismlauncher = [
+    ({pkgs, ...}: {
+      nixpkgs.overlays = [ prism_mc.overlays.default ];
+      environment.systemPackages = [ pkgs.prismlauncher ];
+    })
+  ];
  overlay-2305 = final: prev: {
    stable = nixpkgs-stable.legacyPackages.${prev.system};
  };
@@ -48,6 +56,7 @@ in {
     modules = [
       ./t3mpt0n
       inputs.chaotic.nixosModules.default
+      inputs.nur.nixosModules.nur
       ../emacs
       {
         home-manager.users.jd = import ../home/profiles/t3mpt0n.nix;
@@ -75,9 +84,15 @@ in {
             owner = "jd";
             group = "wheel";
           };
+          authinfo = {
+            file = ../secrets/authinfo.age;
+            path = "/home/jd/.authinfo";
+            owner = "jd";
+            group = "wheel";
+          };
         };
       }
-    ] ++ sharedModules ++ shared_pc_modules ++ ru-ov_setup ++ hm_setup;
+    ] ++ sharedModules ++ shared_pc_modules ++ ru-ov_setup ++ hm_setup ++ prismlauncher;
   };
 
   t3mpt0n-laptop = nixosSystem {

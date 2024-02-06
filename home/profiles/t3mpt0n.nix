@@ -11,5 +11,6 @@
     ../shell
     ../.
     self.inputs.nix-flatpak.homeManagerModules.nix-flatpak
+    self.inputs.nur.hmModules.nur
   ];
 }

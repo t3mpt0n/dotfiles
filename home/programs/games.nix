@@ -11,9 +11,9 @@
     protontricks
     protonup-qt
     self.outputs.packages.x86_64-linux.attractplus
-    prismlauncher-qt5
     heroic-unwrapped
     gamemode
     libsForQt5.kget
+    mangohud
   ];
 }

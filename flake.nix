@@ -6,6 +6,7 @@
     /* NIX */
     nixpkgs.url = "github:NixOs/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOs/nixpkgs/23.11";
+    nur.url = "github:nix-community/NUR";
 
     /* FLAKE */
     flake-utils.url = "github:numtide/flake-utils";

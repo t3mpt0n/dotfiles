@@ -14,6 +14,7 @@
     ./xdg.nix
     ./vm.nix
     ./cpu.nix
+    ./sound.nix
   ];
   nixpkgs.config.allowUnfreePredicate = d: builtins.elem (lib.getName d) [
     "unrar"
@@ -53,8 +54,8 @@
 
   environment.systemPackages = with pkgs; [
     neovim
+    aircrack-ng
     wget
-    openssh
     git
     htop
     psmisc
@@ -74,7 +75,6 @@
       pip
       xmltodict
     ]))
-    polkit_gnome
     jq
     unzip
     (pkgs.SDL2.override (old: { waylandSupport = true; x11Support = false; openglSupport = true; pipewireSupport = true; }))
@@ -138,7 +138,17 @@
 
   xdg.portal = {
     enable = true;
-    wlr.enable = true;
+    wlr = {
+      enable = true;
+      settings = {
+        screencast = {
+          output_name = "DP-3";
+          max_fps = 60;
+          chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o -or";
+          chooser_type = "simple";
+        };
+      };
+    };
     extraPortals = with pkgs; [ xdg-desktop-portal-gtk xdg-desktop-portal-hyprland ];
   };
 }

@@ -165,20 +165,3 @@
 
   :config
   (setq elfeed-goodies/entry-pane-size 0.5))
-
-(use-package elfeed-org
-  :after elfeed
-  :init
-  (elfeed-org)
-
-  :config
-  (setq rmh-elfeed-org-files (list (expand-file-name "FEEDS.org" user-emacs-directory) (expand-file-name "Org/FEEDS.org" "~/Docs/"))))
-
-(use-package elfeed-autotag
-  :after elfeed
-  :init
-  (elfeed-autotag)
-  (elfeed-apply-hooks-now)
-
-  :config
-  (setq elfeed-autotag-files rmh-elfeed-org-files))

@@ -1,12 +1,19 @@
 #!/run/current-system/sw/bin/bash
 
 set -x
+source "/var/lib/libvirt/hooks/kvm.conf"
 
-virsh nodedev-detach pci_0000_2d_00_0
-virsh nodedev-detach pci_0000_2f_00_4
 
-modprobe -r vfio_pci
+modprobe -r vfio-iommu-type1
+modprobe -r vfio-pci
+modprobe -r vfio
+virsh nodedev-reattach $VIRSH_AUDIO_JACK
+virsh nodedev-reattach $VIRSH_GPU_AUDIO
+virsh nodedev-reattach $VIRSH_GPU_VIDEO
 modprobe amdgpu
+modprobe radeon
+modprobe drm
+modprobe drm_kms_helper
 
 echo "efi-framebuffer.0" > /sys/bus/platform/drivers/efi-framebuffer/bind
 echo 1 > /sys/class/vtconsole/vtcon0/bind

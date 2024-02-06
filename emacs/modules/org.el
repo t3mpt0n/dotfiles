@@ -19,6 +19,7 @@
            "WAIT(w@)" ; Pause Task (My Choice)
            "BLOCKED(b@)" ; Pause Task (Not My Choice)
            "REVIEW(r!)" ; Inspect or Share Time
+           "DELAYED(l!)" ; Pushed to a further date than intended
            "|" ; Remaining Close Task
            "DONE(d@)" ; Normal Completion
            "CANCELED(c@)" ; Not Going to do it
@@ -118,7 +119,7 @@
   :after org
   :config
   (run-with-timer 0 (* 5 60) 'org-alert-enable)
-  (setq alert-default-style 'libnotify
+  (setq alert-default-style 'notifications
         org-alert-interval 100
         org-alert-notify-cutoff 15
         org-alert-after-event-cutoff 15))

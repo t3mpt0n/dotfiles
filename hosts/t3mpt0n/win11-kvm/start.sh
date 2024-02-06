@@ -1,6 +1,7 @@
 #!/run/current-system/sw/bin/bash
 
 set -x
+source "/var/lib/libvirt/hooks/kvm.conf"
 
 killall sway
 
@@ -10,8 +11,16 @@ echo 0 > /sys/class/vtconsole/vtcon1/bind
 echo "efi-framebuffer.0" > /sys/bus/platform/drivers/efi-framebuffer/unbind
 
 modprobe -r amdgpu
+modprobe -r radeon
+modprobe -r drm_kms_helper
+modprobe -r drm
 
-virsh nodedev-detach pci_0000_2d_00_0
-virsh nodedev-detach pci_0000_2f_00_4
+sleep 5
 
-modprobe vfio_pci
+virsh nodedev-detach $VIRSH_GPU_VIDEO
+virsh nodedev-detach $VIRSH_GPU_AUDIO
+virsh nodedev-detach $VIRSH_AUDIO_JACK
+
+modprobe vfio-pci
+modprobe vfio
+modprobe vfio-iommu-type-1

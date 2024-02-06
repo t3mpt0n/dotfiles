@@ -22,7 +22,7 @@ in rec {
     package = emulationstation-de;
     emulators = [
       pkgs.ares
-      pkgs.retroarchFull
+      pkgs.retroarch
       dsda-doom
     ];
     systems = let
@@ -67,7 +67,7 @@ in rec {
         extension = [ ".smc" ".SMC" ".sfc" ".SFC" ] ++ commonExtensions;
         path = "${rompath}/SNES";
         command = {
-          "ares" = {cmd = "ares --fullscreen --system Super Famicom %ROM%";};
+          "ares" = {cmd = "gamescope -W 2560 -H 1440 -w 2560 -h 1440 -r 60 -O DP-3 --xwayland-count 1 --adaptive-sync --fullscreen -- ares --fullscreen --system Super Famicom %ROM%";};
         };
       };
       "n64" = {
@@ -102,7 +102,7 @@ in rec {
         };
       };
       "wiiu" = {
-        emulators = with pkgs; [ cemu ];
+        emulators = with pkgs; [ ];
         fullname = "Nintendo Wii U";
         systemsortname = "06";
         extension = [ ".wua" ".WUA" ] ++ commonExtensions;

@@ -8,5 +8,6 @@
     ./nil.nix
     ./ruby.nix
     ./typst.nix
+    ./java.nix
   ];
 }

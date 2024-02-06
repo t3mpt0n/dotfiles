@@ -529,6 +529,7 @@ Enable editing files over sudo and over SSH.
            "WAIT(w@)" ; Pause Task (My Choice)
            "BLOCKED(b@)" ; Pause Task (Not My Choice)
            "REVIEW(r!)" ; Inspect or Share Time
+           "DELAYED(l!)" ; Pushed to a further date than intended
            "|" ; Remaining Close Task
            "DONE(d@)" ; Normal Completion
            "CANCELED(c@)" ; Not Going to do it
@@ -653,7 +654,7 @@ Like life-alert but on Org mode.
   :after org
   :config
   (run-with-timer 0 (* 5 60) 'org-alert-enable)
-  (setq alert-default-style 'libnotify
+  (setq alert-default-style 'notifications
         org-alert-interval 100
         org-alert-notify-cutoff 15
         org-alert-after-event-cutoff 15))
@@ -849,33 +850,6 @@ Various minor enhancements to Elfeed.
   (setq elfeed-goodies/entry-pane-size 0.5))
 #+end_src
 
-
-*** Feeds
-**** Feeds in an Org File
-Configure all my feeds in an Org file.
-#+begin_src elisp :mkdirp yes :tangle ./modules/media.el
-(use-package elfeed-org
-  :after elfeed
-  :init
-  (elfeed-org)
-
-  :config
-  (setq rmh-elfeed-org-files (list (expand-file-name "FEEDS.org" user-emacs-directory) (expand-file-name "Org/FEEDS.org" "~/Docs/"))))
-#+end_src
-
-**** Auto Tagging
-Auto tag all my feed files.
-#+begin_src elisp :mkdirp yes :tangle ./modules/media.el
-(use-package elfeed-autotag
-  :after elfeed
-  :init
-  (elfeed-autotag)
-  (elfeed-apply-hooks-now)
-
-  :config
-  (setq elfeed-autotag-files rmh-elfeed-org-files))
-#+end_src
-
 * Programming
 ** Code Completion (Enabling Company)
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
@@ -884,9 +858,11 @@ Auto tag all my feed files.
   (global-company-mode)
 
   :config
-  (push 'company-files company-backends)
+  (setq company-backends '((company-files)))
   (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common))
 #+end_src
+
+#+RESULTS:
 
 ** Syntax Highlighting (Tree Sitter)
 #+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
@@ -975,6 +951,7 @@ The code below just imports all the LSP files:
     ./nil.nix
     ./ruby.nix
     ./typst.nix
+    ./java.nix
   ];
 }
 #+end_src
@@ -1012,14 +989,12 @@ And then install it:
   :interpreter "nix"
   :after (eglot smartparens tree-sitter tree-sitter-langs)
   :hook (nix-mode . eglot-ensure)
-
   :config
-  (push '(nix-mode . ("nil" :initializationOptions (:nil
-                                                    (:formatting (:command ["nixpkgs-fmt"])
+  (add-to-list 'eglot-server-programs '(nix-mode . ("nil" :initializationOptions (:nil (:formatting (:command ["nixpkgs-fmt"])
                                                      :nix (:binary "/run/current-system/sw/bin/nix"
                                                            :flake (:autoArchive t
                                                                    :autoEvalInputs t
-                                                                   :nixpkgsInputName "nixpkgs")))))) eglot-server-programs))
+                                                                   :nixpkgsInputName "nixpkgs"))))))))
 #+end_src
 
 *** Emacs Lisp
@@ -1094,7 +1069,7 @@ The config's also pretty simple:
   (python-mode . eglot-ensure)
 
   :config
-  (push '(python-mode . "jedi-language-server") eglot-server-programs))
+  (add-to-list 'eglot-server-programs (python-mode . ("jedi-language-server"))))
 #+end_src
 
 **** Jedi
@@ -1211,7 +1186,7 @@ Now that we have installed both packages let's configure them with eglot:
 (use-package crystal-mode
   :after eglot
   :hook (crystal-mode . eglot-ensure)
-  :config (push '(crystal-mode . ("crystalline")) eglot-server-programs))
+  :config (add-to-list 'eglot-server-programs '(crystal-mode . ("crystalline"))))
 
 (use-package flycheck-crystal :after crystal-mode)
 (use-package inf-crystal :after crystal-mode)
@@ -1257,7 +1232,7 @@ Doesn't that well yet as Typst is a new language.
 
   :config
   (push '(typst "https://github.com/uben0/tree-sitter-typst") treesit-language-source-alist)
-  (push '(typst-ts-mode . ("typst-lsp")) eglot-server-programs))
+  (add-to-list 'eglot-server-programs '(typst-ts-mode . ("typst"))))
 #+end_src
 
 *** Rust
@@ -1289,6 +1264,34 @@ Doesn't that well yet as Typst is a new language.
   :config
   (add-to-list 'major-mode-remap-alist '(rust-mode . rustic-mode))
   (setq rustic-lsp-client 'eglot))
+#+end_src
+
+
+
+*** Java
+**** Installing the [[https://github.com/eclipse-jdtls/eclipse.jdt.ls][Eclipse JDT Java Language Server]], [[https://gradle.org/][Gradle]], [[https://maven.apache.org/][Maven]], and [[https://openjdk.java.net/][OpenJDK]]
+#+begin_src nix :mkdirp yes :tangle ./lsp/java.nix
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
+    maven
+    gradle
+    jdt-language-server
+    jdk
+  ];
+}
+#+end_src
+
+**** Configuration (installing eglot-java)
+#+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
+(use-package eglot-java
+  :mode "\\.java\\'"
+  :after eglot
+  :hook (java-mode . eglot-java-mode))
 #+end_src
 
 * Dired
@@ -1426,6 +1429,15 @@ Peep a file in Dired.
         projectile-switch-project-action #'projectile-dired))
 #+end_src
 
+** AGENix 
+#+begin_src  elisp :mkdirp yes :tangle ./modules/other.el
+(use-package agenix
+  :elpaca
+  ( :host github
+    :repo "t4ccer/agenix.el"
+    :branch "main"
+    :files ("*.el")))
+#+end_src
 * Now, load all the modules!
 #+begin_src elisp :mkdirp yes :tangle ./init.el
 (progn

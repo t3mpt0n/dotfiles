@@ -3,7 +3,7 @@
   (global-company-mode)
 
   :config
-  (push 'company-files company-backends)
+  (setq company-backends '((company-files)))
   (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common))
 
 (use-package tree-sitter
@@ -68,14 +68,12 @@
   :interpreter "nix"
   :after (eglot smartparens tree-sitter tree-sitter-langs)
   :hook (nix-mode . eglot-ensure)
-
   :config
-  (push '(nix-mode . ("nil" :initializationOptions (:nil
-                                                    (:formatting (:command ["nixpkgs-fmt"])
+  (add-to-list 'eglot-server-programs '(nix-mode . ("nil" :initializationOptions (:nil (:formatting (:command ["nixpkgs-fmt"])
                                                      :nix (:binary "/run/current-system/sw/bin/nix"
                                                            :flake (:autoArchive t
                                                                    :autoEvalInputs t
-                                                                   :nixpkgsInputName "nixpkgs")))))) eglot-server-programs))
+                                                                   :nixpkgsInputName "nixpkgs"))))))))
 
 (use-package emacs
   :after (general company smartparens)
@@ -109,7 +107,7 @@
   (python-mode . eglot-ensure)
 
   :config
-  (push '(python-mode . "jedi-language-server") eglot-server-programs))
+  (add-to-list 'eglot-server-programs (python-mode . ("jedi-language-server"))))
 
 (use-package company-jedi
   :after company
@@ -130,7 +128,7 @@
 (use-package crystal-mode
   :after eglot
   :hook (crystal-mode . eglot-ensure)
-  :config (push '(crystal-mode . ("crystalline")) eglot-server-programs))
+  :config (add-to-list 'eglot-server-programs '(crystal-mode . ("crystalline"))))
 
 (use-package flycheck-crystal :after crystal-mode)
 (use-package inf-crystal :after crystal-mode)
@@ -156,7 +154,7 @@
 
   :config
   (push '(typst "https://github.com/uben0/tree-sitter-typst") treesit-language-source-alist)
-  (push '(typst-ts-mode . ("typst-lsp")) eglot-server-programs))
+  (add-to-list 'eglot-server-programs '(typst-ts-mode . ("typst"))))
 
 (use-package rust-mode)
 (use-package rustic
@@ -167,3 +165,8 @@
   :config
   (add-to-list 'major-mode-remap-alist '(rust-mode . rustic-mode))
   (setq rustic-lsp-client 'eglot))
+
+(use-package eglot-java
+  :mode "\\.java\\'"
+  :after eglot
+  :hook (java-mode . eglot-java-mode))

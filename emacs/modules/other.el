@@ -38,3 +38,10 @@
         projectile-file-exists-remote-cache-expire (* 10 60)
         projectile-completion-system 'ivy
         projectile-switch-project-action #'projectile-dired))
+
+(use-package agenix
+  :elpaca
+  ( :host github
+    :repo "t4ccer/agenix.el"
+    :branch "main"
+    :files ("*.el")))

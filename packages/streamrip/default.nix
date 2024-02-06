@@ -22,18 +22,21 @@
   appdirs,
   m3u8,
   rich,
-  aiolimiter
+  aiolimiter,
+  pytest-asyncio,
+  pytest-mock,
+  click-help-colors
 }: buildPythonPackage rec {
   pname = "streamrip";
   version = "dev";
   format = "pyproject";
-  disabled = pythonOlder "3.8";
+  disabled = pythonOlder "3.10";
 
   src = fetchFromGitHub {
     owner = "nathom";
     repo = pname;
     rev = version;
-    sha256 = "sha256-qVUEjWXKxGe07v421eHvxQzc4CGubKAGvw5zJ4e9GHQ=";
+    sha256 = "sha256-jt1LngsTqvl1lqNvi4G2CEM8mXrKy+3C/IJrnKTiFo8=";
   };
 
   doCheck = false;
@@ -59,6 +62,9 @@
     aiohttp
     aiodns
     rich
+    pytest-asyncio
+    pytest-mock
+    click-help-colors
   ];
 
   meta = with lib; {

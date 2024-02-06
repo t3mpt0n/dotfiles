@@ -14,4 +14,5 @@ in {
   "doom1.wad.bfg.age".publicKeys = all_t3mpt0n;
   "doom2.wad.age".publicKeys = all_t3mpt0n;
   "spotify.age".publicKeys = all_t3mpt0n;
+  "authinfo.age".publicKeys = all_t3mpt0n;
 }
