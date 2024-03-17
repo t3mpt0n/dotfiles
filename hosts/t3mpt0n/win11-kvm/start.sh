@@ -19,7 +19,7 @@ sleep 5
 
 virsh nodedev-detach $VIRSH_GPU_VIDEO
 virsh nodedev-detach $VIRSH_GPU_AUDIO
-virsh nodedev-detach $VIRSH_AUDIO_JACK
+virsh nodedev-detach $AUDIO_JACK
 
 modprobe vfio-pci
 modprobe vfio

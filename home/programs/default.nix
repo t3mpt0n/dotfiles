@@ -19,17 +19,23 @@
 
   home.packages = with pkgs; [
     discord-canary
-    webcord
     betterdiscordctl
+    mono
+    nicotine-plus
     betterdiscord-installer
     corectrl /* Control AMDGPU Profiles */
     home-manager
     dotnet-sdk
-#    self.outputs.packages.x86_64-linux.streamrip ## [py312 BROKEN]
+    tauon
+    python312Packages.deemix
+    stremio
     winetricks
     kid3
+    retrofe
+    aria
     pavucontrol
     keepassxc
+    aria
     monero-gui
     xmrig
     cosmic-comp
@@ -39,6 +45,7 @@
     noto-fonts-cjk
     noto-fonts-emoji
     gimp-with-plugins
+    inkscape-with-extensions
     (nerdfonts.override { fonts = [ "FiraCode" "AnonymousPro" "3270" "Iosevka" "NerdFontsSymbolsOnly" ]; })
   ];
 }

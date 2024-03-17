@@ -1,4 +1,3 @@
-(use-package emms-info-mediainfo :after emms)
 (use-package emms
   :after general
   :init
@@ -66,6 +65,7 @@
 ")
           (message "%s" "MPD not connected")
         (message "%s" (replace-regexp-in-string "\n" "" (format "%s" (shell-command-to-string (concat mpd_hostport " volume -5 | awk 'NR==3 { print $1\" \"$2 }' | sed 's/v/V/g'"))))))))
+(use-package emms-info-mediainfo :after emms)
 
   (emms-player-set emms-player-mpv
                    'regex
@@ -165,3 +165,8 @@
 
   :config
   (setq elfeed-goodies/entry-pane-size 0.5))
+
+(use-package elfeed-org
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org")))

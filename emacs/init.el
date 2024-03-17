@@ -6,4 +6,5 @@
   (load "/etc/nixos/emacs/modules/media.el")
   (load "/etc/nixos/emacs/modules/prgm.el")
   (load "/etc/nixos/emacs/modules/dired.el")
-  (load "/etc/nixos/emacs/modules/other.el"))
+  (load "/etc/nixos/emacs/modules/other.el")
+  (load "/etc/nixos/emacs/modules/email.el"))

@@ -6,13 +6,13 @@
   setuptools
 }: buildPythonPackage rec {
   pname = "simple-term-menu";
-  version = "1.6.1";
+  version = "1.6.4";
   format = "pyproject";
   disabled = pythonOlder "3.5";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "sha256-NotBWNF0m4aFUvtsBUuDAXhQhscaclPayEBMw8stMOg=";
+    sha256 = "sha256-vpxdvY3xKkBLFM2Oldb8AtWMYOJVX2Xd3kF3fEh/s7k=";
   };
   propagatedBuildInputs = [ setuptools ];
 

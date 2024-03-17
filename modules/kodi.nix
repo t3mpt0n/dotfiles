@@ -6,7 +6,8 @@
 }: {
   users.extraUsers.kodi.isNormalUser = true;
   nixpkgs.config.kodi.enableAdvancedLauncher = true;
-  environment.systemPackages = [
-    pkgs.kodi-wayland
+  environment.systemPackages = with pkgs; [
+    kodi-wayland
+    kodi-cli
   ];
 }

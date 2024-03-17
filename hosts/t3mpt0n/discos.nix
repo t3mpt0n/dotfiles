@@ -102,6 +102,7 @@
       fileSystems = [ "/" ];
     };
     fstrim.enable = lib.mkDefault true;
+    udisks2.enable = true;
   };
 
 }

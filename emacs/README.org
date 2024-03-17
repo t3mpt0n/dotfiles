@@ -665,7 +665,6 @@ Integrate EMMS & Elfeed to play YouTube videos from RSS.
 ** EMMS (Music, Movies)
 EMMS is the best multimedia system available for Emacs.
 #+begin_src elisp :mkdirp yes :tangle ./modules/media.el
-(use-package emms-info-mediainfo :after emms)
 (use-package emms
   :after general
   :init
@@ -737,6 +736,7 @@ EMMS can integrate with MPD pretty well.
 ")
           (message "%s" "MPD not connected")
         (message "%s" (replace-regexp-in-string "\n" "" (format "%s" (shell-command-to-string (concat mpd_hostport " volume -5 | awk 'NR==3 { print $1\" \"$2 }' | sed 's/v/V/g'"))))))))
+(use-package emms-info-mediainfo :after emms)
 #+end_src
 
 *** MPV
@@ -848,6 +848,14 @@ Various minor enhancements to Elfeed.
 
   :config
   (setq elfeed-goodies/entry-pane-size 0.5))
+#+end_src
+
+*** Org Mode
+#+begin_src elisp :mkdirp yes :tangle ./modules/media.el
+(use-package elfeed-org
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed.org")))
 #+end_src
 
 * Programming
@@ -1378,6 +1386,26 @@ Peep a file in Dired.
                                 ("torrent" . "qbittorrent"))))
 #+end_src
 
+* Email Client (GNUs)
+#+begin_src elisp :mkdirp yes :tangle ./modules/email.el
+(use-package gnus
+  :elpaca nil
+  :init
+  (setq user-mail-address "t3mpt0n@gmail.com"
+        user-full-name "t3mpt0n"
+
+        gnus-select-method
+        '(nnimap "gmail"
+                 (nnimap-address "imap.gmail.com")
+                 (nnimap-server-port "imaps")
+                 (nnimap-stream ssl))
+
+        message-send-mail-function 'smtpmail-send-it
+        smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 587
+        gnus-agent nil))
+#+end_src
+
 * Other Useful Programs
 ** VTerm
 #+begin_src elisp :mkdirp yes :tangle ./modules/other.el
@@ -1448,5 +1476,6 @@ Peep a file in Dired.
   (load "/etc/nixos/emacs/modules/media.el")
   (load "/etc/nixos/emacs/modules/prgm.el")
   (load "/etc/nixos/emacs/modules/dired.el")
-  (load "/etc/nixos/emacs/modules/other.el"))
+  (load "/etc/nixos/emacs/modules/other.el")
+  (load "/etc/nixos/emacs/modules/email.el"))
 #+end_src

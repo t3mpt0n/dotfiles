@@ -190,7 +190,7 @@ in {
         SystemEMUS = conf:
           imap0 (n: v: v.emulators) (lib.attrValues conf);
       in [cfg.package] ++ cfg.emulators ++ (flatten (SystemEMUS cfg.systems));
-    home.file.".emulationstation/custom_systems/es_systems.xml" =
+    home.file."ES-DE/custom_systems/es_systems.xml" =
       let
         confcomms = conf:
           imap0 (n: v: "<command label=\"${v.label}\">" + "${v.cmd}" + "</command>\n") (lib.attrValues conf);

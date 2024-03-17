@@ -90,6 +90,16 @@ in {
             owner = "jd";
             group = "wheel";
           };
+          elfeed = {
+            file = ../secrets/elfeeds.org;
+            path = "/home/jd/.emacs.d/elfeed.org";
+            owner = "jd";
+            group = "wheel";
+          };
+          pyload = {
+            file = ../secrets/pyload.age;
+            group = "pyload";
+          };
         };
       }
     ] ++ sharedModules ++ shared_pc_modules ++ ru-ov_setup ++ hm_setup ++ prismlauncher;

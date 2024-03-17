@@ -3,13 +3,12 @@
 set -x
 source "/var/lib/libvirt/hooks/kvm.conf"
 
-
+virsh nodedev-reattach $VIRSH_GPU_VIDEO
+virsh nodedev-reattach $VIRSH_GPU_AUDIO
+virsh nodedev-reattach $AUDIO_JACK
 modprobe -r vfio-iommu-type1
 modprobe -r vfio-pci
 modprobe -r vfio
-virsh nodedev-reattach $VIRSH_AUDIO_JACK
-virsh nodedev-reattach $VIRSH_GPU_AUDIO
-virsh nodedev-reattach $VIRSH_GPU_VIDEO
 modprobe amdgpu
 modprobe radeon
 modprobe drm

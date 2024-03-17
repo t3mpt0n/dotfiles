@@ -15,4 +15,6 @@ in {
   "doom2.wad.age".publicKeys = all_t3mpt0n;
   "spotify.age".publicKeys = all_t3mpt0n;
   "authinfo.age".publicKeys = all_t3mpt0n;
+  "elfeeds.org".publicKeys = all;
+  "pyload.age".publicKeys = hosts;
 }

@@ -3,6 +3,7 @@
   inputs,
   lib,
   config,
+  self,
   ...
 }: {
   imports = [
@@ -15,15 +16,24 @@
     ./vm.nix
     ./cpu.nix
     ./sound.nix
+    ./network.nix
   ];
-  nixpkgs.config.allowUnfreePredicate = d: builtins.elem (lib.getName d) [
-    "unrar"
-    "discord"
-    "discord-canary"
-    "steam"
-    "steam-run"
-    "steam-original"
-  ];
+  nixpkgs.config = {
+    allowUnfreePredicate = d: builtins.elem (lib.getName d) [
+      "unrar"
+      "discord"
+      "libretro-fbalpha2012-unstable-2023-11-01"
+      "discord-canary"
+      "soulseekqt"
+      "steam"
+      "steam-run"
+      "steam-original"
+      "lha"
+    ];
+    permittedInsecurePackages = [
+      "freeimage-unstable-2021-11-01"
+    ];
+  };
 
   nix.settings.sandbox = true;
 
@@ -59,15 +69,25 @@
     git
     htop
     psmisc
+    gst_all_1.gstreamer
+    gst_all_1.gst-plugins-ugly
+    gst_all_1.gst-plugins-good
+    gst_all_1.gst-plugins-bad
+    gst_all_1.gst-plugins-base
+    gst_all_1.gst-vaapi
     doas
+    lhasa
+    lha
     p7zip
     gnupg
     pinentry
+    inetutils
     gnumake
     usbutils
     libgccjit
     lsb-release
     xdg-utils
+    self.outputs.packages.x86_64-linux.extract-xiso
     file
     lm_sensors
     (python311.withPackages (p: with p; [
