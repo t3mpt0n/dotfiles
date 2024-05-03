@@ -5,9 +5,11 @@
   environment.systemPackages = with pkgs; [
     alsa-lib
     alsa-utils
+    alsa-oss
     pulsemixer
     pulseaudio
     ffmpeg
+    openal
   ];
 
   services.pipewire = {

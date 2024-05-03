@@ -20,4 +20,15 @@
       ];
     };
   };
+
+  environment.systemPackages = let
+    steam-run =  (pkgs.steam.override {
+      extraLibraries = pkgs: with pkgs; [
+        fuse
+      ];
+    }).run;
+    in [
+      steam-run
+      pkgs.steamtinkerlaunch
+    ];
 }

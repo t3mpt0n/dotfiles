@@ -26,9 +26,9 @@
         emms-player-list '(emms-player-mpd emms-player-mpv)
         emms-info-functions '(emms-info-mpd emms-info-mediainfo)
 
-        emms-player-mpd-server-name "0.0.0.0"
-        emms-player-mpd-server-port "6601"
-        mpc-host "0.0.0.0:6601")
+        emms-player-mpd-server-name "127.0.0.1"
+        emms-player-mpd-server-port "6600"
+        mpc-host "127.0.0.1:6600")
 
   (emms-player-mpd-connect)
   (emms-player-mpd-update-all-reset-cache)

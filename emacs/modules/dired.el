@@ -43,8 +43,9 @@
 
 (eval-after-load "dired-aux"
   '(progn
-     (add-to-list 'dired-compress-file-suffixes '("\\.zip\\'" ".zip" "unzip %i"))
-     (add-to-list 'dired-compress-file-suffixes '("\\.rar\\'" ".rar" "unrar x %i"))))
+     (add-to-list 'dired-compress-file-suffixes '("\\.zip\\'" ".zip" "unzip %i -d %i.xtr"))
+     (add-to-list 'dired-compress-file-suffixes '("\\.rar\\'" ".rar" "mkdir %i.xtr && unrar x %i %i.xtr"))
+     (add-to-list 'dired-compress-file-suffixes '("\\.7z\\'" ".7z" "7z x %i -o%i.xtr"))))
 
 (use-package dired-open
   :config

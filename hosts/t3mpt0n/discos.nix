@@ -38,60 +38,40 @@
       fisys = "btrfs";
       ssdopts = [ "noatime" "relatime" "compress=zstd" "ssd" "space_cache=v2" ]; # `space_cache=v2` -> btrfs exclusive.
       hddopts = [ "defaults" "noatime" "autodefrag" "compress=zstd" "commit=120" ];
+      fSSD = ({ dev ? "/dev/disk/by-uuid/4765ece6-5cda-4ef0-ba1f-0a83017a9c74"
+              , fs ? "btrfs"
+              , subvol ? "@"
+              , opts ? ssdopts ++ ["subvol=${subvol}"]}: {
+                device = dev;
+                fsType = fs;
+                options = opts;
+              });
+      fHDD = ({ dev ? "/dev/disk/by-uuid/20ae7037-8594-4de3-93dc-95c49d08a9fb"
+              , fs ? "btrfs"
+              , subvol ? "@"
+              , opts ? hddopts ++ ["subvol=${subvol}"]}: {
+                device = dev;
+                fsType = fs;
+                options = opts;
+              });
+
     in {
       /* SSD */
-      "/" = {
-        device = "${fsdisk}";
-        fsType = "${fisys}";
-        options = ssdopts ++ [ "subvol=@" ];
-      };
-      "/home" = {
-        device = "${fsdisk}";
-        fsType = "${fisys}";
-        options = ssdopts ++ [ "subvol=@home" ];
-      };
-      "/swap" = {
-        device = "${fsdisk}";
-        fsType = "${fisys}";
-        options = ssdopts ++ [ "subvol=@swap" ];
-      };
-      "/tmp" = {
-        device = "${fsdisk}";
-        fsType = "${fisys}";
-        options = ssdopts ++ [ "subvol=@tmp" ];
-      };
-      "/.snapshots" = {
-        device = "${fsdisk}";
-        fsType = "${fisys}";
-        options = ssdopts ++ [ "subvol=@snapshots" ];
-      };
-      "/etc/nixos" = {
-        device = "${fsdisk}";
-        fsType = "${fisys}";
-        options = ssdopts ++ [ "subvol=@nixconfig" ];
-      };
+      "/" = fSSD { subvol = "@";};
+      "/home" = fSSD { subvol = "@home"; };
+      "/swap" = fSSD { subvol = "@swap"; };
+      "/tmp" = fSSD { subvol = "@tmp"; };
+      "/nix" = fSSD { subvol = "@nix"; };
+      "/etc/nixos" = fSSD { subvol = "@nixconfig"; };
 
+      ## Games
+      "/home/jd/Games" = fSSD { subvol = "@home/jd/.local/@games"; };
+      
       /* HDDs */
-      "/mnt/dhp" = {
-        device = "${bigdisk}";
-        fsType = "${hddfs}";
-        options = hddopts ++ [ "subvol=@" ];
-      };
-      "/mnt/dhp/.snapshots" = {
-        device = "${bigdisk}";
-        fsType = "${hddfs}";
-        options = hddopts ++ [ "subvol=@snapshots" ];
-      };
-      "/mnt/dhp/Backups" = {
-        device = "${bigdisk}";
-        fsType = "${hddfs}";
-        options = hddopts ++ [ "subvol=@backup" ];
-      };
-      "/mnt/dhp/media" = {
-        device = "${bigdisk}";
-        fsType = "${hddfs}";
-        options = hddopts ++ [ "subvol=@media" ];
-      };
+      "/mnt/dhp" = fHDD { subvol = "@"; };
+      "/mnt/dhp/.snapshots" = fHDD { subvol = "@snapshots"; };
+      "/mnt/dhp/Backups" = fHDD { subvol = "@backup"; };
+      "/mnt/dhp/media" = fHDD { subvol = "@media"; };
     };
   swapDevices = [ { device = "/swap/swapfile"; } ];
 

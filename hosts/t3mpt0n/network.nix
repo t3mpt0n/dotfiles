@@ -4,23 +4,17 @@
   config,
   ...
 }: {
+  environment.systemPackages = with pkgs; [
+    gftp
+  ];
+
   networking = {
     firewall = {
       enable = true;
       allowedTCPPorts = [ 65017 65018 ];
+      trustedInterfaces = [ "virbr0" "enp42s0" ];
     };
 
     nftables.enable = true;
   };
-
-  services.pyload = {
-    enable = true;
-    user = config.users.users.jd.name;
-    group = "pyload";
-    port = 8967;
-    credentialsFile = config.age.secrets.pyload.path;
-    downloadDirectory = config.users.users.jd.home;
-  };
-
-  users.users.jd.extraGroups = lib.mkIf config.services.pyload.enable [ "pyload" ];
 }

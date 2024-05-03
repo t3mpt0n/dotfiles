@@ -6,7 +6,6 @@
 }: {
   wayland.windowManager.hyprland = {
     enable = true;
-    enableNvidiaPatches = false;
     settings = {
       monitor = [
         "HDMI-A-1,1680x1050@59.95,0x320,1"

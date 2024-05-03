@@ -14,6 +14,14 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+    homebrew = {
+      url = "/etc/nixos/packages/homebrew";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    gaming = {
+      url = "/etc/nixos/packages/gaming";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     /* HOME MANAGER */
     hm = {
@@ -102,6 +110,7 @@
           bluetooth = import ./modules/bluetooth.nix;
           android = import ./modules/android.nix;
           kodi = import ./modules/kodi.nix;
+          gamepads = import ./modules/gamepads;
         };
       };
     };

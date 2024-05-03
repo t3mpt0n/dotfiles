@@ -10,7 +10,7 @@
     ./mpv.nix
     ./pass.nix
     ./mako.nix
-    ./thunar.nix
+    # ./thunar.nix
     ./obs.nix
     ./browser.nix
     ./flatpak.nix
@@ -18,11 +18,16 @@
   ];
 
   home.packages = with pkgs; [
-    discord-canary
+    discord
+    webcord
+    self.inputs.homebrew.outputs.packages.x86_64-linux.libray
+    dex
     betterdiscordctl
     mono
     nicotine-plus
-    betterdiscord-installer
+    (pkgs.betterdiscord-installer.overrideAttrs {
+      version = "1.10.1";
+    })
     corectrl /* Control AMDGPU Profiles */
     home-manager
     dotnet-sdk
@@ -32,6 +37,8 @@
     winetricks
     kid3
     retrofe
+    libsForQt5.dolphin
+    libsForQt5.dolphin-plugins
     aria
     pavucontrol
     keepassxc
@@ -44,7 +51,7 @@
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
-    gimp-with-plugins
+    gimp
     inkscape-with-extensions
     (nerdfonts.override { fonts = [ "FiraCode" "AnonymousPro" "3270" "Iosevka" "NerdFontsSymbolsOnly" ]; })
   ];

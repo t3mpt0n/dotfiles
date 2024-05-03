@@ -15,6 +15,8 @@
         signByDefault = true;
       };
 
+      lfs.enable = true;
+
       extraConfig = {
         core = {
           editor = "emacsclient -c -a 'emacs'";

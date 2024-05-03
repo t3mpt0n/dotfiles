@@ -1,10 +1,11 @@
 {
   pkgs,
+  inputs,
   ...
 }: {
   programs.waybar = {
     enable = true;
-    package = pkgs.waybar;
+    package = inputs.nixpkgs-stable.outputs.legacyPackages.x86_64-linux.waybar;
 
     settings = {
       mainBar = {

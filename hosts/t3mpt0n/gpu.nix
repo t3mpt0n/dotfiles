@@ -30,11 +30,11 @@
       vulkan-loader
       glxinfo
       vulkan-tools
-      amdvlk
+      # amdvlk
     ];
     extraPackages32 = with pkgs.driversi686Linux; [
       glxinfo
-      amdvlk
+      # amdvlk
     ];
   };
 

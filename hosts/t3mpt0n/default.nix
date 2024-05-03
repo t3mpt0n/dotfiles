@@ -5,7 +5,9 @@
   config,
   self,
   ...
-}: {
+}: let
+  inherit (self.inputs.homebrew.packages.x86_64-linux) wut-tools iso2god-rs;
+in {
   imports = [
     ./hardware-configuration.nix
     ./nextcloud.nix
@@ -15,7 +17,8 @@
     ./xdg.nix
     ./vm.nix
     ./cpu.nix
-    ./sound.nix
+    # ./mpd.nix
+    #    ./sound.nix
     ./network.nix
   ];
   nixpkgs.config = {
@@ -67,8 +70,16 @@
     aircrack-ng
     wget
     git
+    gimx
+    arduino
+    arduino-cli
+    avrdude
     htop
+    cdrtools
     psmisc
+    connman
+    connman-gtk
+    glfw-wayland-minecraft
     gst_all_1.gstreamer
     gst_all_1.gst-plugins-ugly
     gst_all_1.gst-plugins-good
@@ -77,6 +88,7 @@
     gst_all_1.gst-vaapi
     doas
     lhasa
+    xdelta
     lha
     p7zip
     gnupg
@@ -88,6 +100,8 @@
     lsb-release
     xdg-utils
     self.outputs.packages.x86_64-linux.extract-xiso
+    wut-tools
+    iso2god-rs
     file
     lm_sensors
     (python311.withPackages (p: with p; [
@@ -108,6 +122,13 @@
     unrar
     tree-sitter-grammars.tree-sitter-nix
     tor-browser
+    libsForQt5.qt5ct
+    libsForQt5.breeze-qt5
+    libsForQt5.breeze-icons
+    kdePackages.breeze
+    kdePackages.breeze-icons
+    dotnet-runtime_7
+    dotnet-aspnetcore_7
   ];
 
   environment = {
@@ -115,6 +136,8 @@
       DOTNET_ROOT = "${pkgs.dotnet-sdk}";
     };
   };
+
+  qt.platformTheme = "qt5ct";
 
   security = { /* DOAS NOT SUDO */
     doas = {

@@ -11,11 +11,13 @@
       musicDirectory = "/mnt/dhp/media/Audio/Music";
 
       network = {
-        listenAddress = "0.0.0.0";
-        port = 6601;
+        listenAddress = "127.0.0.1";
+        port = 6600;
+        startWhenNeeded = true;
       };
 
       extraConfig = ''
+      db_file "/home/jd/.local/share/mpd/database"
       audio_output {
         type  "pipewire"
         name  "Pipewire Sound Server"

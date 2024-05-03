@@ -1,7 +1,6 @@
 pargs@{ config, self', inputs', pkgs, system, ... }:
 with pkgs; rec {
   wofi-pass = callPackage ./wofi-pass {};
-  emulationstation-de = callPackage ./es-de {};
   simple-term-menu = python311Packages.callPackage ./simple-term-menu {};
   streamrip = python311Packages.callPackage ./streamrip { inherit simple-term-menu; };
   nestopia = callPackage ./nestopia {};
@@ -11,7 +10,6 @@ with pkgs; rec {
   attractplus = callPackage ./attractplus {};
   redream = callPackage ./redream {};
   blastem = callPackage ./blastem {};
-  attract = callPackage ./attract {};
   extract-xiso = callPackage ./extract-xiso {};
 
   /* TMUX PLUGINS */

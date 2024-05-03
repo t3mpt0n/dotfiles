@@ -6,7 +6,8 @@
   ...
 }: {
   home.packages = with pkgs; [
-    swaybg
+    swww
+    waypaper
     swayidle
     swaylock
     self.outputs.packages.x86_64-linux.sway-alternating-layout
@@ -27,12 +28,10 @@
         "${mon0}" = {
           mode = "${res0}@60Hz";
           position = "0,320";
-          bg = "${walldir}${res0}/Ginger\ Bread.jpg fill";
         };
         "${mon1}" = {
           mode = "${res1}@165Hz";
           position = "1680,0";
-          bg = "${walldir}${res1}/Sunshine\ Reggae.png fill";
           adaptive_sync = "on";
         };
       };
@@ -65,6 +64,7 @@
         { command = "corectrl"; }
         { command = "nix flake archive /etc/nixos"; always = true; }
         { command = "${self.outputs.packages.x86_64-linux.sway-alternating-layout}/bin/swayi3-alternating-layout"; }
+        { command = "swww-daemon; swww img -o HDMI-A-1 /mnt/dhp/media/Images/Wallpaper/1680x1050/Manhattan\ Sunset.jpg; swww img -o DP-3 /mnt/dhp/media/Images/Wallpaper/2560x1440/Emptiness.jpg";}
       ];
       input = {
         "type:keyboard" = {

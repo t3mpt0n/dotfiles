@@ -20,13 +20,16 @@ inputs@ {
   ];
   shared_pc_modules = with self.nixosModules; [
     android
-    steam
     kodi
     bluetooth
   ];
   hm_setup = [
     { home-manager.useGlobalPkgs = true; }
     hm.nixosModules.home-manager
+  ];
+  gaming_setup = with self.nixosModules; [
+    steam
+    gamepads
   ];
   ru-ov_setup = [
     ({pkgs, ...}: {
@@ -98,11 +101,16 @@ in {
           };
           pyload = {
             file = ../secrets/pyload.age;
-            group = "pyload";
           };
         };
       }
-    ] ++ sharedModules ++ shared_pc_modules ++ ru-ov_setup ++ hm_setup ++ prismlauncher;
+    ]
+    ++ sharedModules
+    ++ shared_pc_modules
+    ++ gaming_setup
+    ++ ru-ov_setup
+    ++ hm_setup
+    ++ prismlauncher;
   };
 
   t3mpt0n-laptop = nixosSystem {

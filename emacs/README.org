@@ -697,9 +697,9 @@ EMMS is the best multimedia system available for Emacs.
 *** MPD
 EMMS can integrate with MPD pretty well.
 #+begin_src elisp :mkdirp yes :tangle ./modules/media.el
-        emms-player-mpd-server-name "0.0.0.0"
-        emms-player-mpd-server-port "6601"
-        mpc-host "0.0.0.0:6601")
+        emms-player-mpd-server-name "127.0.0.1"
+        emms-player-mpd-server-port "6600"
+        mpc-host "127.0.0.1:6600")
 
   (emms-player-mpd-connect)
   (emms-player-mpd-update-all-reset-cache)
@@ -1359,8 +1359,9 @@ Peep a file in Dired.
 #+begin_src elisp :mkdirp yes :tangle ./modules/dired.el
 (eval-after-load "dired-aux"
   '(progn
-     (add-to-list 'dired-compress-file-suffixes '("\\.zip\\'" ".zip" "unzip %i"))
-     (add-to-list 'dired-compress-file-suffixes '("\\.rar\\'" ".rar" "unrar x %i"))))
+     (add-to-list 'dired-compress-file-suffixes '("\\.zip\\'" ".zip" "unzip %i -d %i.xtr"))
+     (add-to-list 'dired-compress-file-suffixes '("\\.rar\\'" ".rar" "mkdir %i.xtr && unrar x %i %i.xtr"))
+     (add-to-list 'dired-compress-file-suffixes '("\\.7z\\'" ".7z" "7z x %i -o%i.xtr"))))
 #+end_src
 
 ** Open File Extensions

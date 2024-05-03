@@ -5,37 +5,26 @@
   self,
   ...
 }: let
-  inherit (pkgs) fetchFromGitHub fetchFromGitLab;
+  inherit (pkgs) fetchurl fetchzip fetchFromGitHub fetchFromGitLab appimageTools;
   inherit (self.outputs.packages.x86_64-linux) nestopia dsda-doom;
-  fceux = (pkgs.fceux.overrideAttrs (oldAttrs: rec {
-    version = "2.6.6";
-    src = fetchFromGitHub {
-      owner = "TASEmulators";
-      repo = "fceux";
-      rev = "v${version}";
-      sha256 = "sha256-Wp23oLapMqQtL2DCkm2xX1vodtEr/XNSOErf3nrFRQs=";
-    };
-  }));
-
-  es-de = (pkgs.emulationstation-de.overrideAttrs (oldAttrs: rec {
-    version = "3.0.0";
-    src = fetchFromGitLab {
-      owner = "es-de";
-      repo = "emulationstation-de";
-      rev = "v${version}";
-      sha256 = "sha256-BAfsRXh1o5AUPCEaMcrJwOQOOdSENdmGpl3wjbsCDzM=";
-    };
-    installPhase = ''
-    '';
-  }));
+  inherit (inputs.gaming.packages.x86_64-linux) es-de;
   gamescopecmd = "gamescope -W 2560 -H 1440 -w 2560 -h 1440 -r 60 -O DP-3 --xwayland-count 1 --adaptive-sync --fullscreen";
+  rpcs3 = appimageTools.wrapType2 {
+    name = "rpcs3";
+    src = fetchurl {
+      url = "https://github.com/RPCS3/rpcs3-binaries-linux/releases/download/build-e32ed90d21f3f2fd7227653f59c6843e2f30e1fd/rpcs3-v0.0.31-16209-e32ed90d_linux64.AppImage";
+      hash = "sha256-T5CLQD1+n17f+dZDZ6TcOI+WJHpTlafiIuIifaPhJjY=";
+    };
+    extraPkgs = p: with p; [ kdePackages.qtbase kdePackages.qtmultimedia openal glew vulkan-headers vulkan-loader libpng ffmpeg libevdev zlib libusb1 curl wolfssl python3 pugixml SDL2 flatbuffers llvm_16 xorg.libSM];
+  };
+
 in rec {
   programs.emulationstation = {
     enable = true;
     package = es-de;
     emulators = [
       pkgs.ares
-      pkgs.retroarchFull
+      pkgs.retroarch
       pkgs.emulationstation
       dsda-doom
       pkgs.mednafen
@@ -95,6 +84,7 @@ in rec {
         command = {
           "Simple64 (Flatpak)" = {cmd = "flatpak run --filesystem=host:ro io.github.simple64.simple64 --nogui %ROM%";};
           "RMG (Flatpak)" = {cmd = "flatpak run --filesystem=host com.github.Rosalie241.RMG -f -n %ROM%";};
+          "Mupen64Plus-Next (RetroArch)" = {cmd = "retroarch -L parallel_n64_libretro.so %ROM%";};
         };
       };
       "gc" = {
@@ -118,7 +108,7 @@ in rec {
         };
       };
       "wiiu" = {
-        emulators = with pkgs; [ ];
+        emulators = with pkgs; [ cemu ];
         fullname = "Nintendo Wii U";
         systemsortname = "nint2012";
         extension = [ ".wua" ".WUA" ] ++ commonExtensions;
@@ -128,7 +118,7 @@ in rec {
         };
       };
       "switch" = {
-        emulators = with pkgs; [yuzu-early-access ryujinx];
+        emulators = with pkgs; [ ryujinx ];
         fullname = "Nintendo Switch";
         systemsortname = "nint2017";
         extension = [ ".xci" ".XCI" ".nsp" ".NSP" ] ++ commonExtensions;
@@ -145,8 +135,43 @@ in rec {
         extension = [ ".bin" ".BIN" ".md" ".MD" ".gen" ".GEN" ] ++ commonExtensions;
         path = "${rompath}/MD";
         command = {
-          "RetroArch (Blastem)" = { cmd = "retroarch -L ${pkgs.retroarchFull.outPath}/lib/retroarch/cores/blastem_libretro.so %ROM%"; };
-          "RetroArch (Genesis Plus GX)" = { cmd = "retroarch -L ${pkgs.retroarchFull.outPath}/lib/retroarch/cores/genesis_plus_gx_libretro.so %ROM%"; };
+          "RetroArch (Blastem)" = { cmd = "retroarch -L blastem_libretro.so %ROM%"; };
+          "RetroArch (Genesis Plus GX)" = { cmd = "retroarch -L genesis_plus_gx_libretro.so %ROM%"; };
+        };
+      };
+      "model1" = {
+        emulators = with pkgs; [];
+        fullname = "Sega Model 1";
+        systemsortname = "sega1992";
+        extension = commonExtensions;
+        path = "${rompath}/MODEL1";
+        command = {
+          "MAME (Standalone)" = {
+            cmd = "mame %BASENAME%";
+          };
+        };
+      };
+      "model3" = {
+        emulators = with pkgs; [];
+        fullname = "Sega Model 3";
+        systemsortname = "sega1996";
+        extension = commonExtensions;
+        path = "${rompath}/MODEL3";
+        command = {
+          "MAME (Standalone)" = {
+            cmd = "mame %BASENAME%";
+          };
+        };
+      };
+      "segacd" = {
+        emulators = with pkgs; [];
+        fullname = "Sega CD";
+        systemsortname = "sega1991";
+        extension = [ ".bin" ".BIN" ".chd" ".CHD" ".cue" ".CUE" ] ++ commonExtensions;
+        path = "${rompath}/Sega CD";
+        command = {
+          "RetroArch (Blastem)" = { cmd = "retroarch -L blastem_libretro.so %ROM%"; };
+          "RetroArch (Genesis Plus GX)" = { cmd = "retroarch -L genesis_plus_gx_libretro.so %ROM%"; };
         };
       };
       "sega32xna" = {
@@ -156,7 +181,7 @@ in rec {
         extension = [ ".32x" ] ++ commonExtensions;
         path = "${rompath}/32X";
         command = {
-          "RetroArch (PicoDrive)" = { cmd = "retroarch -L ${pkgs.retroarchFull.outPath}/lib/retroarch/cores/picodrive_libretro.so %ROM%"; };
+          "RetroArch (PicoDrive)" = { cmd = "retroarch -L picodrive_libretro.so %ROM%"; };
         };
       };
       "saturn" = {
@@ -166,7 +191,7 @@ in rec {
         extension = [ ".bin" ".BIN" ".cue" ".CUE" ".chd" ".CHD" ] ++ commonExtensions;
         path = "${rompath}/Saturn";
         command = {
-          "RetroArch (Beetle Saturn)" = { cmd = "retroarch -L ${pkgs.retroarchFull.outPath}/lib/retroarch/cores/mednafen_saturn_libretro.so %ROM%"; };
+          "RetroArch (Beetle Saturn)" = { cmd = "retroarch -L mednafen_saturn_libretro.so %ROM%"; };
         };
       };
       "naomi" = {
@@ -203,7 +228,7 @@ in rec {
         emulators = with pkgs; [ duckstation ];
         fullname = "Sony PlayStation";
         systemsortname = "sony1994";
-        extension = [".bin" ".BIN" ".chd" ".CHD" ".m3u" ".M3U" ] ++ commonExtensions;
+        extension = [".bin" ".BIN" ".chd" ".CHD" ".m3u" ".M3U" ".iso" ".ISO" ] ++ commonExtensions;
         path = "${rompath}/PSX";
         command = {
           "Duckstation (Standalone)" = {cmd = "duckstation-qt -bigpicture -batch -nogui -fullscreen %ROM%";};
@@ -219,8 +244,18 @@ in rec {
           "PCSX2 (Standalone)" = {cmd = "pcsx2-qt -slowboot -bigpicture -fullscreen -nogui -batch %ROM%";};
         };
       };
+      "psp" = {
+        emulators = with pkgs; [ ppsspp ];
+        fullname = "Sony PlayStation Portable";
+        systemsortname = "sony2004";
+        inherit (psx) extension;
+        path = "${rompath}/PSP";
+        command = {
+          "PPSSPP (Standalone)" = { cmd = "ppsspp %ROM%"; };
+        };
+      };
       "ps3" = {
-        emulators = with pkgs; [ rpcs3 ];
+        emulators = [ rpcs3 ];
         fullname = "Sony PlayStation 3";
         systemsortname = "sony2006";
         extension = [ ".ps3" ".PS3" ] ++ commonExtensions;
@@ -308,15 +343,6 @@ in rec {
         command = {
           "XEMU" = { cmd = "xemu -full-screen -dvd_path %ROM% "; };
           "JSRF CXBX-R" = { cmd = "lutris lutris:rungame/jsrf-cxbx-r"; };
-        };
-      };
-      "windows" = rec {
-        fullname = "Microsoft Windows";
-        systemsortname = "micsoftwin";
-        extension = [ ".desktop" ".DESKTOP" ".sh" ".SH" ] ++ commonExtensions;
-        path = "/home/jd/Desktop/Lutris";
-        command = {
-          "Run Lutris" = { cmd = "cat %ROM% | grep -i 'Exec=' | sed 's/Exec=//g' | bash"; };
         };
       };
     };

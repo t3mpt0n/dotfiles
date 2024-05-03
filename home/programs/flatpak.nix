@@ -16,6 +16,7 @@
       { appId = "info.cemu.Cemu"; origin = "flathub"; }
       { appId = "ca.parallel_launcher.ParallelLauncher"; origin = "flathub"; }
       { appId = "com.github.tchx84.Flatseal"; origin = "flathub"; }
+      { appId = "com.supermodel3.Supermodel"; origin = "flathub"; }
     ];
 
     update.auto = {
