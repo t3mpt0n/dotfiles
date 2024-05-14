@@ -14,7 +14,6 @@
     ./obs.nix
     ./browser.nix
     ./flatpak.nix
-    ./fastfetch.nix
     ./games.nix
   ];
 

@@ -6,6 +6,7 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+    ./discos.nix
   ];
   nix.settings.sandbox = true;
   networking.hostName = "thinkpad";

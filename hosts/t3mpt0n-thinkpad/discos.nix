@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }: {
@@ -10,7 +9,10 @@
   ];
 
   boot = {
-    loader.grub.enableCryptodisk = true;
+    loader.grub = {
+      enableCryptodisk = true;
+      devices = [ "/dev/disk/by-uuid/0B32-A171" ]; # Boot Device
+    };
     initrd = {
       availableKernelModules = [
         "cryptd"
@@ -23,24 +25,41 @@
 
   fileSystems =
     let
-      fHDD = ({ dev ? "/dev/disk/by-uuid/d98eec5e-2002-4190-b517-8646ccaafe0a"
-              , fs ? "btrfs"
-              , subvol ? "@"
-              , extraOpts ? []
-              , opts ? [ "defaults" "noatime" "autodefrag" "compress=zstd" "commit=120" "subvol=${subvol}" ] ++ extraOpts }: {
-                device = dev;
-                fsType = fs;
-                options = opts;
-              });
+      devv = "/dev/disk/by-uuid/d98eec5e-2002-4190-b517-8646ccaafe0a";
+      hddopts = [ "defaults" "noatime" "autodefrag" "compress=zstd" "commit=120" ];
     in {
-      "/" = fHDD;
-      "/home" = fHDD { subvol = "@home"; };
-      "/swap" = fHDD { subvol = "@swap"; };
-      "/tmp" = fHDD { subvol = "@tmp"; };
-      "/nix" = fHDD { subvol = "@nix"; };
-      "/etc/nixos" = fHDD { subvol = "@nixconf"; };
-      swapDevices = [ { device = "/swap/swapfile"; } ];
+      "/" = {
+        device = devv;
+        fsType = "btrfs";
+        options = hddopts ++ [ "subvol=@" ];
+      };
+      "/home" = {
+        device = devv;
+        fsType = "btrfs";
+        options = hddopts ++ [ "subvol=@home" ];
+      };
+      "/nix" = {
+        device = devv;
+        fsType = "btrfs";
+        options = hddopts ++ [ "subvol=@nix" ];
+      };
+      "/swap" = {
+        device = devv;
+        fsType = "btrfs";
+        options = hddopts ++ [ "subvol=@swap" ];
+      };
+      "/etc/nixos" = {
+        device = devv;
+        fsType = "btrfs";
+        options = hddopts ++ [ "subvol=@nixconf" ];
+      };
+      "/tmp" = {
+        device = devv;
+        fsType = "btrfs";
+        options = hddopts ++ [ "subvol=@tmp" ];
+      };
     };
+  swapDevices = [ { device = "/swap/swapfile"; } ];
 
   services = {
     btrfs.autoScrub = {

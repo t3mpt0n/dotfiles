@@ -14,10 +14,6 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    custom_packages = {
-      url = "/etc/nixos/packages";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     /* HOME MANAGER */
     hm = {
@@ -82,6 +78,7 @@
 
       systems = [ "x86_64-linux" ];
       perSystem = pargs@{ config, self', inputs', pkgs, system, ... }: {
+        packages = import ./packages pargs;
         devShells = {
           default = pkgs.mkShell {
             nativeBuildInputs = with pkgs; [

@@ -692,9 +692,7 @@ EMMS is the best multimedia system available for Emacs.
   (setq emms-seek-seconds 5
         emms-info-asynchronously t
         emms-player-list '(emms-player-mpd emms-player-mpv)
-        emms-info-functions '(emms-info-mpd emms-info-mediainfo)
-        emms-browser-thumbnail-directory ""
-        emms-browser-covers #'emms-browser-get-cover-from-album
+        emms-info-functions '(emms-info-mpd emms-info-metaflac emms-info-mediainfo)
 #+end_src
 
 *** MPD

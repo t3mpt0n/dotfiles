@@ -26,7 +26,6 @@
         emms-player-list '(emms-player-mpd emms-player-mpv)
         emms-info-functions '(emms-info-mpd emms-info-mediainfo)
         emms-browser-thumbnail-directory ""
-        emms-browser-covers #'emms-browser-get-cover-from-album
 
         emms-player-mpd-server-name "127.0.0.1"
         emms-player-mpd-server-port "6600"
