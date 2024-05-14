@@ -6,6 +6,7 @@
     ./crystal.nix
     ./jedi.nix
     ./nil.nix
+    ./cpp.nix
     ./ruby.nix
     ./typst.nix
     ./java.nix

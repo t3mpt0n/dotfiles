@@ -8,12 +8,11 @@
     mpd = {
       enable = true;
       package = pkgs.mpd;
-      musicDirectory = "/mnt/dhp/media/Audio/Music";
+      musicDirectory = "~/Media/Audio/Music";
 
       network = {
         listenAddress = "127.0.0.1";
         port = 6600;
-        startWhenNeeded = true;
       };
 
       extraConfig = ''

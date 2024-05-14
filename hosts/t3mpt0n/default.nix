@@ -17,6 +17,7 @@ in {
     ./xdg.nix
     ./vm.nix
     ./cpu.nix
+    ./monero.nix
     # ./mpd.nix
     #    ./sound.nix
     ./network.nix

@@ -14,6 +14,7 @@
     ./obs.nix
     ./browser.nix
     ./flatpak.nix
+    ./fastfetch.nix
     ./games.nix
   ];
 
@@ -43,8 +44,6 @@
     pavucontrol
     keepassxc
     aria
-    monero-gui
-    xmrig
     cosmic-comp
     cosmic-icons
     cosmic-settings

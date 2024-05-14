@@ -40,7 +40,7 @@
         projectile-switch-project-action #'projectile-dired))
 
 (use-package agenix
-  :elpaca
+  :elpaca nil
   ( :host github
     :repo "t4ccer/agenix.el"
     :branch "main"

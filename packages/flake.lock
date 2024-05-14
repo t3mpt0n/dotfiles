@@ -1,0 +1,245 @@
+{
+  "nodes": {
+    "devkitNix": {
+      "inputs": {
+        "nixpkgs": [
+          "homebrew",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1668816049,
+        "narHash": "sha256-MfOv0sY4RR7zmCDkM3tLkQID3DQnOAk1eO5o1QVEb6g=",
+        "owner": "knarkzel",
+        "repo": "devkitnix",
+        "rev": "ed1a8e082153d1141ab57ce6f94d87cb0b24af51",
+        "type": "github"
+      },
+      "original": {
+        "owner": "knarkzel",
+        "repo": "devkitnix",
+        "type": "github"
+      }
+    },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1714641030,
+        "narHash": "sha256-yzcRNDoyVP7+SCNX0wmuDju1NUCt8Dz9+lyUXEI0dbI=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "e5d10a24b66c3ea8f150e47dfdb0416ab7c3390e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_2": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_2"
+      },
+      "locked": {
+        "lastModified": 1714641030,
+        "narHash": "sha256-yzcRNDoyVP7+SCNX0wmuDju1NUCt8Dz9+lyUXEI0dbI=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "e5d10a24b66c3ea8f150e47dfdb0416ab7c3390e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1710146030,
+        "narHash": "sha256-SZ5L6eA7HJ/nmkzGG7/ISclqe6oZdOZTNoesiInkXPQ=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "b1d9ab70662946ef0850d488da1c9019f3a9752a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1710146030,
+        "narHash": "sha256-SZ5L6eA7HJ/nmkzGG7/ISclqe6oZdOZTNoesiInkXPQ=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "b1d9ab70662946ef0850d488da1c9019f3a9752a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "gaming": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "packages/gaming",
+        "dirtyRev": "f9ba2bb47709f07d0973baa7b1ac21ebd50cad64-dirty",
+        "dirtyShortRev": "f9ba2bb-dirty",
+        "lastModified": 1714760832,
+        "narHash": "sha256-zWDSwCfNll38KAzmooKKmCHIb2XXoSF45+0kvUtVqMU=",
+        "type": "git",
+        "url": "file:///etc/nixos?dir=packages/gaming"
+      },
+      "original": {
+        "dir": "packages/gaming",
+        "type": "git",
+        "url": "file:///etc/nixos?dir=packages/gaming"
+      }
+    },
+    "homebrew": {
+      "inputs": {
+        "devkitNix": "devkitNix",
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "packages/homebrew",
+        "dirtyRev": "f9ba2bb47709f07d0973baa7b1ac21ebd50cad64-dirty",
+        "dirtyShortRev": "f9ba2bb-dirty",
+        "lastModified": 1714760832,
+        "narHash": "sha256-zWDSwCfNll38KAzmooKKmCHIb2XXoSF45+0kvUtVqMU=",
+        "type": "git",
+        "url": "file:///etc/nixos?dir=packages/homebrew"
+      },
+      "original": {
+        "dir": "packages/homebrew",
+        "type": "git",
+        "url": "file:///etc/nixos?dir=packages/homebrew"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1715266358,
+        "narHash": "sha256-doPgfj+7FFe9rfzWo1siAV2mVCasW+Bh8I1cToAXEE4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "f1010e0469db743d14519a1efd37e23f8513d714",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib": {
+      "locked": {
+        "lastModified": 1714640452,
+        "narHash": "sha256-QBx10+k6JWz6u7VsohfSw8g8hjdBZEf8CFzXH1/1Z94=",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/50eb7ecf4cd0a5756d7275c8ba36790e5bd53e33.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/50eb7ecf4cd0a5756d7275c8ba36790e5bd53e33.tar.gz"
+      }
+    },
+    "nixpkgs-lib_2": {
+      "locked": {
+        "lastModified": 1714640452,
+        "narHash": "sha256-QBx10+k6JWz6u7VsohfSw8g8hjdBZEf8CFzXH1/1Z94=",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/50eb7ecf4cd0a5756d7275c8ba36790e5bd53e33.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/50eb7ecf4cd0a5756d7275c8ba36790e5bd53e33.tar.gz"
+      }
+    },
+    "qobuz-dl": {
+      "inputs": {
+        "flake-parts": "flake-parts_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "packages/qobuz-dl",
+        "dirtyRev": "f9ba2bb47709f07d0973baa7b1ac21ebd50cad64-dirty",
+        "dirtyShortRev": "f9ba2bb-dirty",
+        "lastModified": 1714760832,
+        "narHash": "sha256-zWDSwCfNll38KAzmooKKmCHIb2XXoSF45+0kvUtVqMU=",
+        "type": "git",
+        "url": "file:///etc/nixos?dir=packages/qobuz-dl"
+      },
+      "original": {
+        "dir": "packages/qobuz-dl",
+        "type": "git",
+        "url": "file:///etc/nixos?dir=packages/qobuz-dl"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flake-parts": "flake-parts",
+        "gaming": "gaming",
+        "homebrew": "homebrew",
+        "nixpkgs": "nixpkgs",
+        "qobuz-dl": "qobuz-dl"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

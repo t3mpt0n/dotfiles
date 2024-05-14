@@ -5,6 +5,7 @@
   }: {
     imports = [
       ./lsp
+      ./direnv.nix
     ];
 
     nixpkgs.overlays = [ (import self.inputs.emacs-overlay) ];

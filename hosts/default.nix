@@ -141,4 +141,12 @@ in {
       }
     ] ++ sharedModules ++ hm_setup;
   };
+
+  t3mpt0n-thinkpad = nixosSystem {
+    specialArgs = { inherit inputs self; };
+    modules = [
+      ./t3mpt0n-thinkpad
+    ]
+    ++ sharedModules;
+  };
 }

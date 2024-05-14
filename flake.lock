@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "advisory-db": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1710515894,
+        "narHash": "sha256-tmQ9TMCb2jZY3jYdf53qIberkYV3dnUzdAYYK/NB+No=",
+        "owner": "rustsec",
+        "repo": "advisory-db",
+        "rev": "369d98c1b95b7b56d0859605916d7b81a7d1f1c4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rustsec",
+        "repo": "advisory-db",
+        "type": "github"
+      }
+    },
     "agenix": {
       "inputs": {
         "darwin": "darwin",
@@ -232,6 +248,52 @@
         "url": "https://flakehub.com/f/ipetkov/crane/%2A.tar.gz"
       }
     },
+    "crane_2": {
+      "inputs": {
+        "nixpkgs": [
+          "nix-your-shell",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1710886643,
+        "narHash": "sha256-saTZuv9YeZ9COHPuj8oedGdUwJZcbQ3vyRqe7NVJMsQ=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "5bace74e9a65165c918205cf67ad3977fe79c584",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
+    "custom_packages": {
+      "inputs": {
+        "flake-parts": "flake-parts_2",
+        "gaming": "gaming",
+        "homebrew": "homebrew",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "qobuz-dl": "qobuz-dl"
+      },
+      "locked": {
+        "dir": "packages",
+        "dirtyRev": "f9ba2bb47709f07d0973baa7b1ac21ebd50cad64-dirty",
+        "dirtyShortRev": "f9ba2bb-dirty",
+        "lastModified": 1714760832,
+        "narHash": "sha256-UT0nnjpYrUa7nfxcrdi/pkhM27hY+TvGXQqQtlglhvI=",
+        "type": "git",
+        "url": "file:///etc/nixos?dir=packages"
+      },
+      "original": {
+        "dir": "packages",
+        "type": "git",
+        "url": "file:///etc/nixos?dir=packages"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -257,6 +319,7 @@
     "devkitNix": {
       "inputs": {
         "nixpkgs": [
+          "custom_packages",
           "homebrew",
           "nixpkgs"
         ]
@@ -411,6 +474,42 @@
     },
     "flake-parts_2": {
       "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_3"
+      },
+      "locked": {
+        "lastModified": 1714641030,
+        "narHash": "sha256-yzcRNDoyVP7+SCNX0wmuDju1NUCt8Dz9+lyUXEI0dbI=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "e5d10a24b66c3ea8f150e47dfdb0416ab7c3390e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_3": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_4"
+      },
+      "locked": {
+        "lastModified": 1714641030,
+        "narHash": "sha256-yzcRNDoyVP7+SCNX0wmuDju1NUCt8Dz9+lyUXEI0dbI=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "e5d10a24b66c3ea8f150e47dfdb0416ab7c3390e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_4": {
+      "inputs": {
         "nixpkgs-lib": [
           "nixpkgs"
         ]
@@ -555,7 +654,7 @@
     },
     "flake-utils_7": {
       "inputs": {
-        "systems": "systems_9"
+        "systems": "systems_10"
       },
       "locked": {
         "lastModified": 1710146030,
@@ -573,7 +672,7 @@
     },
     "flake-utils_8": {
       "inputs": {
-        "systems": "systems_10"
+        "systems": "systems_11"
       },
       "locked": {
         "lastModified": 1705309234,
@@ -591,17 +690,18 @@
     },
     "gaming": {
       "inputs": {
-        "flake-utils": "flake-utils_4",
+        "flake-utils": "flake-utils_3",
         "nixpkgs": [
+          "custom_packages",
           "nixpkgs"
         ]
       },
       "locked": {
         "dir": "packages/gaming",
-        "dirtyRev": "3e5926e6704129e4c31d90cac2a0af9878f43665-dirty",
-        "dirtyShortRev": "3e5926e-dirty",
-        "lastModified": 1710640500,
-        "narHash": "sha256-WtqXGaqVsjgVpf92WUF/e98mrY4/SNOTwG293s4JKjI=",
+        "dirtyRev": "f9ba2bb47709f07d0973baa7b1ac21ebd50cad64-dirty",
+        "dirtyShortRev": "f9ba2bb-dirty",
+        "lastModified": 1714760832,
+        "narHash": "sha256-zWDSwCfNll38KAzmooKKmCHIb2XXoSF45+0kvUtVqMU=",
         "type": "git",
         "url": "file:///etc/nixos?dir=packages/gaming"
       },
@@ -698,17 +798,18 @@
     "homebrew": {
       "inputs": {
         "devkitNix": "devkitNix",
-        "flake-utils": "flake-utils_5",
+        "flake-utils": "flake-utils_4",
         "nixpkgs": [
+          "custom_packages",
           "nixpkgs"
         ]
       },
       "locked": {
         "dir": "packages/homebrew",
-        "dirtyRev": "3e5926e6704129e4c31d90cac2a0af9878f43665-dirty",
-        "dirtyShortRev": "3e5926e-dirty",
-        "lastModified": 1710640500,
-        "narHash": "sha256-sHLfqFnKgwnZ8x9P/KliOSg1L9wFLp+hEJGNK85uyiE=",
+        "dirtyRev": "f9ba2bb47709f07d0973baa7b1ac21ebd50cad64-dirty",
+        "dirtyShortRev": "f9ba2bb-dirty",
+        "lastModified": 1714760832,
+        "narHash": "sha256-zWDSwCfNll38KAzmooKKmCHIb2XXoSF45+0kvUtVqMU=",
         "type": "git",
         "url": "file:///etc/nixos?dir=packages/homebrew"
       },
@@ -918,6 +1019,29 @@
         "type": "github"
       }
     },
+    "nix-your-shell": {
+      "inputs": {
+        "advisory-db": "advisory-db",
+        "crane": "crane_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": "systems_9"
+      },
+      "locked": {
+        "lastModified": 1711384039,
+        "narHash": "sha256-gjOvAy15y4WJ4LMmiF17nuY6aAsC1V7/zZ+nt+xDh24=",
+        "owner": "MercuryTechnologies",
+        "repo": "nix-your-shell",
+        "rev": "d49229504eb7b34b06b07b9acc318a7ec5b47107",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MercuryTechnologies",
+        "repo": "nix-your-shell",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1714253743,
@@ -966,6 +1090,30 @@
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
+      }
+    },
+    "nixpkgs-lib_3": {
+      "locked": {
+        "lastModified": 1714640452,
+        "narHash": "sha256-QBx10+k6JWz6u7VsohfSw8g8hjdBZEf8CFzXH1/1Z94=",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/50eb7ecf4cd0a5756d7275c8ba36790e5bd53e33.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/50eb7ecf4cd0a5756d7275c8ba36790e5bd53e33.tar.gz"
+      }
+    },
+    "nixpkgs-lib_4": {
+      "locked": {
+        "lastModified": 1714640452,
+        "narHash": "sha256-QBx10+k6JWz6u7VsohfSw8g8hjdBZEf8CFzXH1/1Z94=",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/50eb7ecf4cd0a5756d7275c8ba36790e5bd53e33.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/50eb7ecf4cd0a5756d7275c8ba36790e5bd53e33.tar.gz"
       }
     },
     "nixpkgs-stable": {
@@ -1120,6 +1268,29 @@
         "type": "github"
       }
     },
+    "qobuz-dl": {
+      "inputs": {
+        "flake-parts": "flake-parts_3",
+        "nixpkgs": [
+          "custom_packages",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "packages/qobuz-dl",
+        "dirtyRev": "f9ba2bb47709f07d0973baa7b1ac21ebd50cad64-dirty",
+        "dirtyShortRev": "f9ba2bb-dirty",
+        "lastModified": 1714760832,
+        "narHash": "sha256-zWDSwCfNll38KAzmooKKmCHIb2XXoSF45+0kvUtVqMU=",
+        "type": "git",
+        "url": "file:///etc/nixos?dir=packages/qobuz-dl"
+      },
+      "original": {
+        "dir": "packages/qobuz-dl",
+        "type": "git",
+        "url": "file:///etc/nixos?dir=packages/qobuz-dl"
+      }
+    },
     "rocksdb": {
       "flake": false,
       "locked": {
@@ -1142,14 +1313,14 @@
         "agenix": "agenix",
         "chaotic": "chaotic",
         "clj-lsp": "clj-lsp",
+        "custom_packages": "custom_packages",
         "emacs-overlay": "emacs-overlay",
-        "flake-parts": "flake-parts_2",
-        "flake-utils": "flake-utils_3",
-        "gaming": "gaming",
+        "flake-parts": "flake-parts_4",
+        "flake-utils": "flake-utils_5",
         "hm": "hm",
-        "homebrew": "homebrew",
         "nil": "nil",
         "nix-flatpak": "nix-flatpak",
+        "nix-your-shell": "nix-your-shell",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable_3",
         "nur": "nur",
@@ -1261,6 +1432,21 @@
       }
     },
     "systems_10": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_11": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",

@@ -14,12 +14,8 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-    homebrew = {
-      url = "/etc/nixos/packages/homebrew";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    gaming = {
-      url = "/etc/nixos/packages/gaming";
+    custom_packages = {
+      url = "/etc/nixos/packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -29,7 +25,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    /* LANGUAGE SERVERS */
+    /* PROGRAMMING */
     nil = {
       url = "github:oxalica/nil";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -40,6 +36,10 @@
     };
     ru-ov = {
       url = "github:oxalica/rust-overlay";
+    };
+    nix-your-shell = {
+      url = "github:MercuryTechnologies/nix-your-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
 
@@ -82,7 +82,6 @@
 
       systems = [ "x86_64-linux" ];
       perSystem = pargs@{ config, self', inputs', pkgs, system, ... }: {
-        packages = import ./packages pargs;
         devShells = {
           default = pkgs.mkShell {
             nativeBuildInputs = with pkgs; [

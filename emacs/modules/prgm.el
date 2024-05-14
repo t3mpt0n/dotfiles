@@ -170,3 +170,16 @@
   :mode "\\.java\\'"
   :after eglot
   :hook (java-mode . eglot-java-mode))
+
+(use-package ccls)
+(use-package c-mode
+  :elpaca nil
+  :after eglot
+  :hook (c-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(c-mode . ("ccls"))))
+
+(use-package c++-mode
+  :elpaca nil
+  :after eglot
+  :hook (c++-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(c++-mode . ("ccls"))))

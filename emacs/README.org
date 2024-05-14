@@ -86,6 +86,7 @@ My personal choice of package manager, however, *NOT* configured in elisp.
   }: {
     imports = [
       ./lsp
+      ./direnv.nix
     ];
 
     nixpkgs.overlays = [ (import self.inputs.emacs-overlay) ];
@@ -692,10 +693,11 @@ EMMS is the best multimedia system available for Emacs.
         emms-info-asynchronously t
         emms-player-list '(emms-player-mpd emms-player-mpv)
         emms-info-functions '(emms-info-mpd emms-info-mediainfo)
+        emms-browser-thumbnail-directory ""
+        emms-browser-covers #'emms-browser-get-cover-from-album
 #+end_src
 
 *** MPD
-EMMS can integrate with MPD pretty well.
 #+begin_src elisp :mkdirp yes :tangle ./modules/media.el
         emms-player-mpd-server-name "127.0.0.1"
         emms-player-mpd-server-port "6600"
@@ -957,6 +959,7 @@ The code below just imports all the LSP files:
     ./crystal.nix
     ./jedi.nix
     ./nil.nix
+    ./cpp.nix
     ./ruby.nix
     ./typst.nix
     ./java.nix
@@ -1274,8 +1277,6 @@ Doesn't that well yet as Typst is a new language.
   (setq rustic-lsp-client 'eglot))
 #+end_src
 
-
-
 *** Java
 **** Installing the [[https://github.com/eclipse-jdtls/eclipse.jdt.ls][Eclipse JDT Java Language Server]], [[https://gradle.org/][Gradle]], [[https://maven.apache.org/][Maven]], and [[https://openjdk.java.net/][OpenJDK]]
 #+begin_src nix :mkdirp yes :tangle ./lsp/java.nix
@@ -1300,6 +1301,38 @@ Doesn't that well yet as Typst is a new language.
   :mode "\\.java\\'"
   :after eglot
   :hook (java-mode . eglot-java-mode))
+#+end_src
+
+*** C/C++
+**** Installing [[https://github.com/MaskRay/ccls][CCLS]] && GNU Project Debugger
+#+begin_src nix :mkdirp yes :tangle ./lsp/cpp.nix
+ {
+   config,
+   lib,
+   pkgs,
+   ...
+ }: {
+   environment.systemPackages = with pkgs; [
+     ccls
+     libcs50
+     gdb
+   ];
+ }
+#+end_src
+**** Configuration
+#+begin_src  elisp :mkdirp yes :tangle ./modules/prgm.el
+(use-package ccls)
+(use-package c-mode
+  :elpaca nil
+  :after eglot
+  :hook (c-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(c-mode . ("ccls"))))
+
+(use-package c++-mode
+  :elpaca nil
+  :after eglot
+  :hook (c++-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(c++-mode . ("ccls"))))
 #+end_src
 
 * Dired
@@ -1407,6 +1440,32 @@ Peep a file in Dired.
         gnus-agent nil))
 #+end_src
 
+* DirEnv
+** Installing [[https://direnv.net/][DirEnv]]
+#+begin_src nix :mkdirp yes :tangle ./direnv.nix
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
+    nix-your-shell
+  ];
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+}
+#+end_src
+** Configuration
+#+begin_src  elisp :mkdirp yes :tangle ./modules/direnv.el
+ (use-package direnv
+   :config
+   (direnv-mode)) 
+#+end_src
+
 * Other Useful Programs
 ** VTerm
 #+begin_src elisp :mkdirp yes :tangle ./modules/other.el
@@ -1461,7 +1520,7 @@ Peep a file in Dired.
 ** AGENix 
 #+begin_src  elisp :mkdirp yes :tangle ./modules/other.el
 (use-package agenix
-  :elpaca
+  :elpaca nil
   ( :host github
     :repo "t4ccer/agenix.el"
     :branch "main"
@@ -1478,5 +1537,6 @@ Peep a file in Dired.
   (load "/etc/nixos/emacs/modules/prgm.el")
   (load "/etc/nixos/emacs/modules/dired.el")
   (load "/etc/nixos/emacs/modules/other.el")
+  (load "/etc/nixos/emacs/modules/direnv.el")
   (load "/etc/nixos/emacs/modules/email.el"))
 #+end_src
