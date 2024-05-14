@@ -14,6 +14,18 @@
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+    homebrew = {
+      url = "/etc/nixos/packages/homebrew";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    gaming = {
+      url = "/etc/nixos/packages/gaming";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    qobuz-dl = {
+      url = "/etc/nixos/packages/qobuz-dl";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     /* HOME MANAGER */
     hm = {
