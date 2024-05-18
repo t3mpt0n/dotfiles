@@ -24,8 +24,7 @@
   (setq emms-seek-seconds 5
         emms-info-asynchronously t
         emms-player-list '(emms-player-mpd emms-player-mpv)
-        emms-info-functions '(emms-info-mpd emms-info-mediainfo)
-        emms-browser-thumbnail-directory ""
+        emms-info-functions '(emms-info-mpd emms-info-metaflac emms-info-mediainfo)
 
         emms-player-mpd-server-name "127.0.0.1"
         emms-player-mpd-server-port "6600"

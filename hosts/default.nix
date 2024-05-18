@@ -6,6 +6,7 @@ inputs@ {
     ru-ov,
     nix-flatpak,
     prism_mc,
+    disko,
     ...
 }: let
   inherit (nixpkgs.lib) nixosSystem;
@@ -49,9 +50,6 @@ inputs@ {
       environment.systemPackages = [ pkgs.prismlauncher ];
     })
   ];
- overlay-2305 = final: prev: {
-   stable = nixpkgs-stable.legacyPackages.${prev.system};
- };
 in {
   t3mpt0n = nixosSystem {
     inherit system;
@@ -117,14 +115,7 @@ in {
     inherit system;
     specialArgs = { inherit inputs self; };
     modules = [
-      ({config, pkgs, ...}: { nixpkgs.overlays = [ overlay-2305 ]; })
       ./t3mpt0n-laptop
-      {
-        home-manager.users.jd = import ../home/profiles/t3mpt0n-laptop.nix;
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = { inherit inputs self sharedModules hm_setup; };
-      }
       {
         age.secrets = {
           nextcloud = {
@@ -139,13 +130,16 @@ in {
           };
         };
       }
-    ] ++ sharedModules ++ hm_setup;
+    ] ++ sharedModules;
   };
 
   t3mpt0n-thinkpad = nixosSystem {
+    inherit system;
     specialArgs = { inherit inputs self; };
     modules = [
+      inputs.disko.nixosModules.disko
       ./t3mpt0n-thinkpad
+      #./age.thinkpad.nix
     ]
     ++ sharedModules;
   };

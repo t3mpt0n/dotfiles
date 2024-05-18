@@ -6,7 +6,7 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils, ... }:
+  outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {
         inherit system;
@@ -26,35 +26,8 @@
       };
 
       packages = rec {
-        attract = let
-          opt = {
-            libcurl = true;
-            libarchive = true;
-            xinerama = false;
-            fontconfig = true;
-            libdwarf = true;
-          };
-          in mkPak rec {
-          pname = "attract";
-          version = "2.7.0";
-          src = fetchFromGitHub {
-            owner = "mickelson";
-            repo = "attract";
-            rev = "v${version}";
-            hash = "sha256-/ak3CBQOJvxFAYJZTypelLzQSPdXSTFIYuOSTCQzWTE=";
-          };
-
-          nativeBuildInputs = with pkgs; [ pkg-config ];
-          patchPhase = ''
-            sed -i "s|prefix\ ?=\ /usr/local|prefix\ ?=\ $out|" Makefile
-          '';
-          buildInputs = with pkgs; [ expat ffmpeg_4 freetype libjpeg
-                                     libGLU libGL openal sfml zlib ]
-          ++ lib.optionals opt.fontconfig [ pkgs.fontconfig ]
-          ++ lib.optionals opt.libarchive [ pkgs.libarchive ]
-          ++ lib.optionals opt.libcurl [ pkgs.libgnurl ]
-          ++ lib.optionals opt.xinerama [ pkgs.xorg.libXinerama ]
-          ++ lib.optionals opt.libdwarf [ pkgs.libdwarf ];
+        attract = import ./attract.nix {
+          inherit fetchFromGitHub pkgs mkPak;
         };
 
 #        attractplus = let
@@ -85,20 +58,9 @@
 #          makeFlags = [ "-j8" "USE_SYSTEM_SFML=1" ];
 #        };
 
-        es-de = let
-          in mkPak rec {
-            pname = "emulationstation-de";
-            version = "3.0.1";
-            src = fetchFromGitLab {
-              owner = "es-de";
-              repo = "${pname}";
-              rev = "v${version}";
-              hash = "sha256-8hkHD0vdGo6iYr76S4It97YJyvY27vCkT9DBL+cKUTE=";
-            };
-
-            nativeBuildInputs = with pkgs; [ cmake pkg-config ];
-            buildInputs = with pkgs; [ SDL2 ffmpeg freeimage freetype libgit2 pugixml poppler alsa-lib llvmPackages.libcxxClang ];
-          };
+        es-de = import ./emulationstation-de.nix {
+          inherit pkgs mkPak fetchFromGitLab;
+        };
 
         es-retropie = let
           in mkPak rec {

@@ -7,6 +7,10 @@
     nixpkgs.url = "github:NixOs/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOs/nixpkgs/23.11";
     nur.url = "github:nix-community/NUR";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     /* FLAKE */
     flake-utils.url = "github:numtide/flake-utils";
@@ -82,7 +86,7 @@
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
   };
 
-  outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, prism_mc, nix-flatpak, ...}:
+  outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, prism_mc, nix-flatpak, disko, ...}:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.flake-parts.flakeModules.easyOverlay

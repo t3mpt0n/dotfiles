@@ -13,45 +13,6 @@
   boot.kernelModules = [ "kvm-amd" "wl" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/d98eec5e-2002-4190-b517-8646ccaafe0a";
-      fsType = "btrfs";
-      options = [ "subvol=@" ];
-    };
-
-  boot.initrd.luks.devices."thinkpad".device = "/dev/disk/by-uuid/75923059-1586-4242-8bf9-89a38303847d";
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/d98eec5e-2002-4190-b517-8646ccaafe0a";
-      fsType = "btrfs";
-      options = [ "subvol=@home" ];
-    };
-
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/d98eec5e-2002-4190-b517-8646ccaafe0a";
-      fsType = "btrfs";
-      options = [ "subvol=@nix" ];
-    };
-
-  fileSystems."/etc/nixos" =
-    { device = "/dev/disk/by-uuid/d98eec5e-2002-4190-b517-8646ccaafe0a";
-      fsType = "btrfs";
-      options = [ "subvol=@nixconf" ];
-    };
-
-  fileSystems."/tmp" =
-    { device = "/dev/disk/by-uuid/d98eec5e-2002-4190-b517-8646ccaafe0a";
-      fsType = "btrfs";
-      options = [ "subvol=@tmp" ];
-    };
-
-  fileSystems."/swap" =
-    { device = "/dev/disk/by-uuid/d98eec5e-2002-4190-b517-8646ccaafe0a";
-      fsType = "btrfs";
-      options = [ "subvol=@swap" ];
-    };
-
-  swapDevices = [ ];
-
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction

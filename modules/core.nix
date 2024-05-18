@@ -42,8 +42,13 @@ in {
 
   users.users.jd = {
     isNormalUser = true;
+    initialHashedPassword = "$y$j9T$u4SE06MPTzat0HqZaWXkm.$Clf4bhmne/b8gcRkDWAn5k2fBCczIacE.bmS5r0daz3";
     shell = pkgs.fish;
     extraGroups = [ "input" "video" "audio" "networkmanager" "wheel" ];
+  };
+  users.users.root = {
+    initialHashedPassword = "$y$j9T$NV/MDjRvPku.uUHjtc8GP/$wQORifd3JOSbCor4K/1QIGfckUxXNS0r9QmI/Z2L6MC";
+    shell = pkgs.fish;
   };
 
   zramSwap.enable = true;

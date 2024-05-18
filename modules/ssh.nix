@@ -20,4 +20,5 @@
     };
 
     users.users.jd.openssh.authorizedKeys.keys = users ++ hosts;
+    users.users.root.openssh.authorizedKeys.keys = users ++ hosts;
   }

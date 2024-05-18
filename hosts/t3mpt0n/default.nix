@@ -41,8 +41,6 @@ in {
 
   nix.settings.sandbox = true;
 
-  networking.hostName = "t3mpt0n";
-
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
     loader = {
@@ -67,7 +65,6 @@ in {
   };
 
   environment.systemPackages = with pkgs; [
-    neovim
     aircrack-ng
     wget
     git
@@ -78,8 +75,6 @@ in {
     htop
     cdrtools
     psmisc
-    connman
-    connman-gtk
     glfw-wayland-minecraft
     gst_all_1.gstreamer
     gst_all_1.gst-plugins-ugly
@@ -87,17 +82,13 @@ in {
     gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-base
     gst_all_1.gst-vaapi
-    doas
     lhasa
     xdelta
     lha
     p7zip
     gnupg
     pinentry
-    inetutils
-    gnumake
     usbutils
-    libgccjit
     lsb-release
     xdg-utils
     self.outputs.packages.x86_64-linux.extract-xiso
@@ -150,7 +141,8 @@ in {
       }];
     };
     sudo.enable = false;
-    tpm2.enable = true; polkit.enable = true;
+    tpm2.enable = true;
+    polkit.enable = true;
     pam.services = {
       swaylock.text = ''
         auth include login

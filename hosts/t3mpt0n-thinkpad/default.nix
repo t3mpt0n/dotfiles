@@ -6,10 +6,11 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    ./discos.nix
+    ./na-init/disko.nix
+    ./network.nix
+    ./users.nix
   ];
   nix.settings.sandbox = true;
-  networking.hostName = "thinkpad";
   environment.systemPackages = with pkgs; [
     neovim
     wget

@@ -87,6 +87,7 @@ My personal choice of package manager, however, *NOT* configured in elisp.
     imports = [
       ./lsp
       ./direnv.nix
+      ./vim.nix
     ];
 
     nixpkgs.overlays = [ (import self.inputs.emacs-overlay) ];
@@ -171,6 +172,7 @@ Like every zoomer, I like my ligatures :).
           ("defun" . #x1d453)
           ("def" . #x1d453)
           ("or" . #x2228)
+          ("||" . #x2228)
           ("&&" . #x2227)
           ("and" . #x2227)
           ("in" . #x2208)
@@ -1524,6 +1526,18 @@ Peep a file in Dired.
     :branch "main"
     :files ("*.el")))
 #+end_src
+
+** Neovim
+Just in case I'm in serious TTY situation
+#+begin_src nix :mkdirp yes :tangle ./vim.nix
+{ config, pkgs, ... }: {
+  programs.neovim = {
+    enable = true;
+    defaultEditor = false;
+  };
+}
+#+end_src
+
 * Now, load all the modules!
 #+begin_src elisp :mkdirp yes :tangle ./init.el
 (progn
