@@ -8,6 +8,7 @@
     ./hardware-configuration.nix
     ./na-init/disko.nix
     ./network.nix
+    ./nextcloud.nix
     ./users.nix
   ];
   nix.settings.sandbox = true;

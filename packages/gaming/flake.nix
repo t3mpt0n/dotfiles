@@ -11,7 +11,7 @@
       pkgs = import nixpkgs {
         inherit system;
       };
-      inherit (pkgs) stdenv mkShell fetchFromGitHub fetchFromGitLab fetchurl lib;
+      inherit (pkgs) stdenv mkShell fetchFromGitHub fetchFromGitLab fetchurl lib fetchzip;
       mkPak = stdenv.mkDerivation;
     in {
       devShells = {
@@ -77,6 +77,18 @@
             nativeBuildInputs = with pkgs; [ cmake pkg-config ];
             buildInputs = with pkgs; [ SDL2 ffmpeg freeimage freetype libgit2 pugixml poppler alsa-lib llvmPackages.libcxxClang libGL libGLU libvlc vlc rapidjson ];
           };
+
+        mesen = let
+          extractzip = fetchzip {
+            url = "https://nightly.link/SourMesen/Mesen2/workflows/build/master/Mesen%20(Linux%20x64%20-%20AppImage).zip";
+            hash = "sha256-3I0Ie9oay9W9avtMwGH9kuam1xH1SI3vZpkllNtDA78=";
+          };
+          appimage-file = "${extractzip}/Mesen.AppImage";
+          in pkgs.appimageTools.wrapType2 {
+          name = "mesen";
+          src = appimage-file;
+          extraPkgs = p: with p; [ SDL2 dotnet-runtime_8 icu libevdev ];
+        };
       };
     });
 }

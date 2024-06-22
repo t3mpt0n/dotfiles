@@ -1,31 +1,22 @@
 {
-  pkgs,
-  inputs,
-  lib,
   config,
+  lib,
+  pkgs,
   ...
 }: {
   imports = [
-    ./hardware-configuration.nix
-    ./boot.nix
+    ./hardware-configuraton.nix
     ./network.nix
-    ./nextcloud.nix
-    ./gpu.nix
-  ];
-
-  nixpkgs.config.allowUnfreePredicate = d: builtins.elem (lib.getName d) [
-    "unrar"
+    ./na-init/disko.nix
+    ./users.nix
   ];
   nix.settings.sandbox = true;
-
   environment.systemPackages = with pkgs; [
     neovim
-    wget
     file
-    lm_sensors
+    wget
     psmisc
     htop
-    unrar
   ];
 
   services = {
@@ -34,11 +25,5 @@
       enable = true;
       packages = [ pkgs.gcr ];
     };
-  };
-
-  programs.gnupg.agent ={
-    enable = true;
-    enableSSHSupport = true;
-    pinentryFlavor = "tty";
   };
 }

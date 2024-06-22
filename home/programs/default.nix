@@ -18,8 +18,9 @@
   ];
 
   home.packages = with pkgs; [
+    vesktop
     discord
-    webcord
+    armcord
     self.inputs.homebrew.outputs.packages.x86_64-linux.libray
     dex
     betterdiscordctl

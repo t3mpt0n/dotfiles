@@ -7,7 +7,7 @@
 }: let
   inherit (pkgs) fetchurl fetchzip fetchFromGitHub fetchFromGitLab appimageTools;
   inherit (self.outputs.packages.x86_64-linux) nestopia dsda-doom;
-  inherit (inputs.gaming.packages.x86_64-linux) es-de;
+  inherit (inputs.gaming.packages.x86_64-linux) es-de mesen;
   gamescopecmd = "gamescope -W 2560 -H 1440 -w 2560 -h 1440 -r 60 -O DP-3 --xwayland-count 1 --adaptive-sync --fullscreen";
   rpcs3 = appimageTools.wrapType2 {
     name = "rpcs3";
@@ -35,7 +35,7 @@ in rec {
       commonExtensions = [ ".7z" ".7Z" ".zip" ".ZIP" ".m3u" ".M3U"];
     in rec {
       "nes" = {
-        emulators = with pkgs; [ fceux punes nestopia ];
+        emulators = with pkgs; [ fceux punes nestopia ] ++ [ mesen ];
         fullname = "Nintendo Entertainment System";
         systemsortname = "nint1985";
         extension = [ ".nes" ".NES" ] ++ commonExtensions;
@@ -43,7 +43,14 @@ in rec {
         command = {
           "NESTopia (Standalone)" = {cmd = "nestopia --fullscreen %ROM%";};
           "FCEUX (Standalone)" = {cmd = "env QT_QPA_PLATFORM=xcb fceux %ROM% --fullscreen 1";};
+          "Mesen (Standalone)" = {cmd = "SDL_VIDEODRIVER=x11 mesen %ROM% --fullscreen"; };
         };
+      };
+      "famicom" = {
+        inherit (nes) emulators extension command;
+        fullname = "Nintendo Family Computer";
+        systemsortname = "nint1983";
+        path = "${rompath}/FC";
       };
       "gb" = {
         emulators = with pkgs; [ sameboy ];
@@ -73,7 +80,15 @@ in rec {
         path = "${rompath}/SNES";
         command = {
           "ares" = {cmd = "${gamescopecmd} -- ares --fullscreen --system Super Famicom %ROM%";};
+          "bsnes" = {cmd = "${gamescopecmd} -- bsnes --fullscreen %ROM%";};
+          "Mesen (standalone)" = {cmd = "env SDL_VIDEODRIVER=x11 mesen --fullscreen %ROM%";};
         };
+      };
+      "sfc" = {
+        inherit (snesna) emulators command extension;
+        fullname = "Super Famicom";
+        systemsortname = "nint1990";
+        path = "${rompath}/SFC";
       };
       "n64" = {
         emulators = [ pkgs.mupen64plus ];
@@ -128,16 +143,32 @@ in rec {
           "Yuzu" = {cmd = "yuzu %ROM%";};
         };
       };
+      "mastersystem" = {
+        emulators = with pkgs; [];
+        fullname = "Sega Master System";
+        systemsortname = "sega1986";
+        extension = [".sms" ".SMS"] ++ commonExtensions;
+        path = "${rompath}/SMS";
+        command = {
+          "SMS Plus GX (RetroArch)" = { cmd = "retroarch -L genesis_plus_gx_libretro.so %ROM%"; };
+        };
+      };
       "genesis" = {
         emulators = with pkgs; [];
         fullname = "Sega Genesis";
-        systemsortname = "sega1989";
+        systemsortname = "sega1989us";
         extension = [ ".bin" ".BIN" ".md" ".MD" ".gen" ".GEN" ] ++ commonExtensions;
-        path = "${rompath}/MD";
+        path = "${rompath}/Genesis";
         command = {
           "RetroArch (Blastem)" = { cmd = "retroarch -L blastem_libretro.so %ROM%"; };
           "RetroArch (Genesis Plus GX)" = { cmd = "retroarch -L genesis_plus_gx_libretro.so %ROM%"; };
         };
+      };
+      "megadrivejp" = {
+        inherit (genesis) emulators extension command;
+        fullname = "Sega Mega Drive";
+        systemsortname = "sega1988";
+        path = "${rompath}/MD";
       };
       "model1" = {
         emulators = with pkgs; [];
@@ -151,8 +182,20 @@ in rec {
           };
         };
       };
-      "model3" = {
+      "model2" = {
         emulators = with pkgs; [];
+        fullname = "Sega Model 2";
+        systemsortname = "sega1993";
+        extension = commonExtensions;
+        path = "${rompath}/MODEL2";
+        command = {
+          "M2EMU" = {
+            cmd = "/home/jd/Games/M2Emu.sh %BASENAME%";
+          };
+        };
+      };
+      "model3" = {
+        emulators = with pkgs; [ supermodel ];
         fullname = "Sega Model 3";
         systemsortname = "sega1996";
         extension = commonExtensions;
@@ -345,6 +388,42 @@ in rec {
           "JSRF CXBX-R" = { cmd = "lutris lutris:rungame/jsrf-cxbx-r"; };
         };
       };
+      "tg16" = {
+        emulators = with pkgs; [ ];
+        fullname = "NEC Turbografx 16";
+        systemsortname = "nec1989a";
+        extension = [ ".pce" ] ++ commonExtensions;
+        path = "${rompath}/TG16";
+        command = {
+          "Mednafen (Standalone)" = { cmd = "mednafen %ROM%"; };
+        };
+      };
+      "tg-cd" = {
+        emulators = with pkgs; [ ];
+        fullname = "NEC Turbografx CD";
+        systemsortname = "nec1989b";
+        extension = [ ".chd" ".CHD" ] ++ commonExtensions;
+        path = "${rompath}/TGCD";
+        command = {
+          "Mednafen (Standalone)" = { cmd = "mednafen %ROM%"; };
+          "Retroarch (Beetle PCE)" = { cmd = "retroarch -L mednafen_pce_libretro.so %ROM%"; };
+        };
+      };
+      "pcenginecd" = {
+        inherit (tg-cd) emulators extension command;
+        fullname = "NEC PC Engine CD-ROM2";
+        systemsortname = "nec1988";
+        path = "${rompath}/CDROM2";
+      };
+      
+#      "msx" = {
+#        emulators = with pkgs; [ openmsx ];
+#        fullname = "MSX";
+#        systemsortname = "mic1983";
+#        extension = [ ];
+#        path = "${rompath}/MSX";
+#        command = {};
+#      };
     };
   };
 }

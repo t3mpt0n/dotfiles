@@ -26,8 +26,8 @@
       url = "/etc/nixos/packages/gaming";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    qobuz-dl = {
-      url = "/etc/nixos/packages/qobuz-dl";
+    music = {
+      url = "/etc/nixos/packages/music";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -15,8 +15,6 @@
         signByDefault = true;
       };
 
-      lfs.enable = true;
-
       extraConfig = {
         core = {
           editor = "emacsclient -c -a 'emacs'";
@@ -45,6 +43,6 @@
   };
 
   home.file.".config/git/allowed_signers" = {
-    text = config.programs.git.userEmail + "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPKI8rApmaqqtVJbbQBtWfHhaIb0tU68Mn2ry7jRJO8s";
+    text = config.programs.git.userEmail + " ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5fN5ju9RJkAVZ9dqjIxc75uqAVPf+s9Y+CTUMwDPdK";
   };
 }

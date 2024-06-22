@@ -115,21 +115,8 @@ in {
     inherit system;
     specialArgs = { inherit inputs self; };
     modules = [
+      inputs.disko.nixosModules.disko
       ./t3mpt0n-laptop
-      {
-        age.secrets = {
-          nextcloud = {
-            file = ../secrets/nextcloud.age;
-            owner = "nextcloud";
-            group = "nextcloud";
-          };
-          nextcloud_jd = {
-            file = ../secrets/nextcloud_user.age;
-            owner = "nextcloud";
-            group = "nextcloud";
-          };
-        };
-      }
     ] ++ sharedModules;
   };
 
@@ -139,7 +126,7 @@ in {
     modules = [
       inputs.disko.nixosModules.disko
       ./t3mpt0n-thinkpad
-      #./age.thinkpad.nix
+      ./age.thinkpad.nix
     ]
     ++ sharedModules;
   };

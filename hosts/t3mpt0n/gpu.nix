@@ -3,47 +3,51 @@
   config,
   ...
 }: {
-  boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelParams = [
     "video=HDMI-A-1:1680x1050@60"
     "video=DP-3:2560x1440@165"
     "consoleblank=0"
-    "amdgpu.ppfeaturemask=0xffffffff"
   ];
 
   chaotic.hdr = {
-    enable = true;
+    enable = false;
   };
 
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      rocm-opencl-icd
-      rocm-opencl-runtime
-      libva
-      libva-utils
-      libplacebo
-      shaderc
-      vulkan-headers
-      vulkan-loader
-      glxinfo
-      vulkan-tools
-      # amdvlk
-    ];
-    extraPackages32 = with pkgs.driversi686Linux; [
-      glxinfo
-      # amdvlk
-    ];
+  hardware = {
+    graphics = {
+      enable32Bit = true;
+      extraPackages = with pkgs; [
+        rocm-opencl-icd
+        rocm-opencl-runtime
+        libva
+        libva-utils
+        libplacebo
+        shaderc
+        vulkan-headers
+        vulkan-loader
+        glxinfo
+        vulkan-tools
+      ];
+      extraPackages32 = with pkgs.driversi686Linux; [
+        glxinfo
+      ];
+    };
+
+    amdgpu = {
+      initrd.enable = true;
+      opencl.enable = true;
+      amdvlk = {
+        enable = true;
+        support32Bit.enable = true;
+      };
+    };
   };
 
-  environment = {
-    systemPackages = with pkgs; [
-      /* GET CORECTRL TO WORK */
-      botan2
-      hwdata
-      corectrl
-    ] ++ config.hardware.opengl.extraPackages ++ config.hardware.opengl.extraPackages32;
+  programs.corectrl = {
+    enable = true;
+    gpuOverclock = {
+      enable = true;
+      ppfeaturemask = "0xffffffff";
+    };
   };
 }

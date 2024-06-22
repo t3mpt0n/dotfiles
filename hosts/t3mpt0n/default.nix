@@ -7,6 +7,7 @@
   ...
 }: let
   inherit (self.inputs.homebrew.packages.x86_64-linux) wut-tools iso2god-rs;
+  inherit (self.inputs.music.packages.x86_64-linux) qobuz-dl;
 in {
   imports = [
     ./hardware-configuration.nix
@@ -73,6 +74,7 @@ in {
     arduino-cli
     avrdude
     htop
+    qobuz-dl
     cdrtools
     psmisc
     glfw-wayland-minecraft
@@ -152,7 +154,6 @@ in {
 
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
   };
 
   programs.noisetorch.enable = true;
