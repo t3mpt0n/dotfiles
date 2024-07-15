@@ -18,6 +18,7 @@
       in lib.mkOptionDefault [
         "${mod},e,exec,${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs'" # EMACS
         "${mod},p,exec,${pkgs.wofi}/bin/wofi --show run" # WOFI
+        "${mod},w,exec,${pkgs.firefox}" # WOFI
         "${ss},return,exec,${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs' -e '(multi-vterm)'" # VTERM
         "${ss},p,exec,${wofi-pass}/bin/wofi-pass" # WOFI-PASS
         ",XF86AudioLowerVolume,exec,amixer sset Master 5%-" # Lower vol 5%

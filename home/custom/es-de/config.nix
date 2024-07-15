@@ -17,7 +17,6 @@
     };
     extraPkgs = p: with p; [ kdePackages.qtbase kdePackages.qtmultimedia openal glew vulkan-headers vulkan-loader libpng ffmpeg libevdev zlib libusb1 curl wolfssl python3 pugixml SDL2 flatbuffers llvm_16 xorg.libSM];
   };
-
 in rec {
   programs.emulationstation = {
     enable = true;
@@ -43,7 +42,7 @@ in rec {
         command = {
           "NESTopia (Standalone)" = {cmd = "nestopia --fullscreen %ROM%";};
           "FCEUX (Standalone)" = {cmd = "env QT_QPA_PLATFORM=xcb fceux %ROM% --fullscreen 1";};
-          "Mesen (Standalone)" = {cmd = "SDL_VIDEODRIVER=x11 mesen %ROM% --fullscreen"; };
+          "Mesen (Standalone)" = {cmd = "env SDL_VIDEODRIVER=x11 mesen %ROM% --fullscreen"; };
         };
       };
       "famicom" = {
@@ -358,13 +357,13 @@ in rec {
         };
       };
       "amiga" = {
-        emulators = with pkgs; [ fsuae fsuae-launcher ];
+        emulators = with pkgs; [  ];
         fullname = "Commodore Amiga";
         systemsortname = "cmdor1985";
         extension = [ ".adf" ".ADF" ] ++ commonExtensions;
         path = "${rompath}/Amiga";
         command = {
-          "FSUAE" = { cmd = "fs-uae-launcher /home/jd/FS-UAE/Configurations/%BASENAME%.fs-uae"; };
+          "FSUAE" = { cmd = ""; };
         };
       };
       "x68000" = {
@@ -424,6 +423,16 @@ in rec {
 #        path = "${rompath}/MSX";
 #        command = {};
 #      };
+      "lutris" = {
+        emulators = [];
+        fullname = "Lutris";
+        systemsortname = "lutris";
+        extension = [ ".sh" ];
+        path = "/home/jd/Media/Games/PC/Scripts";
+        command = {
+          "Execute Bash Script" = { cmd = "steam-run %ROM%"; };
+        };
+      };
     };
   };
 }

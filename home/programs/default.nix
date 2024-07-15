@@ -19,7 +19,7 @@
 
   home.packages = with pkgs; [
     vesktop
-    discord
+    webcord-vencord
     armcord
     self.inputs.homebrew.outputs.packages.x86_64-linux.libray
     dex

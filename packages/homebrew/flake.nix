@@ -32,21 +32,43 @@
         iso2god-rs = import ./iso2god.nix stdinh;
         libray = import ./libray.nix stdinh;
 
-##        wfs-fuse = pkgs.stdenv.mkDerivation rec {
-##          name = "wfs-fuse";
-##          version = "1.2.1";
-##          src = pkgs.fetchFromGitHub {
-##            owner = "koolkdev";
-##            repo = "wfs-tools";
-##            rev = "v${version}";
-##            hash = "sha256-NRgndpVeswBzKy8diHdxrizb/nDR5v+gElkMlUIduMQ=";
-##            fetchSubmodules = true;
-##          };
-##
-##          nativeBuildInputs = with pkgs; [ cmake ninja jq cryptopp.dev ];
-##          buildInputs = with pkgs; [ fuse zip boost ];
-##          dontUseCMakeConfigure = true;
-##        };
+        wfs-fuse = pkgs.stdenv.mkDerivation rec {
+          name = "wfs-fuse";
+          version = "1.2.2";
+          src = pkgs.fetchzip {
+            url = "https://github.com/koolkdev/wfs-tools/releases/download/v${version}/wfs-tools-v${version}-linux-x86-64.zip";
+            stripRoot = false;
+            hash = "sha256-OQ/BIdMrad4TVCe3gTolfoqsm5FlhCnalfbnUnjZQHQ=";
+          };
+          wrapperPath = with pkgs; lib.makeBinPath [
+            coreutils
+            fuse
+            zip
+            boost
+            cryptopp
+          ];
+          nativeBuildInputs = with pkgs; [ makeWrapper ];
+          installPhase = ''
+            mkdir -p $out/bin
+            cp -a $src/* $out/bin/
+          '';
+          fixupPhase = ''
+            wrapProgram $out/bin/wfs-fuse \
+              --prefix PATH : "${wrapperPath}"
+
+            wrapProgram $out/bin/wfs-extract \
+              --prefix PATH : "${wrapperPath}"
+
+            wrapProgram $out/bin/wfs-file-injector \
+              --prefix PATH : "${wrapperPath}"
+
+            wrapProgram $out/bin/wfs-info \
+              --prefix PATH : "${wrapperPath}"
+
+            wrapProgram $out/bin/wfs-reencryptor \
+              --prefix PATH : "${wrapperPath}"
+          '';
+        };
       };
     });
 }
