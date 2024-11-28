@@ -10,7 +10,7 @@
   zlib,
   libarchive,
   soxr,
-  gnome,
+  adwaita-icon-theme,
   xdg-utils,
   fltk,
   libGLU,
@@ -30,7 +30,7 @@
   };
 
   nativeBuildInputs = [ pkg-config autoconf autoconf-archive automake makeWrapper unzip wrapGAppsHook ];
-  buildInputs = [ SDL2 zlib libarchive soxr fltk xdg-utils gnome.adwaita-icon-theme gdk-pixbuf libGL libGLU ];
+  buildInputs = [ SDL2 zlib libarchive soxr fltk xdg-utils adwaita-icon-theme gdk-pixbuf libGL libGLU ];
 
   buildPhase = ''
     autoreconf -vif

@@ -115,7 +115,6 @@ in {
     gtk3
     gtk4
     adwaita-icon-theme
-    aisleriot
     qt6.qtwayland
     unrar
     tree-sitter-grammars.tree-sitter-nix
