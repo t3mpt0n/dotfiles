@@ -9,6 +9,7 @@
     ./network.nix
     ./na-init/disko.nix
     ./users.nix
+    ./minecraft.nix
   ];
   nix.settings.sandbox = true;
   environment.systemPackages = with pkgs; [

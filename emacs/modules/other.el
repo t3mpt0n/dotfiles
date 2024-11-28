@@ -1,7 +1,7 @@
 (use-package vterm
   :after general
   :config
-  (setq shell-file-name "/run/current-system/sw/bin/fish"
+  (setq shell-file-name "/run/current-system/sw/bin/zsh"
         vterm-max-scrollback 5000)
   (general-def
     :states '(normal visual)

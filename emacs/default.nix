@@ -7,6 +7,7 @@
       ./lsp
       ./direnv.nix
       ./vim.nix
+      ./sqlite.nix
     ];
 
     nixpkgs.overlays = [ (import self.inputs.emacs-overlay) ];

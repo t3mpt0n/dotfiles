@@ -10,5 +10,8 @@
     ./ruby.nix
     ./typst.nix
     ./java.nix
+    ./webdev.nix
+    ./go.nix
+    ./haskell.nix
   ];
 }

@@ -18,11 +18,13 @@ inputs@ {
     nix
     audio
     agenix
+    i2p
   ];
   shared_pc_modules = with self.nixosModules; [
     android
     kodi
     bluetooth
+    switch
   ];
   hm_setup = [
     { home-manager.useGlobalPkgs = true; }
@@ -99,6 +101,12 @@ in {
           };
           pyload = {
             file = ../secrets/pyload.age;
+          };
+          c1-pk = {
+            file = ../secrets/t3mpvpn.age;
+          };
+          c1-psk = {
+            file = ../secrets/t3mpvpn-psk.age;
           };
         };
       }

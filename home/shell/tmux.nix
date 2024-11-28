@@ -9,7 +9,7 @@
 in {
   programs.tmux = {
     enable = true;
-    shell = "${pkgs.fish}/bin/fish";
+    shell = "${pkgs.fish}/bin/zsh";
     terminal = "xterm-256color";
     clock24 = true;
     newSession = true;

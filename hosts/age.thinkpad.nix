@@ -1,19 +1,26 @@
 {
   age.secrets = {
-    nextcloud_admin = {
-      file = ../secrets/nextcloud_admin.age;
-      owner = "nextcloud";
-      group = "nextcloud";
+    # Wireguard client
+    tp-pk = {
+      file = ../secrets/thinkpad-pk.age;
     };
-    nextcloud_sydney = {
-      file = ../secrets/nextcloud_sydney.age;
-      owner = "nextcloud";
-      group = "nextcloud";
+    tp-psk = {
+      file = ../secrets/thinkpad-psk.age;
     };
-    cloudflare_creds = {
-      file = ../secrets/cloudflare.creds.age;
-      owner = "acme";
-      group = "acme";
+    gitea = {
+      file = ../secrets/giteapass.age;
+      owner = "gitea";
+      group = "gitea";
+    };
+    gitea_cert = {
+      file = ../secrets/git.t3mpt0n.com.crt.age;
+      owner = "gitea";
+      group = "gitea";
+    };
+    gitea_privkey = {
+      file = ../secrets/git.t3mpt0n.com.pk.age;
+      owner = "gitea";
+      group = "gitea";
     };
   };
 }

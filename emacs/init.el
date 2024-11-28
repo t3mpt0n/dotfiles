@@ -1,6 +1,9 @@
 (progn
   (load "/etc/nixos/emacs/modules/elpaca/config.el")
   (load "/etc/nixos/emacs/modules/UI.el")
+  (if (eq (call-process "pidof" nil nil nil "sway") 0)
+      (load "/etc/nixos/emacs/modules/UI-sway.el")
+    nil)
   (load "/etc/nixos/emacs/modules/org.el")
   (load "/etc/nixos/emacs/modules/startup.el")
   (load "/etc/nixos/emacs/modules/media.el")

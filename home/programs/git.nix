@@ -11,11 +11,12 @@
       userEmail = "git@t3mpt0n.com";
 
       signing = {
-        key = "/home/jd/.ssh/git-commit.pub";
+        key = "/home/jd/.ssh/gc.pub";
         signByDefault = true;
       };
 
       extraConfig = {
+        safe.directory = "/etc/nixos";
         core = {
           editor = "emacsclient -c -a 'emacs'";
           autocrlf = "input";
@@ -43,6 +44,6 @@
   };
 
   home.file.".config/git/allowed_signers" = {
-    text = config.programs.git.userEmail + " ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK5fN5ju9RJkAVZ9dqjIxc75uqAVPf+s9Y+CTUMwDPdK";
+    text = config.programs.git.userEmail + " ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKbg9v5g+gFpjAUr0CjEuHIeqV/CUmCe9QXWzIHkBnQi";
   };
 }

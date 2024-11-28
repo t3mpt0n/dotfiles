@@ -19,13 +19,15 @@
 
   home.packages = with pkgs; [
     vesktop
-    webcord-vencord
-    armcord
+    zoom-us
     self.inputs.homebrew.outputs.packages.x86_64-linux.libray
     dex
+    xd
     betterdiscordctl
+    telegram-desktop
     mono
     nicotine-plus
+    attract-mode
     (pkgs.betterdiscord-installer.overrideAttrs {
       version = "1.10.1";
     })
@@ -48,10 +50,11 @@
     cosmic-icons
     cosmic-settings
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     noto-fonts-emoji
     gimp
     inkscape-with-extensions
     (nerdfonts.override { fonts = [ "FiraCode" "AnonymousPro" "3270" "Iosevka" "NerdFontsSymbolsOnly" ]; })
+    inter
   ];
 }

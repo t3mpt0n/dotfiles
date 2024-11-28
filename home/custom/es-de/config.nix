@@ -9,13 +9,46 @@
   inherit (self.outputs.packages.x86_64-linux) nestopia dsda-doom;
   inherit (inputs.gaming.packages.x86_64-linux) es-de mesen;
   gamescopecmd = "gamescope -W 2560 -H 1440 -w 2560 -h 1440 -r 60 -O DP-3 --xwayland-count 1 --adaptive-sync --fullscreen";
-  rpcs3 = appimageTools.wrapType2 {
-    name = "rpcs3";
-    src = fetchurl {
-      url = "https://github.com/RPCS3/rpcs3-binaries-linux/releases/download/build-e32ed90d21f3f2fd7227653f59c6843e2f30e1fd/rpcs3-v0.0.31-16209-e32ed90d_linux64.AppImage";
-      hash = "sha256-T5CLQD1+n17f+dZDZ6TcOI+WJHpTlafiIuIifaPhJjY=";
+#  rpcs3 = appimageTools.wrapType2 {
+#    name = "rpcs3";
+#    src = fetchurl {
+#      url = "https://github.com/RPCS3/rpcs3-binaries-linux/releases/download/build-f1f124dcbfb248e3347b56c08eb2935752faee69/rpcs3-v0.0.33-17032-f1f124dc_linux64.AppImage";
+#      hash = "sha256-DWsANO15KjLsNqzLyKHeiCDOw83oIGiUAesTpYDGkhY=";
+#    };
+#    extraPkgs = p: with p; [ kdePackages.qtbase kdePackages.qtmultimedia openal glew vulkan-headers vulkan-loader libpng ffmpeg libevdev zlib libusb1 curl wolfssl python3 pugixml SDL2 flatbuffers llvm_16 xorg.libSM];
+#  };
+  xemu131 = pkgs.xemu.overrideAttrs (finalAttrs: previousAttrs: {
+    pname = previousAttrs.pname;
+    version = "0.7.131";
+
+    src = fetchFromGitHub {
+      owner = "xemu-project";
+      repo = "xemu";
+      rev = "v${finalAttrs.version}";
+      fetchSubmodules = true;
+      hash = "sha256-xupCEqTovrEA7qEEr9nBjO7iIbTeXv59cg99W6Nc/54=";
     };
-    extraPkgs = p: with p; [ kdePackages.qtbase kdePackages.qtmultimedia openal glew vulkan-headers vulkan-loader libpng ffmpeg libevdev zlib libusb1 curl wolfssl python3 pugixml SDL2 flatbuffers llvm_16 xorg.libSM];
+  });
+  RetroarchCorePath = "/lib/retroarch/cores/";
+  fuae-launch = pkgs.fsuae-launcher.overrideAttrs (finalAttrs: previousAttrs: {
+    pname = previousAttrs.pname;
+    version = "3.1.66";
+    src = pkgs.fetchurl {
+      url = "https://fs-uae.net/files/FS-UAE-Launcher/Stable/${finalAttrs.version}/fs-uae-launcher-${finalAttrs.version}.tar.xz";
+      hash = "sha256-R/CQaeW0dMApXpieE+3vDrdsWYL979luxi4LU2Ogjr4=";
+    };
+
+    buildInputs = with pkgs.python3Packages; [
+      distutils
+    ] ++ previousAttrs.buildInputs;
+  });
+  ryujinx-mirror = appimageTools.wrapType2 {
+    name = "ryujinx";
+    src = fetchurl {
+      url = "https://github.com/ryujinx-mirror/ryujinx/releases/download/r.49574a9/ryujinx-r.49574a9-x64.AppImage";
+      hash = "sha256-OQAXTwPwzwtZL1KZCVI/Aj2OEh+XB6H7MBjUH8+/KrM=";
+    };
+    extraPkgs = p: with p; [ xorg.libX11 libgdiplus ffmpeg openal libsoundio sndio pulseaudio vulkan-loader xorg.libICE xorg.libSM xorg.libXi xorg.libXcursor xorg.libXext xorg.libXrandr fontconfig glew libGL udev SDL2 SDL2_mixer icu ];
   };
 in rec {
   programs.emulationstation = {
@@ -23,7 +56,7 @@ in rec {
     package = es-de;
     emulators = [
       pkgs.ares
-      pkgs.retroarch
+      pkgs.retroarchBare
       pkgs.emulationstation
       dsda-doom
       pkgs.mednafen
@@ -71,6 +104,26 @@ in rec {
           "sameboy" = {cmd = "sameboy -f %ROM%";};
         };
       };
+      "gba" = {
+        emulators = with pkgs; [ mgba ];
+        fullname = "Nintendo GameBoy Advance";
+        systemsortname = "nint2001";
+        extension = [ ".gba" ".GBA" ] ++ commonExtensions;
+        path = "${rompath}/GBA";
+        command = {
+          "MGBA" = {cmd = "mgba %ROM%";};
+        };
+      };
+      "nds" = {
+        emulators = with pkgs; [ melonDS ];
+        fullname = "Nintendo DS";
+        systemsortname = "nint2004";
+        extension = [ ".nds" ".NDS" ] ++ commonExtensions;
+        path = "${rompath}/NDS";
+        command = {
+          "MelonDS" = { cmd = ""; };
+        };
+      };
       "snesna" = {
         emulators = with pkgs; [ bsnes-hd ];
         fullname = "Super Nintendo Entertainment System";
@@ -90,7 +143,7 @@ in rec {
         path = "${rompath}/SFC";
       };
       "n64" = {
-        emulators = [ pkgs.mupen64plus ];
+        emulators = with pkgs; [ mupen64plus libretro.parallel-n64 ];
         fullname = "Nintendo 64";
         systemsortname = "nint1996";
         extension = [ ".n64" ".N64" ".v64" ".V64" ".z64" ".Z64" ] ++ commonExtensions;
@@ -132,7 +185,7 @@ in rec {
         };
       };
       "switch" = {
-        emulators = with pkgs; [ ryujinx ];
+        emulators = [ ryujinx-mirror ];
         fullname = "Nintendo Switch";
         systemsortname = "nint2017";
         extension = [ ".xci" ".XCI" ".nsp" ".NSP" ] ++ commonExtensions;
@@ -143,7 +196,7 @@ in rec {
         };
       };
       "mastersystem" = {
-        emulators = with pkgs; [];
+        emulators = with pkgs; [ libretro.genesis-plus-gx ];
         fullname = "Sega Master System";
         systemsortname = "sega1986";
         extension = [".sms" ".SMS"] ++ commonExtensions;
@@ -153,7 +206,7 @@ in rec {
         };
       };
       "genesis" = {
-        emulators = with pkgs; [];
+        emulators = with pkgs; [ libretro.blastem libretro.genesis-plus-gx ];
         fullname = "Sega Genesis";
         systemsortname = "sega1989us";
         extension = [ ".bin" ".BIN" ".md" ".MD" ".gen" ".GEN" ] ++ commonExtensions;
@@ -217,7 +270,7 @@ in rec {
         };
       };
       "sega32xna" = {
-        emulators = with pkgs; [];
+        emulators = with pkgs; [ libretro.picodrive ];
         fullname = "Sega 32X";
         systemsortname = "sega1994";
         extension = [ ".32x" ] ++ commonExtensions;
@@ -227,7 +280,7 @@ in rec {
         };
       };
       "saturn" = {
-        emulators = with pkgs; [];
+        emulators = with pkgs; [ libretro.beetle-saturn ];
         fullname = "Sega Saturn";
         systemsortname = "sega1994";
         extension = [ ".bin" ".BIN" ".cue" ".CUE" ".chd" ".CHD" ] ++ commonExtensions;
@@ -267,7 +320,7 @@ in rec {
         };
       };
       "psx" = {
-        emulators = with pkgs; [ duckstation ];
+        emulators = with pkgs; [ duckstation libretro.beetle-psx-hw libretro.beetle-psx ];
         fullname = "Sony PlayStation";
         systemsortname = "sony1994";
         extension = [".bin" ".BIN" ".chd" ".CHD" ".m3u" ".M3U" ".iso" ".ISO" ] ++ commonExtensions;
@@ -297,7 +350,7 @@ in rec {
         };
       };
       "ps3" = {
-        emulators = [ rpcs3 ];
+        emulators = [ pkgs.rpcs3 ];
         fullname = "Sony PlayStation 3";
         systemsortname = "sony2006";
         extension = [ ".ps3" ".PS3" ] ++ commonExtensions;
@@ -327,7 +380,7 @@ in rec {
         };
       };
       "cps1" = {
-        emulators = with pkgs; [ ];
+        emulators = with pkgs; [ libretro.fbneo ];
         fullname = "Capcom Play System";
         systemsortname = "capcompl1";
         extension = commonExtensions;
@@ -357,17 +410,17 @@ in rec {
         };
       };
       "amiga" = {
-        emulators = with pkgs; [  ];
+        emulators = [ pkgs.fsuae fuae-launch ];
         fullname = "Commodore Amiga";
         systemsortname = "cmdor1985";
-        extension = [ ".adf" ".ADF" ] ++ commonExtensions;
+        extension = [ ".adf" ".ADF" ".lha" ".LHA" ] ++ commonExtensions;
         path = "${rompath}/Amiga";
         command = {
           "FSUAE" = { cmd = ""; };
         };
       };
       "x68000" = {
-        emulators = with pkgs; [ fsuae fsuae-launcher ];
+        emulators = with pkgs; [ ];
         fullname = "Sharp X68000";
         systemsortname = "sharp1987";
         extension = commonExtensions;
@@ -377,14 +430,13 @@ in rec {
         };
       };
       "xbox" = {
-        emulators = with pkgs; [ xemu ];
+        emulators = [ xemu131 ];
         fullname = "Microsoft XBOX";
         systemsortname = "micsoft2001";
         extension = [ ".xbox" ".iso" ] ++ commonExtensions;
         path = "${rompath}/XBOX";
         command = {
           "XEMU" = { cmd = "xemu -full-screen -dvd_path %ROM% "; };
-          "JSRF CXBX-R" = { cmd = "lutris lutris:rungame/jsrf-cxbx-r"; };
         };
       };
       "tg16" = {
@@ -398,14 +450,14 @@ in rec {
         };
       };
       "tg-cd" = {
-        emulators = with pkgs; [ ];
+        emulators = with pkgs; [ libretro.beetle-pce ];
         fullname = "NEC Turbografx CD";
         systemsortname = "nec1989b";
         extension = [ ".chd" ".CHD" ] ++ commonExtensions;
         path = "${rompath}/TGCD";
         command = {
           "Mednafen (Standalone)" = { cmd = "mednafen %ROM%"; };
-          "Retroarch (Beetle PCE)" = { cmd = "retroarch -L mednafen_pce_libretro.so %ROM%"; };
+          "Retroarch (Beetle PCE)" = { cmd = "retroarch -L ${pkgs.libretro.beetle-pce}${RetroarchCorePath}mednafen_pce_libretro.so %ROM%"; };
         };
       };
       "pcenginecd" = {

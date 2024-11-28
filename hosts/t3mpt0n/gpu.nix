@@ -17,8 +17,7 @@
     graphics = {
       enable32Bit = true;
       extraPackages = with pkgs; [
-        rocm-opencl-icd
-        rocm-opencl-runtime
+        rocmPackages.clr
         libva
         libva-utils
         libplacebo
@@ -27,9 +26,6 @@
         vulkan-loader
         glxinfo
         vulkan-tools
-      ];
-      extraPackages32 = with pkgs.driversi686Linux; [
-        glxinfo
       ];
     };
 
@@ -49,5 +45,9 @@
       enable = true;
       ppfeaturemask = "0xffffffff";
     };
+  };
+
+  environment.sessionVariables = {
+    AMD_VULKAN_ICD = "RADV";
   };
 }

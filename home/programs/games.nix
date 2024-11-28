@@ -24,5 +24,7 @@ in {
     mame
     mame-tools
     gamepad-tool
+    lunar-client
+    osu-lazer-bin
   ];
 }

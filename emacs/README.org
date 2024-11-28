@@ -88,6 +88,7 @@ My personal choice of package manager, however, *NOT* configured in elisp.
       ./lsp
       ./direnv.nix
       ./vim.nix
+      ./sqlite.nix
     ];
 
     nixpkgs.overlays = [ (import self.inputs.emacs-overlay) ];
@@ -267,7 +268,7 @@ Hodgepodge of menu stuff that's worked for me so far.
 
 *** Sway fix && Transparency
 Fix emacs bugginess on Sway (for the most part).
-#+begin_src elisp :mkdirp yes :tangle ./modules/UI.el
+#+begin_src elisp :mkdirp yes :tangle ./modules/UI-sway.el
   (use-package shackle
     :demand t
     :config
@@ -963,6 +964,9 @@ The code below just imports all the LSP files:
     ./ruby.nix
     ./typst.nix
     ./java.nix
+    ./webdev.nix
+    ./go.nix
+    ./haskell.nix
   ];
 }
 #+end_src
@@ -1335,6 +1339,90 @@ Doesn't that well yet as Typst is a new language.
   :config (add-to-list 'eglot-server-programs '(c++-mode . ("ccls"))))
 #+end_src
 
+*** WEBDEV
+**** Installing [[https://github.com/hrsh7th/vscode-langservers-extracted][HTML, CSS]], [[https://github.com/theia-ide/typescript-language-server][JS, TS]] LangServers, & [[https://browsersync.io/#install][BrowserSync]]
+#+begin_src nix :mkdirp yes :tangle ./lsp/webdev.nix
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
+    vscode-langservers-extracted
+    typescript-language-server
+    nodePackages_latest.browser-sync
+  ];
+}
+#+end_src
+**** Config
+#+begin_src elisp :mkdirp yes :tangle ./modules/prgm.el
+(use-package mhtml-mode
+  :elpaca nil
+  :after eglot
+  :hook (mhtml-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(mhtml-mode . ("vscode-html-language-server" "--stdio"))))
+
+(use-package css-mode
+  :elpaca nil
+  :after eglot
+  :hook (css-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(css-mode . ("vscode-css-language-server" "--stdio"))))
+
+(use-package js-mode
+  :elpaca nil
+  :after eglot
+  :hook (js-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(js-mode . ("typescript-language-server"))))
+
+(use-package typescript-mode
+  :after js-mode
+  :hook (typescript-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server"))))
+#+end_src
+
+*** Go
+**** Install [[https://github.com/golang/tools/tree/master/gopls][gopls]] and [[https://go.dev/][go]]
+#+begin_src nix :mkdirp yes :tangle ./lsp/go.nix
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
+    go
+    gopls
+  ];
+}
+#+end_src
+**** Config
+#+begin_src  elisp :mkdirp yes :tangle ./modules/prgm.el
+(use-package go-mode
+  :after eglot
+  :hook (go-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(go-mode . ("gopls"))))
+#+end_src
+
+*** Haskell
+**** Install [[https://github.com/haskell/haskell-language-server][Haskell Language Server]]
+#+begin_src nix :mkdirp yes :tangle ./lsp/haskell.nix
+{
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
+    haskell-language-server
+  ];
+}
+#+end_src
+**** Config
+#+begin_src  elisp :mkdirp yes :tangle ./modules/prgm.el
+(use-package haskell-mode
+  :after eglot
+  :hook (haskell-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(haskell-mode . ("haskell-language-server"))))
+#+end_src
 * Dired
 #+begin_src elisp :mkdirp yes :tangle ./modules/dired.el
 (use-package dired
@@ -1472,7 +1560,7 @@ Peep a file in Dired.
 (use-package vterm
   :after general
   :config
-  (setq shell-file-name "/run/current-system/sw/bin/fish"
+  (setq shell-file-name "/run/current-system/sw/bin/zsh"
         vterm-max-scrollback 5000)
   (general-def
     :states '(normal visual)
@@ -1538,11 +1626,26 @@ Just in case I'm in serious TTY situation
 }
 #+end_src
 
-* Now, load all the modules!
+** SQLite3
+#+begin_src nix :mkdirp yes :tangle ./sqlite.nix
+{
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [
+    sqlite
+  ];
+}
+#+end_src
+
+* Now, load all the modules (and check for sway)!
 #+begin_src elisp :mkdirp yes :tangle ./init.el
 (progn
   (load "/etc/nixos/emacs/modules/elpaca/config.el")
   (load "/etc/nixos/emacs/modules/UI.el")
+  (if (eq (call-process "pidof" nil nil nil "sway") 0)
+      (load "/etc/nixos/emacs/modules/UI-sway.el")
+    nil)
   (load "/etc/nixos/emacs/modules/org.el")
   (load "/etc/nixos/emacs/modules/startup.el")
   (load "/etc/nixos/emacs/modules/media.el")

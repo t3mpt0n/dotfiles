@@ -15,7 +15,7 @@
       pkgs = import nixpkgs {
         inherit system;
       };
-      inherit (pkgs) stdenv fetchFromGitHub fetchFromGitLab;
+      inherit (pkgs) stdenv fetchFromGitHub fetchFromGitLab python3Packages;
       dkPPC = devkitNix.packages.x86_64-linux.devkitPPC;
       mkPak = stdenv.mkDerivation;
       rustBuild = pkgs.rustPlatform.buildRustPackage;

@@ -11,17 +11,15 @@
 in {
   imports = [
     ./hardware-configuration.nix
-    ./nextcloud.nix
     ./discos.nix
     ./gpu.nix
     ./polkit.nix
     ./xdg.nix
     ./vm.nix
     ./cpu.nix
-    ./monero.nix
-    # ./mpd.nix
-    #    ./sound.nix
     ./network.nix
+    ./docker.nix
+    ./kde.nix
   ];
   nixpkgs.config = {
     allowUnfreePredicate = d: builtins.elem (lib.getName d) [
@@ -71,11 +69,13 @@ in {
     git
     gimx
     arduino
+    wiimms-iso-tools
     arduino-cli
     avrdude
     htop
     qobuz-dl
     cdrtools
+    squashfsTools
     psmisc
     glfw-wayland-minecraft
     gst_all_1.gstreamer
@@ -85,6 +85,7 @@ in {
     gst_all_1.gst-plugins-base
     gst_all_1.gst-vaapi
     lhasa
+    flac
     xdelta
     lha
     p7zip
@@ -95,7 +96,10 @@ in {
     xdg-utils
     self.outputs.packages.x86_64-linux.extract-xiso
     wut-tools
+    lsof
     iso2god-rs
+    fastfetch
+    deluge
     file
     lm_sensors
     (python311.withPackages (p: with p; [
@@ -110,19 +114,16 @@ in {
     appimage-run
     gtk3
     gtk4
-    gnome.adwaita-icon-theme
-    qt5.qtwayland
+    adwaita-icon-theme
+    aisleriot
     qt6.qtwayland
     unrar
     tree-sitter-grammars.tree-sitter-nix
     tor-browser
-    libsForQt5.qt5ct
-    libsForQt5.breeze-qt5
-    libsForQt5.breeze-icons
     kdePackages.breeze
     kdePackages.breeze-icons
-    dotnet-runtime_7
-    dotnet-aspnetcore_7
+    dotnetCorePackages.dotnet_8.runtime
+    dotnetCorePackages.dotnet_8.aspnetcore
   ];
 
   environment = {
@@ -131,7 +132,7 @@ in {
     };
   };
 
-  qt.platformTheme = "qt5ct";
+  qt.platformTheme = "kde";
 
   security = { /* DOAS NOT SUDO */
     doas = {

@@ -5,7 +5,7 @@
 }: {
   programs.waybar = {
     enable = true;
-    package = inputs.nixpkgs-stable.outputs.legacyPackages.x86_64-linux.waybar;
+    package = pkgs.waybar;
 
     settings = {
       mainBar = {
@@ -34,8 +34,8 @@
         };
         "clock" = {
           interval = 1;
-          format = "{:(%a) %H:%M:%S}";
-          format-alt = "{:(%a) %y-%m-%d}";
+          format = "({:%a) %H:%M:%S}";
+          format-alt = "({:%a) %y-%m-%d}";
         };
         "disk" = {
           interval = 15;

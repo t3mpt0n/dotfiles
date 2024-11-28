@@ -183,3 +183,36 @@
   :after eglot
   :hook (c++-mode . eglot-ensure)
   :config (add-to-list 'eglot-server-programs '(c++-mode . ("ccls"))))
+
+(use-package mhtml-mode
+  :elpaca nil
+  :after eglot
+  :hook (mhtml-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(mhtml-mode . ("vscode-html-language-server" "--stdio"))))
+
+(use-package css-mode
+  :elpaca nil
+  :after eglot
+  :hook (css-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(css-mode . ("vscode-css-language-server" "--stdio"))))
+
+(use-package js-mode
+  :elpaca nil
+  :after eglot
+  :hook (js-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(js-mode . ("typescript-language-server"))))
+
+(use-package typescript-mode
+  :after js-mode
+  :hook (typescript-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server"))))
+
+(use-package go-mode
+  :after eglot
+  :hook (go-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(go-mode . ("gopls"))))
+
+(use-package haskell-mode
+  :after eglot
+  :hook (haskell-mode . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(haskell-mode . ("haskell-language-server"))))

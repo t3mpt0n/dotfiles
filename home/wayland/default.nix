@@ -5,7 +5,6 @@
     ./wofi.nix
     ./waybar.nix
     ./hypr.nix
-    ./kde.nix
   ];
 
   home = {

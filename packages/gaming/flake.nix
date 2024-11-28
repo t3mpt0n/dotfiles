@@ -81,7 +81,7 @@
         mesen = let
           extractzip = fetchzip {
             url = "https://nightly.link/SourMesen/Mesen2/workflows/build/master/Mesen%20(Linux%20x64%20-%20AppImage).zip";
-            hash = "sha256-+ii39vHBn5+GcsxTjM6PvoMK3LPRvGyrmwdk/fm8Fyw=";
+            hash = "sha256-kv7AANsEQun9Z70fpjYVXzK6RpPZv1DnK76cPrald/U=";
           };
           appimage-file = "${extractzip}/Mesen.AppImage";
           in pkgs.appimageTools.wrapType2 {

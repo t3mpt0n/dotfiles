@@ -41,5 +41,6 @@
   home.packages = with pkgs; [
     mpc-cli
     spotify
+    strawberry-qt6
   ];
 }

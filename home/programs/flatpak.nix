@@ -17,6 +17,8 @@
       { appId = "ca.parallel_launcher.ParallelLauncher"; origin = "flathub"; }
       { appId = "com.github.tchx84.Flatseal"; origin = "flathub"; }
       { appId = "com.supermodel3.Supermodel"; origin = "flathub"; }
+      { appId = "com.fightcade.Fightcade"; origin = "flathub"; }
+      { appId = "com.usebottles.bottles"; origin = "flathub"; }
     ];
 
     update.auto = {

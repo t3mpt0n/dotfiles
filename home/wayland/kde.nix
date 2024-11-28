@@ -4,12 +4,15 @@
   pkgs,
   ...
 }: {
+  programs.plasma = {
+    enable = true;
+  };
+
   home.packages = with pkgs.kdePackages; [
     plasma-desktop
-    plasma-integration
+    plasma-workspace
     plasma-wayland-protocols
-    libplasma
-    breeze
     systemsettings
+    plasma-integration
   ];
 }

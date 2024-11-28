@@ -24,7 +24,10 @@
     };
     gaming = {
       url = "/etc/nixos/packages/gaming";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+       nixpkgs.follows = "nixpkgs";
+       flake-utils.follows = "flake-utils";
+      };
     };
     music = {
       url = "/etc/nixos/packages/music";
@@ -35,6 +38,13 @@
     hm = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "hm";
+      };
     };
 
     /* PROGRAMMING */
@@ -52,6 +62,13 @@
     nix-your-shell = {
       url = "github:MercuryTechnologies/nix-your-shell";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    gitea = {
+      url = "github:go-gitea/gitea";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
     };
 
 
@@ -80,13 +97,12 @@
       url = "github:PrismLauncher/PrismLauncher";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
       };
     };
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
   };
 
-  outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, prism_mc, nix-flatpak, disko, ...}:
+  outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, prism_mc, nix-flatpak, disko, gitea, plasma-manager, ...}:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.flake-parts.flakeModules.easyOverlay
@@ -115,6 +131,7 @@
         nixosModules = {
           core = import ./modules/core.nix;
           network = import ./modules/network.nix;
+          i2p = import ./modules/i2p.nix;
           nix = import ./modules/nix.nix;
           audio = import ./modules/audio.nix;
           agenix = import ./modules/secret.nix;
@@ -123,6 +140,7 @@
           android = import ./modules/android.nix;
           kodi = import ./modules/kodi.nix;
           gamepads = import ./modules/gamepads;
+          switch = import ./modules/switch.nix;
         };
       };
     };

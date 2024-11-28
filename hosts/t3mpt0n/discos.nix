@@ -24,8 +24,8 @@
           device = "/dev/disk/by-uuid/880d844d-9891-47df-9589-e3595604d6e8";
           allowDiscards = true;
         };
-        "bfd0".device = "/dev/disk/by-uuid/beeaf9d4-3027-45cc-93a4-4412f6256be7";
-        "bfd1".device = "/dev/disk/by-uuid/72cb8de2-3aba-4a9c-92d1-44a19c69bec4";
+       "bfd0".device = "/dev/disk/by-uuid/beeaf9d4-3027-45cc-93a4-4412f6256be7";
+       "bfd1".device = "/dev/disk/by-uuid/72cb8de2-3aba-4a9c-92d1-44a19c69bec4";
       };
     };
   };

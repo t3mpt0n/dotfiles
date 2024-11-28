@@ -31,6 +31,7 @@ in {
   programs = {
     less.enable = true;
     fish.enable = true;
+    zsh.enable = true;
   };
 
   system = {
@@ -43,7 +44,7 @@ in {
   users.users.jd = {
     isNormalUser = true;
     initialHashedPassword = "$y$j9T$u4SE06MPTzat0HqZaWXkm.$Clf4bhmne/b8gcRkDWAn5k2fBCczIacE.bmS5r0daz3";
-    shell = pkgs.fish;
+    shell = pkgs.zsh;
     extraGroups = [ "input" "video" "audio" "networkmanager" "wheel" ];
   };
   users.users.root = {
