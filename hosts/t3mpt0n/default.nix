@@ -8,6 +8,7 @@
 }: let
   inherit (self.inputs.homebrew.packages.x86_64-linux) wut-tools iso2god-rs;
   inherit (self.inputs.music.packages.x86_64-linux) qobuz-dl;
+  inherit (self.inputs.umu-launcher.packages.x86_64-linux) umu;
 in {
   imports = [
     ./hardware-configuration.nix
@@ -20,6 +21,7 @@ in {
     ./network.nix
     ./docker.nix
     ./kde.nix
+    ./monado.nix
   ];
   nixpkgs.config = {
     allowUnfreePredicate = d: builtins.elem (lib.getName d) [
@@ -31,7 +33,6 @@ in {
       "steam"
       "steam-run"
       "steam-original"
-      "lha"
     ];
     permittedInsecurePackages = [
       "freeimage-unstable-2021-11-01"
@@ -70,12 +71,14 @@ in {
     gimx
     arduino
     wiimms-iso-tools
+    putty
     arduino-cli
     avrdude
     htop
     qobuz-dl
     cdrtools
     squashfsTools
+    smartmontools
     psmisc
     glfw-wayland-minecraft
     gst_all_1.gstreamer
@@ -84,10 +87,8 @@ in {
     gst_all_1.gst-plugins-bad
     gst_all_1.gst-plugins-base
     gst_all_1.gst-vaapi
-    lhasa
     flac
     xdelta
-    lha
     p7zip
     gnupg
     pinentry
@@ -109,8 +110,8 @@ in {
     ]))
     jq
     unzip
+    syncthing
     (pkgs.SDL2.override (old: { waylandSupport = true; x11Support = false; openglSupport = true; pipewireSupport = true; }))
-    appimagekit
     appimage-run
     gtk3
     gtk4
@@ -167,6 +168,7 @@ in {
       ];
     };
     flatpak.enable = true;
+    syncthing.enable = true;
   };
 
   systemd.extraConfig = ''

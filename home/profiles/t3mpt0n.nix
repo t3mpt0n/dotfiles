@@ -11,7 +11,7 @@
     ../shell
     ../.
     self.inputs.nix-flatpak.homeManagerModules.nix-flatpak
-    self.inputs.nur.hmModules.nur
+    self.inputs.nur.modules.homeManager.default
     self.inputs.plasma-manager.homeManagerModules.plasma-manager
   ];
 }

@@ -15,18 +15,21 @@
     ./browser.nix
     ./flatpak.nix
     ./games.nix
+    ./nvim
   ];
 
   home.packages = with pkgs; [
     vesktop
-    zoom-us
     self.inputs.homebrew.outputs.packages.x86_64-linux.libray
     dex
     xd
     betterdiscordctl
     telegram-desktop
     mono
+    discord
+    discord-rpc
     nicotine-plus
+    boilr
     attract-mode
     (pkgs.betterdiscord-installer.overrideAttrs {
       version = "1.10.1";
@@ -34,6 +37,7 @@
     corectrl /* Control AMDGPU Profiles */
     home-manager
     dotnet-sdk
+    filezilla
     tauon
     python312Packages.deemix
     stremio
@@ -54,7 +58,12 @@
     noto-fonts-emoji
     gimp
     inkscape-with-extensions
-    (nerdfonts.override { fonts = [ "FiraCode" "AnonymousPro" "3270" "Iosevka" "NerdFontsSymbolsOnly" ]; })
+    nerd-fonts.fira-code
+    nerd-fonts.iosevka
+    nerd-fonts.iosevka-term
+    nerd-fonts.symbols-only
+    nerd-fonts._3270
+    anonymousPro
     inter
   ];
 }

@@ -6,10 +6,14 @@
 		enable = true;
 		theme = "Gruvbox Dark Soft";
 		font = {
-			name = "Fira Code";
-			size = 13;
-			package = pkgs.fira-code;
+			name = "MonaspiceKr Nerd Font";
+			size = 16;
+			package = pkgs.nerd-fonts.monaspace;
 		};
-		shellIntegration.enableFishIntegration = true;
+		shellIntegration = {
+			enableBashIntegration = true;
+			enableZshIntegration = true;
+			enableFishIntegration = true;
+		};
 	};
 }

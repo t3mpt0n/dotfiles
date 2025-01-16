@@ -81,11 +81,12 @@
         mesen = let
           extractzip = fetchzip {
             url = "https://nightly.link/SourMesen/Mesen2/workflows/build/master/Mesen%20(Linux%20x64%20-%20AppImage).zip";
-            hash = "sha256-kv7AANsEQun9Z70fpjYVXzK6RpPZv1DnK76cPrald/U=";
+            hash = "sha256-0StfWLAOXHKfBl4RGECTUWhfHPFw9ZdoA3h7e4+622A=";
           };
           appimage-file = "${extractzip}/Mesen.AppImage";
           in pkgs.appimageTools.wrapType2 {
-          name = "mesen";
+          pname = "mesen";
+          version = "nightly";
           src = appimage-file;
           extraPkgs = p: with p; [ SDL2 dotnet-runtime_8 icu libevdev ];
         };

@@ -4,7 +4,8 @@
   /* INPUTS */
   inputs = {
     /* NIX */
-    nixpkgs.url = "github:NixOs/nixpkgs/nixos-unstable";
+    #nixpkgs.url = "github:nixos/nixpkgs/585f76290ed66a3fdc5aae0933b73f9fd3dca7e3";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOs/nixpkgs/23.11";
     nur.url = "github:nix-community/NUR";
     disko = {
@@ -100,9 +101,15 @@
       };
     };
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    umu-launcher = {
+      url = "github:Open-Wine-Components/umu-launcher?dir=packaging/nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
   };
 
-  outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, prism_mc, nix-flatpak, disko, gitea, plasma-manager, ...}:
+  outputs = inputs@{self, hm, nixpkgs, flake-utils, emacs-overlay, prism_mc, nix-flatpak, disko, gitea, plasma-manager, umu-launcher, ...}:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.flake-parts.flakeModules.easyOverlay

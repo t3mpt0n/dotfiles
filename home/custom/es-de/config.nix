@@ -17,18 +17,6 @@
 #    };
 #    extraPkgs = p: with p; [ kdePackages.qtbase kdePackages.qtmultimedia openal glew vulkan-headers vulkan-loader libpng ffmpeg libevdev zlib libusb1 curl wolfssl python3 pugixml SDL2 flatbuffers llvm_16 xorg.libSM];
 #  };
-  xemu131 = pkgs.xemu.overrideAttrs (finalAttrs: previousAttrs: {
-    pname = previousAttrs.pname;
-    version = "0.7.131";
-
-    src = fetchFromGitHub {
-      owner = "xemu-project";
-      repo = "xemu";
-      rev = "v${finalAttrs.version}";
-      fetchSubmodules = true;
-      hash = "sha256-xupCEqTovrEA7qEEr9nBjO7iIbTeXv59cg99W6Nc/54=";
-    };
-  });
   RetroarchCorePath = "/lib/retroarch/cores/";
   fuae-launch = pkgs.fsuae-launcher.overrideAttrs (finalAttrs: previousAttrs: {
     pname = previousAttrs.pname;
@@ -43,7 +31,8 @@
     ] ++ previousAttrs.buildInputs;
   });
   ryujinx-mirror = appimageTools.wrapType2 {
-    name = "ryujinx";
+    pname = "ryujinx";
+    version = "r.49574a9";
     src = fetchurl {
       url = "https://github.com/ryujinx-mirror/ryujinx/releases/download/r.49574a9/ryujinx-r.49574a9-x64.AppImage";
       hash = "sha256-OQAXTwPwzwtZL1KZCVI/Aj2OEh+XB6H7MBjUH8+/KrM=";
@@ -430,7 +419,7 @@ in rec {
         };
       };
       "xbox" = {
-        emulators = [ xemu131 ];
+        emulators = with pkgs; [ xemu ];
         fullname = "Microsoft XBOX";
         systemsortname = "micsoft2001";
         extension = [ ".xbox" ".iso" ] ++ commonExtensions;

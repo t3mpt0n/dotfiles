@@ -7,6 +7,7 @@ inputs@ {
     nix-flatpak,
     prism_mc,
     disko,
+    umu-launcher,
     ...
 }: let
   inherit (nixpkgs.lib) nixosSystem;
@@ -59,8 +60,8 @@ in {
     modules = [
       ./t3mpt0n
       inputs.chaotic.nixosModules.default
-      inputs.nur.nixosModules.nur
-      ../emacs
+      inputs.nur.modules.nixos.default
+      # ../emacs
       {
         home-manager.users.jd = import ../home/profiles/t3mpt0n.nix;
         home-manager.useGlobalPkgs = true;
@@ -90,12 +91,6 @@ in {
           authinfo = {
             file = ../secrets/authinfo.age;
             path = "/home/jd/.authinfo";
-            owner = "jd";
-            group = "wheel";
-          };
-          elfeed = {
-            file = ../secrets/elfeeds.org;
-            path = "/home/jd/.emacs.d/elfeed.org";
             owner = "jd";
             group = "wheel";
           };

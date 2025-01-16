@@ -17,7 +17,6 @@
     graphics = {
       enable32Bit = true;
       extraPackages = with pkgs; [
-        rocmPackages.clr
         libva
         libva-utils
         libplacebo
@@ -33,8 +32,8 @@
       initrd.enable = true;
       opencl.enable = true;
       amdvlk = {
-        enable = true;
-        support32Bit.enable = true;
+        enable = false;
+        support32Bit.enable = false;
       };
     };
   };

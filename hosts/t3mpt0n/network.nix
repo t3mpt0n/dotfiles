@@ -8,7 +8,6 @@
     ./wireguard.nix
   ];
   environment.systemPackages = with pkgs; [
-    gftp
     inetutils
   ];
 

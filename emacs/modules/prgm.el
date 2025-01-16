@@ -1,9 +1,10 @@
 (use-package company
-  :init
-  (global-company-mode)
-
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-show-numbers t)
+  (company-require-match 'never)
   :config
-  (setq company-backends '((company-files)))
+  (global-company-mode 1)
   (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common))
 
 (use-package tree-sitter
@@ -11,6 +12,7 @@
 
 (use-package tree-sitter-langs :after tree-sitter)
 (use-package tree-sitter-indent :after tree-sitter)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 (use-package flycheck
   :init
@@ -109,11 +111,6 @@
   :config
   (add-to-list 'eglot-server-programs (python-mode . ("jedi-language-server"))))
 
-(use-package company-jedi
-  :after company
-  :init
-  (push 'company-jedi company-backends))
-
 (use-package robe
   :mode "\\.rb\\'"
   :interpreter "ruby"
@@ -156,14 +153,18 @@
   (push '(typst "https://github.com/uben0/tree-sitter-typst") treesit-language-source-alist)
   (add-to-list 'eglot-server-programs '(typst-ts-mode . ("typst"))))
 
-(use-package rust-mode)
+(use-package rust-mode
+  :ensure t
+  :init
+  (setq rust-mode-treesitter-derive t))
 (use-package rustic
   :mode "\\.rs\\'"
-  :after (rust-mode eglot)
+  :after rust-mode
   :hook (rustic-mode . eglot-ensure)
 
   :config
-  (add-to-list 'major-mode-remap-alist '(rust-mode . rustic-mode))
+  (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1)))
+  (remove-hook 'rustic-mode-hook 'flycheck-mode)
   (setq rustic-lsp-client 'eglot))
 
 (use-package eglot-java
