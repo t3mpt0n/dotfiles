@@ -9,20 +9,25 @@ local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
 ls.add_snippets("nix", {
-	s("{}:{}:",
+	s(
+		{ trig = "([^%w]){}:{}:", wordTrig = false, regTrig = true },
 		fmta(
-		  [[ 
+			[[ 
 			{
 			  pkgs,
 				lib,
 				config,
 				...
 			}: {
-			  <>
+			  <><>
 			}
 	    ]],
 			{
-				i(0)
+				f(function(_, snip)
+					return snip.captures[1]
+				end),
+				i(0),
 			}
-	))
+		)
+	),
 })

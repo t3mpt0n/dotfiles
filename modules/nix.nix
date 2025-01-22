@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   nix = {
@@ -29,6 +29,10 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
+			allowInsecurePredicate = pkg: builtins.elem (lib.getName pkg) [
+				"freeimage"
+				"youtube-dl"
+			];
     };
   };
 }

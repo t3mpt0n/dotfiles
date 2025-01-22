@@ -1,0 +1,3 @@
+{
+  plugins.telescope.enable = true;
+}

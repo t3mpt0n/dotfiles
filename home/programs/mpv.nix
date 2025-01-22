@@ -16,7 +16,6 @@
 
     yt-dlp = mkIf (config.programs.mpv.enable == true) {
       enable = true;
-      package = pkgs.yt-dlp;
       settings = {
         format = "bestvideo*+bestaudio/best";
       };

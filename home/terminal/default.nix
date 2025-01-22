@@ -1,5 +1,7 @@
 {
-	imports = [
-		./kitty.nix
-	];
+  imports = [
+    ./kitty.nix
+    ./foot.nix
+    ./wezterm.nix
+  ];
 }

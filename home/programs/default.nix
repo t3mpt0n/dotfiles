@@ -16,9 +16,11 @@
     ./flatpak.nix
     ./games.nix
     ./nvim
+    ./direnv.nix
   ];
 
   home.packages = with pkgs; [
+    self.inputs.t3mpt0n_nvim.outputs.packages.x86_64-linux.default
     vesktop
     self.inputs.homebrew.outputs.packages.x86_64-linux.libray
     dex
@@ -34,7 +36,10 @@
     (pkgs.betterdiscord-installer.overrideAttrs {
       version = "1.10.1";
     })
-    corectrl /* Control AMDGPU Profiles */
+    corectrl
+    /*
+    Control AMDGPU Profiles
+    */
     home-manager
     dotnet-sdk
     filezilla

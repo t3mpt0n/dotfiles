@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}: {
+}:
+{
   programs = {
     firefox = {
       enable = true;
@@ -21,17 +22,6 @@
   };
 
   home.packages = with pkgs; [
-    (floorp.overrideAttrs (finalAttrs: previousAttrs: rec {
-      packageVersion = "11.20.0";
-      version = "128.5.0";
-
-      src = fetchFromGitHub {
-        owner = "Floorp-Projects";
-        repo = "Floorp";
-        fetchSubmodules = true;
-        rev = "v${packageVersion}";
-        hash = "sha256-+FVnG8CKEQdFN9bO8rUZadp+d8keCB98T7qt9OBfLDA=";
-      };
-    }))
+    floorp
   ];
 }

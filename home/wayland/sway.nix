@@ -2,9 +2,10 @@
   config,
   lib,
   pkgs,
-  self,
+  t3mpt0n,
   ...
-}: {
+}:
+{
   home.packages = with pkgs; [
     swww
     waypaper
@@ -18,30 +19,35 @@
     xwayland = true;
     config = rec {
       modifier = "Mod4";
-      output = let
-        walldir = "/mnt/dhp/media/Images/Wallpaper/";
-        res0 = "1680x1050";
-        res1 = "2560x1440";
-        mon0 = "HDMI-A-1"; /* DELL SP2009W [VGA] */
-        mon1 = "DP-3"; /* SAMSUNG ODYSSEY G50A */
-      in {
-        "${mon0}" = {
-          mode = "${res0}@60Hz";
-          position = "0,320";
+      output =
+        let
+          walldir = "/mnt/dhp/media/Images/Wallpaper/";
+          res0 = "1680x1050";
+          res1 = "2560x1440";
+          mon0 = "HDMI-A-1"; # DELL SP2009W [VGA]
+          mon1 = "DP-3"; # SAMSUNG ODYSSEY G50A
+        in
+        {
+          "${mon0}" = {
+            mode = "${res0}@60Hz";
+            position = "0,320";
+          };
+          "${mon1}" = {
+            mode = "${res1}@165Hz";
+            position = "1680,0";
+            adaptive_sync = "on";
+          };
         };
-        "${mon1}" = {
-          mode = "${res1}@165Hz";
-          position = "1680,0";
-          adaptive_sync = "on";
-        };
-      };
-      bars = [ ]; /* empty bc I'm gonna specify waybar in extraConfig */
-      keybindings = with lib;
+      bars = [ ]; # empty bc I'm gonna specify waybar in extraConfig
+      keybindings =
+        with lib;
         let
           modifier = config.wayland.windowManager.sway.config.modifier;
-        in mkOptionDefault {
+        in
+        mkOptionDefault {
           "${modifier}+Return" = "exec ${pkgs.kitty}/bin/kitty";
-          "${modifier}+Shift+Return" = "exec ${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs' -e '(multi-vterm)'";
+          "${modifier}+Shift+Return" =
+            "exec ${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs' -e '(multi-vterm)'";
           "${modifier}+Shift+q" = "kill";
           "${modifier}+p" = "exec ${pkgs.wofi}/bin/wofi --show run";
           "${modifier}+e" = "exec ${pkgs.emacs29-pgtk}/bin/emacsclient -c -a 'emacs' -e '(dashboard-open)'";
@@ -62,9 +68,16 @@
       startup = [
         { command = "emacs --daemon"; }
         { command = "corectrl"; }
-        { command = "nix flake archive /etc/nixos"; always = true; }
-        { command = "${self.outputs.packages.x86_64-linux.sway-alternating-layout}/bin/swayi3-alternating-layout"; }
-        { command = "swww-daemon; swww img -o HDMI-A-1 /mnt/dhp/media/Images/Wallpaper/1680x1050/Manhattan\ Sunset.jpg; swww img -o DP-3 /mnt/dhp/media/Images/Wallpaper/2560x1440/Emptiness.jpg";}
+        {
+          command = "nix flake archive /etc/nixos";
+          always = true;
+        }
+        {
+          command = "${self.outputs.packages.x86_64-linux.sway-alternating-layout}/bin/swayi3-alternating-layout";
+        }
+        {
+          command = "swww-daemon; swww img -o HDMI-A-1 /mnt/dhp/media/Images/Wallpaper/1680x1050/Manhattan\ Sunset.jpg; swww img -o DP-3 /mnt/dhp/media/Images/Wallpaper/2560x1440/Emptiness.jpg";
+        }
       ];
       input = {
         "type:keyboard" = {

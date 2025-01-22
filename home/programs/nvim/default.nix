@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   programs.neovim = {
-    enable = true;
+    enable = false;
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
@@ -21,11 +21,22 @@
       pyright
       python313Packages.flake8
       python313Packages.black
+      python313Packages.debugpy
+
+      # Rust
+      rust-analyzer
+      graphviz
+      cargo
+      rustfmt
 
       # C/C++
       gcc
       gnumake
       stdenv
+      lldb
+
+      # misc.
+      unixtools.xxd
     ];
   };
   home.file."./.config/nvim" = {

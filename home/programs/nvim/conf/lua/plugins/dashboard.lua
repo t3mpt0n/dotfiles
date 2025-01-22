@@ -1,10 +1,10 @@
 return {
 	{
-		'nvimdev/dashboard-nvim',
-		event = 'VimEnter',
+		"nvimdev/dashboard-nvim",
+		event = "VimEnter",
 		config = function()
-			require('dashboard').setup {
-				theme = 'hyper',
+			require("dashboard").setup({
+				theme = "hyper",
 				config = {
 					header = {
 						" ▄▄        ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄               ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄       ▄▄ ",
@@ -18,10 +18,16 @@ return {
 						"▐░▌     ▐░▐░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌       ▐░▐░▌        ▄▄▄▄█░█▄▄▄▄ ▐░▌       ▐░▌",
 						"▐░▌      ▐░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌        ▐░▌        ▐░░░░░░░░░░░▌▐░▌       ▐░▌",
 						" ▀        ▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀          ▀          ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀ ",
-						"                                                                                    "
+						"                                                                                    ",
 					},
-					project = { enable = true, limit = 1, icon = '  ', label = 'Projects', action = 'Telescope find_files cwd=' },
-					mru = { enable = true, limit = 5, icon = '  ', label = 'Recent Files', cwd_only = false },
+					project = {
+						enable = true,
+						limit = 1,
+						icon = "  ",
+						label = "Projects",
+						action = "Telescope find_files cwd=",
+					},
+					mru = { enable = true, limit = 5, icon = "  ", label = "Recent Files", cwd_only = false },
 					footer = {
 						"      __                 __     ",
 						" _/_    )           _/_ /  )    ",
@@ -29,10 +35,10 @@ return {
 						"<_____// / / <_/_)_<__(__// / <_",
 						"              /                 ",
 						"             '                  ",
-					}
-				}
-			}
+					},
+				},
+			})
 		end,
-		dependencies = { {'nvim-tree/nvim-web-devicons'} }
+		dependencies = { { "nvim-tree/nvim-web-devicons" } },
 	},
 }

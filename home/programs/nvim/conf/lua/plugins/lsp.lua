@@ -1,5 +1,6 @@
 local function setup_lsp(lsp, conf)
-	require("lspconfig")[lsp].setup({ conf or nil })
+	local cOnf = conf or {}
+	require("lspconfig")[lsp].setup(cOnf)
 end
 local basic_lsp_list = { "nil_ls", "lua_ls", "pyright" }
 
@@ -14,5 +15,10 @@ return {
 		config = function()
 			basic_lsp_function(basic_lsp_list)
 		end,
+	},
+	{
+		"mrcjkb/rustaceanvim",
+		version = "^5", -- Recommended
+		lazy = false, -- This plugin is already lazy
 	},
 }

@@ -7,6 +7,7 @@ return {
 					lua = { "stylua" },
 					nix = { "alejandra" },
 					python = { "black" },
+					rust = { "rustfmt" },
 				},
 				format_on_save = {
 					timeout_ms = 500,
