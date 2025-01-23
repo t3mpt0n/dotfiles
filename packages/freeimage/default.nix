@@ -1,7 +1,0 @@
-{
-  lib,
-  stdenv,
-  pkg-config,
-}: {
-  
-}
