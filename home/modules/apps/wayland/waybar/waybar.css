@@ -39,19 +39,22 @@ window#waybar.hidden {
 
 #pulseaudio {
   padding: 0 0 0 0;
+  margin-left: 7px;
   border-bottom: 2px solid #fff;
 }
 
 #tray {
-  padding-right: 7px;
+  margin-right: 7px;
 }
 
 #memory {
   border-bottom: 2px solid #fff;
+  margin-left: 7px;
 }
 
 #cpu {
   padding: 0 0 0 0;
+  margin-left: 7px;
   border-bottom: 2px solid #fff;
 }
 

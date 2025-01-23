@@ -28,7 +28,7 @@ in
         in
         {
           # Programs
-          "${M}+p" = "exec ${lib.getExe pkgs.wofi}";
+          "${M}+p" = "exec ${lib.getExe pkgs.wofi} --show run";
           "${M}+Shift+Return" = "exec ${lib.getExe pkgs.kitty}";
           "${M}+w" = "exec ${lib.getExe pkgs.floorp}";
           "${M}+Shift+S" = "exec ${lib.getExe pkgs.steam}";

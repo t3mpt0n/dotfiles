@@ -13,6 +13,9 @@
         key = "/home/jd/.ssh/gc.pub";
         signByDefault = true;
       };
+      user = {
+        signingkey = "/home/jd/.ssh/gc.pub";
+      };
     };
   };
 }

@@ -6,19 +6,26 @@
 {
   programs.zsh = {
     enable = true;
+    dotDir = ".config/zsh";
+    enableCompletion = true;
+    syntaxHighlighting = {
+      enable = true;
+    };
     shellAliases = import ./alias.xtnd;
-    antidote = {
+    oh-my-zsh = {
       enable = true;
       plugins = [
-        "zsh-users/zsh-autosuggestions"
-        "zsh-users/zsh-syntax-highlighting"
-        "romkatv/powerlevel10k"
+        "git"
+        "command-not-found"
+        "sudo"
+        "cp"
+        "direnv"
       ];
     };
 
     envExtra = ''
       if [[ $- == *i* ]]; then
-        fastfetch
+        ${lib.getExe pkgs.fastfetch}
       fi
       if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
         alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'

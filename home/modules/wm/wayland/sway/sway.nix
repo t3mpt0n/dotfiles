@@ -65,8 +65,7 @@
           "${M}+Alt+h" = "splith";
 
           # Manual Lock
-          "${M}+Shift+L" =
-            if config.programs.swaylock.enable then "exec ${pkgs.swaylock}/bin/swaylock" else "";
+          "${M}+Alt+L" = if config.programs.swaylock.enable then "exec ${pkgs.swaylock}/bin/swaylock" else "";
 
           # Switch Keyboard layout
           "${M}+Alt+tab" = "input type:keyboard xkb_switch_layout next";

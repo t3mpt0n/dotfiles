@@ -3,7 +3,8 @@
   inputs,
   osConfig,
   ...
-}: {
+}:
+{
   programs = {
     git = {
       enable = true;
@@ -44,6 +45,8 @@
   };
 
   home.file.".config/git/allowed_signers" = {
-    text = config.programs.git.userEmail + " ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKbg9v5g+gFpjAUr0CjEuHIeqV/CUmCe9QXWzIHkBnQi";
+    text =
+      config.programs.git.userEmail
+      + " ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKbg9v5g+gFpjAUr0CjEuHIeqV/CUmCe9QXWzIHkBnQi";
   };
 }
