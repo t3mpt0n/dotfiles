@@ -33,6 +33,7 @@ nixpkgs.lib.nixosSystem {
       nur.modules.nixos.default
       agenix.nixosModules.default
       ./home.nix
+      ../ssh.nix
       {
         environment.systemPackages = with pkgs; [
           inputs.t3mpt0n_nvim.outputs.packages.x86_64-linux.default

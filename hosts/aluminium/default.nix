@@ -30,6 +30,8 @@ lib.nixosSystem {
       hm.nixosModules.home-manager
       nur.modules.nixos.default
       disko.nixosModules.disko
+      ../ssh.nix
+      ./home.nix
     ]
     ++ imports'
     ++ deploy
