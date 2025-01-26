@@ -14,7 +14,7 @@
         layer = "top";
         position = "top";
         modules-left =
-          (
+          lib.mkDefault (
             if config.wayland.windowManager.sway.enable then
               [
                 "sway/workspaces"
@@ -26,8 +26,8 @@
           ++ [
             "disk"
           ];
-        modules-center = [ "clock" ];
-        modules-right = [
+        modules-center = lib.mkDefault [ "clock" ];
+        modules-right = lib.mkDefault [
           "network"
           "cpu"
           "memory"
@@ -116,7 +116,7 @@
             "warning" = 60;
             "high" = 80;
           };
-          format = "{icon} {usage}%";
+          format = "󰻠{icon} {usage}%";
           format-icons = {
             "low" = "󰡳";
             "moderate" = "󰡵";
@@ -127,7 +127,9 @@
         "network" = {
           interval = 1;
           format-ethernet = "󰈀  {bandwidthDownBits}  {bandwidthUpBits}";
+          format-wifi = "󰖩  {bandwidthDownBits}  {bandwidthUpBits}";
           tooltip-format-ethernet = "󰈀 {ipaddr}/{cidr}";
+          tooltip-format-wifi = "󰖩 {ipaddr}/{cidr}";
         };
         #         "mpd" = {
         #           format = "󰎈 {stateIcon}{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}// {artist}// {title}";
@@ -212,6 +214,6 @@
       };
     };
 
-    style = builtins.readFile ./waybar.css;
+    style = lib.mkDefault builtins.readFile ./waybar.css;
   };
 }

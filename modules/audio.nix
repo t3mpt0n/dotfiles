@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}: {
+}:
+{
   environment.systemPackages = with pkgs; [
     alsa-lib
     alsa-utils
@@ -21,4 +22,6 @@
     pulse.enable = true;
     jack.enable = true;
   };
+
+  programs.noisetorch.enable = true;
 }

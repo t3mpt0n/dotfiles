@@ -22,6 +22,7 @@ nixpkgs.lib.nixosSystem {
       core
       network
       nix
+      grub_efi
       audio
       android
       bluetooth

@@ -74,6 +74,10 @@
           "XF86AudioLowerVolume" = "exec amixer sset Master 5%-";
           "XF86AudioRaiseVolume" = "exec amixer sset Master 5%+";
           "XF86AudioMute" = "exec amixer sset Master toggle";
+
+          # Brightness keys
+          "Shift+XF86AudioRaiseVolume" = "exec ${lib.getExe pkgs.brightnessctl} set 5%+";
+          "Shift+XF86AudioLowerVolume" = "exec ${lib.getExe pkgs.brightnessctl} set 5%-";
         };
       colors = {
         unfocused = {
@@ -114,6 +118,16 @@
 
       startup = [
         { command = if config.programs.wpaperd.enable then "${lib.getExe pkgs.wpaperd}" else ""; }
+      ];
+
+      window.commands = [
+        {
+          command = "inhibit_idle fullscreen";
+          criteria = {
+            class = ".*";
+            app_id = ".*";
+          };
+        }
       ];
     };
 
