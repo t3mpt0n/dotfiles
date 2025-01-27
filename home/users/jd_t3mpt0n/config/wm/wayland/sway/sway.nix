@@ -36,7 +36,7 @@ in
         };
 
       startup = [
-        "${lib.getExe pkgs.wpaperd}"
+        "${pkgs.wpaperd}/bin/wpaperd"
       ];
     };
   };

@@ -16,5 +16,6 @@
 
   home.packages = with pkgs; [
     floorp
+    tor-browser
   ];
 }
