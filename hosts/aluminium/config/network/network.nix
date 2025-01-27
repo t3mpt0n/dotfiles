@@ -13,8 +13,8 @@
       enable = true;
       trustedInterfaces = [
         "virbr0"
+        "enp4s0f4u2"
         "wlp2s0"
-        "enp42s0f4u2c2"
       ];
     };
 

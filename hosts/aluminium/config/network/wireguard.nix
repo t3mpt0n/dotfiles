@@ -2,7 +2,7 @@
 {
   networking =
     let
-      my_vpn = rec {
+      my_vpn = {
         port = 51820;
         wgip = "10.255.65.5";
         endpoint = "107.175.28.215:51820";

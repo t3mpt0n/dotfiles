@@ -13,19 +13,10 @@
       mainBar = {
         layer = "top";
         position = "top";
-        modules-left =
-          lib.mkDefault (
-            if config.wayland.windowManager.sway.enable then
-              [
-                "sway/workspaces"
-                "sway/mode"
-              ]
-            else
-              [ ]
-          )
-          ++ [
-            "disk"
-          ];
+        modules-left = lib.mkDefault [
+          "sway/workspaces"
+          "disk"
+        ];
         modules-center = lib.mkDefault [ "clock" ];
         modules-right = lib.mkDefault [
           "network"
@@ -214,6 +205,6 @@
       };
     };
 
-    style = lib.mkDefault builtins.readFile ./waybar.css;
+    style = lib.mkDefault (builtins.readFile ./waybar.css);
   };
 }

@@ -3,7 +3,7 @@ inputs: {
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs; };
-    backupFileExtenension = ".bak";
+    backupFileExtension = ".bak";
     users = {
       jd = import ../../home/users/jd_aluminium/imports.nix inputs;
     };

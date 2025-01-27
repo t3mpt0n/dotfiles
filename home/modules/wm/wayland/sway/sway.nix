@@ -64,16 +64,13 @@
           "${M}+Alt+v" = "splitv";
           "${M}+Alt+h" = "splith";
 
-          # Manual Lock
-          "${M}+Alt+L" = if config.programs.swaylock.enable then "exec ${pkgs.swaylock}/bin/swaylock" else "";
-
           # Switch Keyboard layout
           "${M}+Alt+tab" = "input type:keyboard xkb_switch_layout next";
 
           # Volume keys
-          "XF86AudioLowerVolume" = "exec amixer sset Master 5%-";
-          "XF86AudioRaiseVolume" = "exec amixer sset Master 5%+";
-          "XF86AudioMute" = "exec amixer sset Master toggle";
+          "XF86AudioLowerVolume" = "exec ${lib.getExe' pkgs.alsa-utils "amixer"} sset Master 5%-";
+          "XF86AudioRaiseVolume" = "exec ${lib.getExe' pkgs.alsa-utils "amixer"} sset Master 5%+";
+          "XF86AudioMute" = "exec ${lib.getExe' pkgs.alsa-utils "amixer"} sset Master toggle";
 
           # Brightness keys
           "Shift+XF86AudioRaiseVolume" = "exec ${lib.getExe pkgs.brightnessctl} set 5%+";
@@ -115,10 +112,6 @@
         style = "Bold";
         size = 16.0;
       };
-
-      startup = [
-        { command = if config.programs.wpaperd.enable then "${lib.getExe pkgs.wpaperd}" else ""; }
-      ];
 
       window.commands = [
         {

@@ -9,7 +9,7 @@ let
 in
 {
   wayland.windowManager.sway = {
-    config = rec {
+    config = {
       output = {
         "HDMI-A-1" = {
           mode = "1680x1050@60Hz";
@@ -34,6 +34,10 @@ in
           "${M}+Shift+S" = "exec ${lib.getExe pkgs.steam}";
           "${M}+Shift+D" = "exec ${lib.getExe pkgs.discord}";
         };
+
+      startup = [
+        "${lib.getExe pkgs.wpaperd}"
+      ];
     };
   };
 }

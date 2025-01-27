@@ -1,6 +1,7 @@
 let
   jd_t3mpt0n = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGevSfbQaLny/CRYXKAIfCyUdDp6G3VSfz+I0sa2fFB3";
   t3mpt0n = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGPuI0N/XtaAXIaSoSMsL9qmuuX1VvLh9nbpB6Tzj++h";
+  jd_aluminium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII6Hbix0g/+hOemf5/ysHSVPQsujQga8g4Xfsf5ooSaA jd@aluminium";
   users = [ jd_t3mpt0n ];
   hosts = [ t3mpt0n ];
   all = users ++ hosts;

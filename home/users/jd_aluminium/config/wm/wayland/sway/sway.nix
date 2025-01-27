@@ -9,7 +9,7 @@ let
 in
 {
   wayland.windowManager.sway = {
-    config = rec {
+    config = {
       output = {
         "eDP-1" = {
           mode = "1920x1080@60Hz";

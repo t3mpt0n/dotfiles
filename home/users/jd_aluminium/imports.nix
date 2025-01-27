@@ -1,9 +1,4 @@
-{
-  inputs,
-  self,
-  t3mpt0n_nvim,
-  ...
-}:
+{ inputs, ... }:
 let
   inherit (inputs.nixpkgs) lib;
   conf = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./config);
