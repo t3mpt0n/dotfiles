@@ -11,7 +11,7 @@
     ./lint.nix
     ./conform.nix
     ./oil.nix
-    ./tex.nix
+    ./vimtex.nix
   ];
   plugins = {
     web-devicons.enable = true; # Needed for most UI plugins
@@ -25,6 +25,7 @@
     cmp-path.enable = true;
     cmp-cmdline.enable = true;
     cmp_luasnip.enable = true;
+    cmp-vimtex.enable = true;
 
     rustaceanvim.enable = true;
     direnv.enable = true;

@@ -16,6 +16,7 @@
       };
       sources = [
         { name = "nvim_lsp"; }
+        { name = "vimtex"; }
         { name = "luasnip"; }
         { name = "buffer"; }
       ];
