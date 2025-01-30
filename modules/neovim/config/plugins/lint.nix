@@ -28,6 +28,7 @@
       luac.cmd = lib.getExe' pkgs.lua "luac";
       hlint.cmd = lib.getExe pkgs.haskellPackages.hlint;
       stylelint.cmd = lib.getExe pkgs.stylelint;
+      flake8.cmd = lib.getExe pkgs.python313Packages.flake8;
     };
 
     lintersByFt = {
@@ -40,6 +41,7 @@
       ];
       haskell = [ "hlint" ];
       css = [ "stylelint" ];
+      python = [ "flake8" ];
     };
   };
 

@@ -49,6 +49,10 @@
           formatterMode = "typstyle";
         };
       };
+
+      pyright = {
+        enable = true;
+      };
     };
   };
 }
