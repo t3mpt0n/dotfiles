@@ -1,15 +1,14 @@
 {
-	plugins.luasnip = {
-		enable = true;
-		settings = {
-			enable_autosnippets = true;
-			store_selection_keys = "<Tab>";
-		};
+  plugins.luasnip = {
+    enable = true;
+    settings = {
+      enable_autosnippets = true;
+    };
 
-		fromLua = [
-			{
-				paths = "/etc/nixos/modules/neovim/config/snippets";
-			}
-		];
-	};
+    fromLua = [
+      {
+        paths = "/etc/nixos/modules/neovim/config/snippets";
+      }
+    ];
+  };
 }

@@ -42,6 +42,13 @@
       cssls = {
         enable = true;
       };
+
+      tinymist = {
+        enable = true;
+        settings = {
+          formatterMode = "typstyle";
+        };
+      };
     };
   };
 }

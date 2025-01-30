@@ -1,22 +1,33 @@
 let
   jd_t3mpt0n = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGevSfbQaLny/CRYXKAIfCyUdDp6G3VSfz+I0sa2fFB3";
   t3mpt0n = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGPuI0N/XtaAXIaSoSMsL9qmuuX1VvLh9nbpB6Tzj++h";
-  jd_aluminium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII6Hbix0g/+hOemf5/ysHSVPQsujQga8g4Xfsf5ooSaA jd@aluminium";
-  users = [ jd_t3mpt0n ];
-  hosts = [ t3mpt0n ];
-  all = users ++ hosts;
+  jd_aluminium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILK/iUVsS+pTBJwahINIzA8r5jh0UiDkAhEhfgxETcFA";
+  aluminium = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKX7asDVQOSlhqYu9bUyRqh92dDz8dtzu9Zv/Q+/EW75";
+  users = [
+    jd_t3mpt0n
+    jd_aluminium
+  ];
+  hosts = [
+    t3mpt0n
+    aluminium
+  ];
+  everyone = users ++ hosts;
   all_t3mpt0n = [
     jd_t3mpt0n
     t3mpt0n
   ];
+  all_aluminium = [
+    jd_aluminium
+    aluminium
+  ];
 in
 {
-  "doom1.wad.bfg.age".publicKeys = all_t3mpt0n;
-  "doom2.wad.age".publicKeys = all_t3mpt0n;
+  "doom1.wad.bfg.age".publicKeys = everyone;
+  "doom2.wad.age".publicKeys = everyone;
   "spotify.age".publicKeys = all_t3mpt0n;
   "authinfo.age".publicKeys = all_t3mpt0n;
   "t3mpvpn.age".publicKeys = all_t3mpt0n;
   "t3mpvpn-psk.age".publicKeys = all_t3mpt0n;
-  "alvpn.age".publicKeys = all_t3mpt0n;
-  "alvpn.psk.age".publicKeys = all_t3mpt0n;
+  "alvpn.age".publicKeys = all_aluminium;
+  "alvpn.psk.age".publicKeys = all_aluminium;
 }

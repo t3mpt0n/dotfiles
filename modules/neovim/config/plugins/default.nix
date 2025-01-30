@@ -11,6 +11,7 @@
     ./lint.nix
     ./conform.nix
     ./oil.nix
+    ./tex.nix
   ];
   plugins = {
     web-devicons.enable = true; # Needed for most UI plugins
