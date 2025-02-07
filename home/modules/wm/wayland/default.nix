@@ -10,6 +10,7 @@
       XDG_SESSION_TYPE = "wayland";
       QT_AUTO_SCREEN_SCALE_FACTOR = "1";
       MOZ_ENABLE_WAYLAND = "1";
+      NIXOS_OZONE_WL = "1";
     };
 
     packages = with pkgs; [
@@ -18,10 +19,4 @@
       slurp
     ];
   };
-
-  wayland.systemd.target =
-    if config.wayland.windowManager.sway.enable then
-      "sway-session.target"
-    else
-      "graphical-session.target";
 }

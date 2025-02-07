@@ -14,7 +14,7 @@
         layer = "top";
         position = "top";
         modules-left = lib.mkDefault [
-          "sway/workspaces"
+          "hyprland/workspaces"
           "disk"
         ];
         modules-center = lib.mkDefault [ "clock" ];
@@ -29,6 +29,17 @@
         # MODULE CONFIG
         "sway/workspaces" = {
           numeric-first = true;
+          format = "{icon}";
+          format-icons = {
+            "1" = "";
+            "2" = "󰓇";
+            "3" = "󰈹";
+            "4" = "󰙯";
+            "5" = "󰊴";
+            "6" = "";
+          };
+        };
+        "hyprland/workspaces" = {
           format = "{icon}";
           format-icons = {
             "1" = "";
