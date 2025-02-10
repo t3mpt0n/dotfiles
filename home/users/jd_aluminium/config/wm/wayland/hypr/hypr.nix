@@ -1,0 +1,19 @@
+{ pkgs, lib, ... }:
+{
+  wayland.windowManager.hyprland = {
+    settings = {
+      monitor = [
+        "eDP-1, 1920x1080@60, 0x0, 1"
+      ];
+      bind = [
+        "$mod, p, exec, ${lib.getExe pkgs.wofi} --show run"
+        "$mod SHIFT, Return, exec, ${lib.getExe pkgs.kitty}"
+        "$mod, w, exec, ${lib.getExe pkgs.floorp}"
+        "$mod SHIFT, S, exec, ${lib.getExe pkgs.steam}"
+        "$mod SHIFT, D, exec, ${lib.getExe pkgs.discord}"
+      ];
+
+      exec-once = [ "${lib.getExe pkgs.waybar}" ];
+    };
+  };
+}
