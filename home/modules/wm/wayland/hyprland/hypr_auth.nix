@@ -1,14 +1,14 @@
 { pkgs, lib, ... }:
 {
   programs.hyprlock = {
-    enable = true;
+    enable = false;
   };
 
   services.hypridle = {
     enable = true;
     settings = {
       general = {
-        lock_cmd = "${lib.getExe pkgs.hyprlock}";
+        lock_cmd = "${lib.getExe pkgs.swaylock}";
         before_sleep_cmd = "loginctl lock-session";
         after_sleep_cmd = "${lib.getExe' pkgs.hyprland "hyprctl"} dispatch dpms on";
       };

@@ -12,6 +12,7 @@
       swaylock.text = ''
         auth include login
       '';
+      hyprlock = { };
     };
     doas = {
       enable = true;
