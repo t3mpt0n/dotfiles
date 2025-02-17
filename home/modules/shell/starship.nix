@@ -60,22 +60,18 @@
       line_break.disabled = false;
 
       format = lib.concatStrings [
-        "[ ](color_orange)"
+        "[](color_orange)"
         "$os$username$hostname"
-        "[ ](bg:color_yellow fg:color_orange)"
+        "[](bg:color_yellow fg:color_orange)"
         "$directory"
-        "[ ](fg:color_yellow)"
-        "$line_break"
-        "[ ](color_blue)"
+        "[](fg:color_yellow bg:color_blue)"
         "$c$rust$python$haskell"
-        "[ ](bg:color_bg3 fg:color_blue)"
+        "[](bg:color_bg3 fg:color_blue)"
         "$git_branch$git_status"
-        "[ ](bg:color_bg1 fg:color_bg3)"
+        "[](bg:color_bg1 fg:color_bg3)"
         "$time"
         "[ ](fg:color_bg1)"
-        "$character"
-      ];
-      right_format = lib.concatStrings [
+        "$line_break$character"
       ];
     };
   };

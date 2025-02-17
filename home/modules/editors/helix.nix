@@ -53,13 +53,17 @@
               nixpkgs.expr = "import ${confFlake}.inputs.nixpkgs { }";
               options = {
                 system_opts.expr = "${confFlake}.nixosConfigurations.t3mpt0n";
-                home_manager_opts = "${confFlake}.nixosConfigurations.t3mpt0n.home-manager.users.jd";
+                home_manager_opts.expr = "${confFlake}.nixosConfigurations.t3mpt0n.home-manager.users.jd";
               };
             };
         };
 
-        based_pyright = {
-          command = "${lib.getExe pkgs.basedpyright}";
+        pylsp = {
+          command = "${lib.getExe pkgs.python313Packages.python-lsp-server}";
+        };
+
+        marksman = {
+          command = "${lib.getExe pkgs.marksman}";
         };
       };
 
@@ -79,9 +83,27 @@
           formatter.command = "${lib.getExe pkgs.python313Packages.black}";
           auto-format = true;
           file-types = [ "py" ];
-          language-servers = [ "based_pyright" ];
+          language-servers = [
+            "pylsp"
+          ];
+        }
+
+        {
+          ## MARKDOWN
+          name = "markdown";
+          auto-format = true;
+          file-types = [ "md" ];
+          language-servers = [
+            "marksman"
+          ];
         }
       ];
     };
+
+    extraPackages = with pkgs; [
+      python313Packages.rope
+      python313Packages.pyflakes
+      python313Packages.yapf
+    ];
   };
 }
