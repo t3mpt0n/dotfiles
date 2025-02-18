@@ -65,6 +65,14 @@
         marksman = {
           command = "${lib.getExe pkgs.marksman}";
         };
+
+        metals = {
+          command = "${lib.getExe pkgs.metals}";
+        };
+
+        clojure-lsp = {
+          command = "${lib.getExe pkgs.clojure-lsp}";
+        };
       };
 
       language = [
@@ -95,6 +103,31 @@
           file-types = [ "md" ];
           language-servers = [
             "marksman"
+          ];
+        }
+
+        {
+          ## SCALA
+          name = "scala";
+          formatter.command = "${lib.getExe pkgs.scalafmt}";
+          auto-format = true;
+          file-types = [
+            "scala"
+            "sbt"
+          ];
+          language-servers = [
+            "metals"
+          ];
+        }
+
+        {
+          ## CLOJURE
+          name = "clojure";
+          formatter.command = "${lib.getExe pkgs.cljfmt}";
+          auto-format = true;
+          file-types = [ "clj" ];
+          language-servers = [
+            "clojure-lsp"
           ];
         }
       ];

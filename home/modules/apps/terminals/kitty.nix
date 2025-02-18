@@ -7,9 +7,9 @@
     enable = true;
     theme = "Gruvbox Dark Soft";
     font = {
-      name = "MonaspiceKr Nerd Font";
+      name = "GeistMono Nerd Font";
       size = 16;
-      package = pkgs.nerd-fonts.monaspace;
+      package = pkgs.nerd-fonts.geist-mono;
     };
     shellIntegration = {
       enableBashIntegration = true;

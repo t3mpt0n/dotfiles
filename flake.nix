@@ -95,6 +95,12 @@
         };
 
       flake = {
+        templates = {
+          clojure = {
+            path = ./templates/clojure;
+            description = "Basic Clojure Template";
+          };
+        };
         nixosConfigurations = import ./hosts inputs;
         nixosModules = {
           core = import ./modules/core.nix;
