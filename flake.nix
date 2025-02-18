@@ -100,6 +100,11 @@
             path = ./templates/clojure;
             description = "Basic Clojure Template";
           };
+
+          latex-notes = {
+            path = ./templates/latex/notes;
+            description = "LaTeX Note Template";
+          };
         };
         nixosConfigurations = import ./hosts inputs;
         nixosModules = {

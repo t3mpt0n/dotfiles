@@ -73,6 +73,17 @@
         clojure-lsp = {
           command = "${lib.getExe pkgs.clojure-lsp}";
         };
+
+        elixir-ls = {
+          command = "${lib.getExe pkgs.elixir_ls}";
+        };
+
+        texlab = {
+          command = "${lib.getExe pkgs.texlab}";
+          config = {
+            texlab.build.onSave = true;
+          };
+        };
       };
 
       language = [
@@ -130,6 +141,25 @@
             "clojure-lsp"
           ];
         }
+
+        {
+          ## ELIXIR
+          name = "elixir";
+          formatter.command = "${lib.getExe' pkgs.elixir "mix"} format";
+          auto-format = true;
+          file-types = [
+            "ex"
+            "exs"
+          ];
+          language-servers = [ "elixir-ls" ];
+        }
+
+        {
+          ## LaTeX
+          name = "latex";
+          file-types = [ "tex" ];
+          language-servers = [ "texlab" ];
+        }
       ];
     };
 
@@ -137,6 +167,7 @@
       python313Packages.rope
       python313Packages.pyflakes
       python313Packages.yapf
+      texliveFull
     ];
   };
 }
