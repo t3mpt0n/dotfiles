@@ -4,7 +4,8 @@
     enable = true;
     packages = with pkgs; [
       gcr
-      rtkit
     ];
   };
+
+  security.rtkit.enable = true;
 }

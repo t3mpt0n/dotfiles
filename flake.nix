@@ -38,6 +38,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-parts.follows = "flake-parts";
     };
+
+    cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -47,6 +52,7 @@
       nixpkgs,
       disko,
       t3mpt0n_nvim,
+      cosmic,
       ...
     }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
@@ -104,6 +110,11 @@
           latex-notes = {
             path = ./templates/latex/notes;
             description = "LaTeX Note Template";
+          };
+
+          scala = {
+            path = ./templates/scala;
+            description = "Basic Scala Project Template";
           };
         };
         nixosConfigurations = import ./hosts inputs;

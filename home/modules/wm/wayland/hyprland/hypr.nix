@@ -1,16 +1,16 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 {
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
     systemd = {
       enable = true;
-      extraCommands = [
-        "systemctl --user reset-failed"
-        "systemctl --user stop hyprland-session.target"
-        "systemctl --user start hyprland-session.target"
-        "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-      ];
+      variables = [ "--all" ];
     };
     settings = {
       "$mod" = "SUPER";
@@ -51,8 +51,29 @@
           ", XF86AudioRaiseVolume, exec, ${lib.getExe' pkgs.alsa-utils "amixer"} sset Master 5%+"
           ", XF86AudioMute, exec, ${lib.getExe' pkgs.alsa-utils "amixer"} sset Master toggle"
         ];
+      exec-once = [
+      ];
     };
   };
+
+  xdg.portal =
+    if config.wayland.windowManager.hyprland.enable then
+      {
+        extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+        configPackages = with pkgs; [ hyprland ];
+        xdgOpenUsePortal = true;
+      }
+    else
+      { };
+
+  home.sessionVariables =
+    if config.wayland.windowManager.hyprland.enable then
+      {
+        XDG_CURRENT_DESKTOP = "Hyprland";
+        XDG_SESSION_DESKTOP = "Hyprland";
+      }
+    else
+      { };
 
   services.hyprpaper = {
     enable = true;

@@ -5,6 +5,7 @@ inputs@{
   nur,
   agenix,
   t3mpt0n_nvim,
+  cosmic,
   ...
 }:
 let
@@ -32,6 +33,7 @@ nixpkgs.lib.nixosSystem {
       hm.nixosModules.home-manager
       nur.modules.nixos.default
       agenix.nixosModules.default
+      cosmic.nixosModules.default
       ./home.nix
       ../ssh.nix
       {

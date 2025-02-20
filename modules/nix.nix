@@ -14,11 +14,13 @@
         "https://emulationstation-desktop-edition.cachix.org"
         "https://nix-community.cachix.org"
         "https://cache.garnix.io"
+        "https://cosmic.cachix.org/"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "emulationstation-desktop-edition.cachix.org-1:0ss2O/urWLHPVHqK+Jr0DwI0ggEeRR3q93oSv5UUZtc="
         "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+        "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
       ];
       trusted-users = [
         "root"

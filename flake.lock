@@ -39,6 +39,28 @@
         "type": "github"
       }
     },
+    "cosmic": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nixpkgs-stable": "nixpkgs-stable"
+      },
+      "locked": {
+        "lastModified": 1739909000,
+        "narHash": "sha256-DsepQ7ApA4li8td4QFTmX2qs4gvCLfoN7Mlaifmji7Y=",
+        "owner": "lilyinstarlight",
+        "repo": "nixos-cosmic",
+        "rev": "5516035bb36dbb19f2bbe7b9cea6922db395e100",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lilyinstarlight",
+        "repo": "nixos-cosmic",
+        "type": "github"
+      }
+    },
     "crane": {
       "inputs": {
         "nixpkgs": [
@@ -125,6 +147,22 @@
       }
     },
     "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1717312683,
+        "narHash": "sha256-FrlieJH50AuvagamEvWMIE6D2OAnERuDboFDYAED/dE=",
+        "owner": "nix-community",
+        "repo": "flake-compat",
+        "rev": "38fd3954cf65ce6faf3d0d45cd26059e059f07ea",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-compat_2": {
       "locked": {
         "lastModified": 1696426674,
         "narHash": "sha256-kvjfFW7WAETZlt09AgDn1MrtKzP7t90Vf7vypd3OL1U=",
@@ -426,6 +464,22 @@
     },
     "nixpkgs-stable": {
       "locked": {
+        "lastModified": 1739624908,
+        "narHash": "sha256-f84lBmLl4tkDp1ZU5LBTSFzlxXP4926DVW3KnXrke10=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "a60651b217d2e529729cbc7d989c19f3941b9250",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-24.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-stable_2": {
+      "locked": {
         "lastModified": 1737885640,
         "narHash": "sha256-GFzPxJzTd1rPIVD4IW+GwJlyGwBDV1Tj5FLYwDQQ9sM=",
         "owner": "NixOs",
@@ -475,7 +529,7 @@
     "nixvim": {
       "inputs": {
         "devshell": "devshell",
-        "flake-compat": "flake-compat",
+        "flake-compat": "flake-compat_2",
         "flake-parts": "flake-parts_3",
         "git-hooks": "git-hooks",
         "home-manager": "home-manager_2",
@@ -545,12 +599,13 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "cosmic": "cosmic",
         "disko": "disko",
         "flake-parts": "flake-parts",
         "hm": "hm",
         "nix-your-shell": "nix-your-shell",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-stable": "nixpkgs-stable",
+        "nixpkgs-stable": "nixpkgs-stable_2",
         "nur": "nur",
         "t3mpt0n_nvim": "t3mpt0n_nvim"
       }
