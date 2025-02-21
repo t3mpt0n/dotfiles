@@ -15,6 +15,7 @@
       ${builtins.readFile ./modules/ui.el}
       ${builtins.readFile ./modules/dashboard.el}
       ${builtins.readFile ./modules/cmp.el}
+      ${builtins.readFile ./modules/org.el}
     '';
   };
 

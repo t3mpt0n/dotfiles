@@ -12,29 +12,44 @@
 (add-hook #'prog-mode-hook #'display-line-numbers-mode) ;Display current line number on very left column in all buffers
 
 ;; Frame modification
-(set-frame-font (concat t3mpt0n/font " " t3mpt0n/font/size) nil t)
+(add-to-list 'default-frame-alist '(font . "GeistMono Nerd Font 12"))
 (set-frame-parameter nil 'alpha-background t3mpt0n/alpha)
 
 ;Theme
 (use-package doom-themes
-	:ensure t
-	:config
-	(setq doom-themes-enable-bold t)
-	(setq doom-themes-enable-italic t)
-	(load-theme 'doom-gruvbox t)
-	(doom-themes-visual-bell-config)
-	(doom-themes-org-config))
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t)
+  (setq doom-themes-enable-italic t)
+  (load-theme 'doom-gruvbox t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config))
 
 (use-package doom-modeline
-	:ensure t
-	:config
-	(doom-modeline-mode 1))
+  :ensure t
+  :config
+  (doom-modeline-mode 1))
 
 (use-package nerd-icons
-	:ensure t
-	:custom
-	(nerd-icons-font-family t3mpt0n/font))
+  :ensure t
+  :custom
+  (nerd-icons-font-family t3mpt0n/font))
 
 (use-package rainbow-delimiters
-	:ensure t
-	:hook (prog-mode . rainbow-delimiters-mode))
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package tree-sitter
+  :ensure t
+  :hook ((prog-mode . tree-sitter-mode)
+         (tree-sitter-after-on . tree-sitter-hl-mode)))
+
+(use-package tree-sitter-langs :ensure t)
+(use-package indent-bars
+  :ensure t
+  :after tree-sitter
+  :hook (prog-mode . indent-bars-mode)
+  :config
+  (require 'indent-bars-ts)
+  :custom
+  (indent-bars-treesit-support t))
