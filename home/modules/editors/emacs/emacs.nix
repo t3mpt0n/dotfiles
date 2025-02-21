@@ -16,6 +16,8 @@
       ${builtins.readFile ./modules/dashboard.el}
       ${builtins.readFile ./modules/cmp.el}
       ${builtins.readFile ./modules/org.el}
+      ${builtins.readFile ./modules/terminal.el}
+      ${builtins.readFile ./modules/dirvish.el}
     '';
   };
 
@@ -25,7 +27,7 @@
   };
 
   services.emacs = {
-    enable = true;
+    enable = false;
     client = {
       enable = true;
       arguments = [
@@ -36,4 +38,12 @@
     defaultEditor = true;
     package = pkgs.emacs30-pgtk;
   };
+
+  home.packages = with pkgs; [
+    fd
+    imagemagick
+    poppler
+    ffmpegthumbnailer
+    mediainfo
+  ];
 }

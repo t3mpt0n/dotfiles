@@ -12,7 +12,7 @@
 (add-hook #'prog-mode-hook #'display-line-numbers-mode) ;Display current line number on very left column in all buffers
 
 ;; Frame modification
-(add-to-list 'default-frame-alist '(font . "GeistMono Nerd Font 12"))
+(add-to-list 'default-frame-alist '(font . "GeistMono Nerd Font 14"))
 (set-frame-parameter nil 'alpha-background t3mpt0n/alpha)
 
 ;Theme
@@ -42,6 +42,7 @@
 (use-package tree-sitter
   :ensure t
   :hook ((prog-mode . tree-sitter-mode)
+         (lisp-data-mode . (lambda () (tree-sitter-mode -1)))
          (tree-sitter-after-on . tree-sitter-hl-mode)))
 
 (use-package tree-sitter-langs :ensure t)
