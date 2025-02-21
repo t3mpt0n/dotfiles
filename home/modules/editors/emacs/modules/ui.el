@@ -27,8 +27,7 @@
 
 (use-package doom-modeline
   :ensure t
-  :config
-  (doom-modeline-mode 1))
+  :hook (elpaca-after-init . doom-modeline-mode))
 
 (use-package nerd-icons
   :ensure t

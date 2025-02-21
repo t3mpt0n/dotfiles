@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   home.file.".emacs.d/early-init.el" = {
     text = ''
       ;Disable package.el
@@ -8,8 +7,6 @@
   };
   home.file.".emacs.d/init.el" = {
     text = ''
-      (setq create-lockfiles nil)
-
       ${builtins.readFile ./modules/elpaca.el}
       ${builtins.readFile ./modules/keys.el}
       ${builtins.readFile ./modules/ui.el}
@@ -18,6 +15,8 @@
       ${builtins.readFile ./modules/org.el}
       ${builtins.readFile ./modules/terminal.el}
       ${builtins.readFile ./modules/dirvish.el}
+      ${builtins.readFile ./modules/lsp.el}
+      ${builtins.readFile ./modules/magit.el}
     '';
   };
 
@@ -40,10 +39,24 @@
   };
 
   home.packages = with pkgs; [
+    # Dirvish dependencies
     fd
     imagemagick
     poppler
     ffmpegthumbnailer
     mediainfo
+
+    # Nix LSP
+    alejandra
+    nixd
+
+    # LaTeX LSP
+    texlab
+    texliveFull
+    auctex
+
+    # Markdown LSP
+    prettierd
+    marksman
   ];
 }

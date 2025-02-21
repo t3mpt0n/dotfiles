@@ -9,7 +9,10 @@
    "f" '(:which-key "Files")
    "B" '(:which-key "Bookmarks")
    "b" '(:which-key "Buffers")
-   "h" '(help-command :which-key "Help Functions")))
+   "h" '(help-command :which-key "Help Functions")
+   "o" '(:which-key "Open Commands")
+   "f s" '(save-buffer :which-key "Save file")
+   "f S" '(write-file :which-key "Save file as...")))
 (use-package evil
   :ensure t
   :after general
@@ -22,7 +25,16 @@
   (general-define-key
    :states 'normal
    :prefix t3mpt0n/leader
-   "w" '(evil-window-map :which-key "Windows")))
+   "w" '(evil-window-map :which-key "Windows")
+   "b d" '(evil-delete-buffer :which-key "Delete Buffer")
+   "b +" '(evil-buffer-new :which-key "New Empty Buffer")
+   "b p" '(evil-prev-buffer :which-key "Prev. Buffer")
+   "b n" '(evil-next-buffer :which-key "Next Buffer")))
+
+(use-package evil-collection
+  :ensure t
+  :after evil
+  :hook (elpaca-after-init . evil-collection-init))
 
 (use-package which-key
   :ensure nil

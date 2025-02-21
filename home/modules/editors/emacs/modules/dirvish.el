@@ -1,5 +1,7 @@
+(use-package pdf-tools :ensure t)
 (use-package dirvish
   :ensure t
+  :after pdf-tools
   :hook (elpaca-after-init . dirvish-override-dired-mode)
   :config
   (setq dirvish-attributes '(

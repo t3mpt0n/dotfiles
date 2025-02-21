@@ -11,7 +11,8 @@
    "f f" '(helm-find-files :which-key "Find Files")
    "f r" '(helm-recentf :which-key "Recent Files")
    "SPC" '(helm-M-x :which-key "M-x")
-   "B l" '(helm-filtered-bookmarks :which-key "List Bookmarks")))
+   "B l" '(helm-filtered-bookmarks :which-key "List Bookmarks")
+   "b m" '(helm-buffer-list :which-key "Buffer Menu")))
 
 (use-package corfu
   :ensure t

@@ -1,5 +1,6 @@
 (use-package org
   :ensure nil
+  :config
   (setq org-directory "~/Documents/Org"
         org-agenda-files '(
                            "~/Documents/Org/Agenda/"
