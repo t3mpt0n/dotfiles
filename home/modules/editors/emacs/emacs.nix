@@ -17,6 +17,8 @@
       ${builtins.readFile ./modules/dirvish.el}
       ${builtins.readFile ./modules/lsp.el}
       ${builtins.readFile ./modules/magit.el}
+      ${builtins.readFile ./modules/rss.el}
+      ${builtins.readFile ./modules/emms.el}
     '';
   };
 

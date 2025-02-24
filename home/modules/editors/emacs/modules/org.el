@@ -6,4 +6,5 @@
                            "~/Documents/Org/Agenda/"
                            )
         org-hide-leading-stars t
-        org-return-follows-link t))
+        org-return-follows-link t
+        org-startup-indented t))

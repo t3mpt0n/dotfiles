@@ -2,8 +2,8 @@
 (use-package dirvish
   :ensure t
   :after pdf-tools
-  :hook (elpaca-after-init . dirvish-override-dired-mode)
   :config
+  (dirvish-override-dired-mode)
   (setq dirvish-attributes '(
                              vc-state
                              subtree-state

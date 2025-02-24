@@ -27,7 +27,8 @@
 
 (use-package doom-modeline
   :ensure t
-  :hook (elpaca-after-init . doom-modeline-mode))
+  :config
+  (doom-modeline-mode))
 
 (use-package nerd-icons
   :ensure t
@@ -38,18 +39,7 @@
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
-(use-package tree-sitter
-  :ensure t
-  :hook ((prog-mode . tree-sitter-mode)
-         (lisp-data-mode . (lambda () (tree-sitter-mode -1)))
-         (tree-sitter-after-on . tree-sitter-hl-mode)))
-
-(use-package tree-sitter-langs :ensure t)
 (use-package indent-bars
   :ensure t
-  :after tree-sitter
-  :hook (prog-mode . indent-bars-mode)
-  :config
-  (require 'indent-bars-ts)
-  :custom
-  (indent-bars-treesit-support t))
+  :hook (prog-mode . indent-bars-mode))
+

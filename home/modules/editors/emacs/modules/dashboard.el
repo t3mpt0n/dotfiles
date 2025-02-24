@@ -1,7 +1,5 @@
 (use-package dashboard
   :ensure t
-  :hook ((elpaca-after-init . dashboard-insert-startupify-lists)
-         (elpaca-after-init . dashboard-initialize))
   :config
   (dashboard-setup-startup-hook)
   (setq initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name))

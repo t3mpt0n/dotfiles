@@ -10,6 +10,6 @@
 
   :config
   (general-define-key
-   :states 'normal
+   :states '(normal emacs)
    :prefix t3mpt0n/leader
    "o T" '(eat :which-key "Open Terminal")))

@@ -1,22 +1,23 @@
 (use-package helm
   :ensure t
-  :hook (elpaca-after-init . helm-mode)
   :bind (("M-x" . helm-M-x)
          ("C-x r b" . helm-filtered-bookmarks)
          ("C-x C-f" . helm-find-files))
   :config
+  (helm-mode)
   (general-define-key
-   :states 'normal
+   :states '(normal emacs)
    :prefix t3mpt0n/leader
    "f f" '(helm-find-files :which-key "Find Files")
    "f r" '(helm-recentf :which-key "Recent Files")
    "SPC" '(helm-M-x :which-key "M-x")
    "B l" '(helm-filtered-bookmarks :which-key "List Bookmarks")
-   "b m" '(helm-buffer-list :which-key "Buffer Menu")))
+   "b m" '(helm-buffers-list :which-key "Buffer Menu")))
 
 (use-package corfu
   :ensure t
-  :hook (elpaca-after-init . global-corfu-mode))
+  :config
+  (global-corfu-mode))
 
 (use-package emacs
   :ensure nil
