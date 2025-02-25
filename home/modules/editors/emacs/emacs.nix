@@ -60,5 +60,9 @@
     # Markdown LSP
     prettierd
     marksman
+
+    # Kotlin LSP
+    ktlint
+    kotlin-language-server
   ];
 }

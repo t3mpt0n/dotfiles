@@ -11,7 +11,7 @@
         "$mod, w, exec, ${lib.getExe pkgs.floorp}"
         "$mod SHIFT, S, exec, ${lib.getExe pkgs.steam}"
         "$mod SHIFT, D, exec, ${lib.getExe pkgs.discord}"
-        "$mod SHIFT, E, exec, ${lib.getExe' pkgs.emacs-pgtk "emacsclient"} -c "
+        "$mod SHIFT, E, exec, ${lib.getExe' pkgs.emacs30-pgtk "emacsclient"} -c "
       ];
 
       exec-once = [ "${lib.getExe pkgs.waybar}" ];

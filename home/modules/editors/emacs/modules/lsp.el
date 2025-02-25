@@ -37,3 +37,15 @@
          )
   :config
   (add-to-list 'eglot-server-programs '(markdown-mode . ("marksman"))))
+
+(use-package kotlin-mode
+  :ensure t
+  :after (eglot format-all)
+  :hook (
+         (kotlin-mode . (lambda () (setq format-all-formatters
+                                         '(("Kotlin" (ktlint))))))
+         (kotlin-mode . format-all-mode)
+         (kotlin-mode . eglot-ensure)
+         )
+  :config
+  (add-to-list 'eglot-server-programs '(kotlin-mode . ("kotlin-language-server"))))
