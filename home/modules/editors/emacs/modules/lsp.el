@@ -7,9 +7,15 @@
   :commands format-all-mode
   :hook (prog-mode . format-all-mode))
 
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
 (use-package nix-mode
   :ensure t
-  :after (eglot format-all)
+  :mode "\\.nix\\'"
+  :after (eglot format-all flycheck)
   :hook (nix-mode . (lambda () (setq format-all-formatters
                                      '(("Nix" (alejandra))))))
   :config
@@ -17,7 +23,8 @@
 
 (use-package latex-mode
   :ensure nil
-  :after (eglot format-all)
+  :mode "\\.tex\\'"
+  :after (eglot format-all flycheck)
   :hook (
          (latex-mode . format-all-mode)
          (latex-mode . eglot-ensure)
@@ -28,7 +35,8 @@
 
 (use-package markdown-mode
   :ensure t
-  :after (eglot format-all)
+  :mode "\\.md\\'"
+  :after (eglot format-all flycheck)
   :hook (
          (markdown-mode . format-all-mode)
          (markdown-mode . (lambda () (setq format-all-formatters
@@ -38,14 +46,49 @@
   :config
   (add-to-list 'eglot-server-programs '(markdown-mode . ("marksman"))))
 
+<<<<<<< HEAD
 (use-package kotlin-mode
   :ensure t
   :after (eglot format-all)
   :hook (
          (kotlin-mode . (lambda () (setq format-all-formatters
                                          '(("Kotlin" (ktlint))))))
+=======
+(use-package flycheck-kotlin
+  :ensure t
+  :after (eglot format-all flycheck)
+  :config (flycheck-kotlin-setup))
+
+(use-package kotlin-mode
+  :ensure t
+  :after flycheck-kotlin
+  :mode "\\.kts?\\'"
+  :hook (
+         (kotlin-mode . (lambda () (setq format-all-formatters
+                                         '(("Kotlin" . (ktlint))))))
+>>>>>>> 0a04a3b (Fixed Screen Share and More Emacs Stuff)
          (kotlin-mode . format-all-mode)
          (kotlin-mode . eglot-ensure)
          )
   :config
   (add-to-list 'eglot-server-programs '(kotlin-mode . ("kotlin-language-server"))))
+<<<<<<< HEAD
+=======
+
+(use-package flycheck-irony
+  :ensure t
+  :after (eglot format-all flycheck)
+  :hook (flycheck-mode . flycheck-irony-setup))
+
+(use-package irony
+  :ensure t
+  :after flycheck-irony
+  :hook (
+         ((c-mode c++-mode objc-mode) . irony-mode)
+         (irony-mode . irony-cdb-autosetup-compile-options)))
+
+(use-package irony-eldoc
+  :ensure t
+  :after irony
+  :hook (irony-mode . irony-eldoc))
+>>>>>>> 0a04a3b (Fixed Screen Share and More Emacs Stuff)

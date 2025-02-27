@@ -51,6 +51,7 @@
     # Nix LSP
     alejandra
     nixd
+    statix
 
     # LaTeX LSP
     texlab
@@ -60,9 +61,21 @@
     # Markdown LSP
     prettierd
     marksman
+<<<<<<< HEAD
+=======
+    markdownlint-cli
+>>>>>>> 0a04a3b (Fixed Screen Share and More Emacs Stuff)
 
     # Kotlin LSP
     ktlint
     kotlin-language-server
+<<<<<<< HEAD
+=======
+
+    # C/C++/Objective-C LSP
+    clang-format
+    clang
+    cmake
+>>>>>>> 0a04a3b (Fixed Screen Share and More Emacs Stuff)
   ];
 }
