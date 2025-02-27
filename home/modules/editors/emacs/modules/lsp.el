@@ -46,14 +46,7 @@
   :config
   (add-to-list 'eglot-server-programs '(markdown-mode . ("marksman"))))
 
-<<<<<<< HEAD
-(use-package kotlin-mode
-  :ensure t
-  :after (eglot format-all)
-  :hook (
-         (kotlin-mode . (lambda () (setq format-all-formatters
-                                         '(("Kotlin" (ktlint))))))
-=======
+
 (use-package flycheck-kotlin
   :ensure t
   :after (eglot format-all flycheck)
@@ -66,14 +59,11 @@
   :hook (
          (kotlin-mode . (lambda () (setq format-all-formatters
                                          '(("Kotlin" . (ktlint))))))
->>>>>>> 0a04a3b (Fixed Screen Share and More Emacs Stuff)
          (kotlin-mode . format-all-mode)
          (kotlin-mode . eglot-ensure)
          )
   :config
   (add-to-list 'eglot-server-programs '(kotlin-mode . ("kotlin-language-server"))))
-<<<<<<< HEAD
-=======
 
 (use-package flycheck-irony
   :ensure t
@@ -91,4 +81,4 @@
   :ensure t
   :after irony
   :hook (irony-mode . irony-eldoc))
->>>>>>> 0a04a3b (Fixed Screen Share and More Emacs Stuff)
+
