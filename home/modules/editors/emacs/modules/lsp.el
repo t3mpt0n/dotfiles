@@ -72,6 +72,7 @@
 
 (use-package irony
   :ensure t
+  :mode "\\.c\\'" "\\.cpp\\'" "\\.h\\'"
   :after flycheck-irony
   :hook (
          ((c-mode c++-mode objc-mode) . irony-mode)
@@ -81,4 +82,17 @@
   :ensure t
   :after irony
   :hook (irony-mode . irony-eldoc))
+
+(use-package mhtml-mode
+  :ensure nil
+  :mode "\\.x?html\\'"
+  :after (eglot format-all flycheck)
+  :hook (
+         (mhtml-mode . (lambda () (setq format-all-formatters
+                                        '("HTML/XHTML/XML" . (tidy)))))
+         (mhtml-mode . format-all)
+         (mhtml-mode . eglot-ensure)
+         )
+  :config
+  (add-to-list 'eglot-server-programs '(mhtml-mode . ("vscode-html-language-server"))))
 

@@ -18,15 +18,3 @@
   :ensure nil
   :config
   (which-key-mode))
-
-(use-package smartparens
-  :ensure t
-  :hook ((prog-mode text-mode markdown-mode) . smartparens-mode)
-  :config
-  (require 'smartparens-config))
-
-
-
-
-
-

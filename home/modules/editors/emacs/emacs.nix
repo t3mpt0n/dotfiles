@@ -68,8 +68,11 @@
     kotlin-language-server
 
     # C/C++/Objective-C LSP
-    clang-format
     clang
     cmake
+
+    # WebDev stuff
+    vscode-langservers-extracted
+    html-tidy
   ];
 }

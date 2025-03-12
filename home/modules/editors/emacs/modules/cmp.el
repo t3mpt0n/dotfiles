@@ -21,7 +21,15 @@
 
 (use-package emacs
   :ensure nil
+  :config
+  (electric-pair-mode 1)
   :custom
   (tab-always-indent 'complete)
   (text-mode-ispell-word-completion nil)
   (read-extended-command-predicate #'command-completion-default-include-p))
+
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode 1)
+  (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
