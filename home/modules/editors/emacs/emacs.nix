@@ -67,12 +67,18 @@
     ktlint
     kotlin-language-server
 
-    # C/C++/Objective-C LSP
+    # C/C++/Objective-C/C# LSP
     clang
+    clang-tools
+    omnisharp-roslyn
+    dotnet-sdk
     cmake
 
     # WebDev stuff
     vscode-langservers-extracted
     html-tidy
+
+    # Rust LSP
+    rustup
   ];
 }

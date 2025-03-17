@@ -2,8 +2,7 @@
   pkgs,
   lib,
   ...
-}:
-{
+}: {
   home.packages = with pkgs; [
     parsec-bin
     lutris
@@ -23,8 +22,7 @@
     mame-tools
     gamepad-tool
     lunar-client
-    lutris
     osu-lazer-bin
+    prismlauncher
   ];
-
 }

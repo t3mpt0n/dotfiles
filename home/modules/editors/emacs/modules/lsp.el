@@ -1,6 +1,7 @@
 (use-package eglot
   :ensure nil
-  :hook (prog-mode . eglot-ensure))
+  :hook ((prog-mode . eglot-ensure)
+         (eglot--managed-mode . corfu-mode)))
 
 (use-package format-all
   :ensure t
@@ -9,8 +10,7 @@
 
 (use-package flycheck
   :ensure t
-  :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  :hook (after-init . global-flycheck-mode))
 
 (use-package nix-mode
   :ensure t
@@ -46,7 +46,6 @@
   :config
   (add-to-list 'eglot-server-programs '(markdown-mode . ("marksman"))))
 
-
 (use-package flycheck-kotlin
   :ensure t
   :after (eglot format-all flycheck)
@@ -58,7 +57,7 @@
   :mode "\\.kts?\\'"
   :hook (
          (kotlin-mode . (lambda () (setq format-all-formatters
-                                         '(("Kotlin" . (ktlint))))))
+                                         '(("Kotlin" (ktlint))))))
          (kotlin-mode . format-all-mode)
          (kotlin-mode . eglot-ensure)
          )
@@ -67,7 +66,7 @@
 
 (use-package flycheck-irony
   :ensure t
-  :after (eglot format-all flycheck)
+  :after (eglot format-all flycheck company)
   :hook (flycheck-mode . flycheck-irony-setup))
 
 (use-package irony
@@ -76,23 +75,50 @@
   :after flycheck-irony
   :hook (
          ((c-mode c++-mode objc-mode) . irony-mode)
-         (irony-mode . irony-cdb-autosetup-compile-options)))
+         (irony-mode . irony-cdb-autosetup-compile-options)
+         (irony-mode . eglot-ensure)
+         )
+  :config
+  (add-to-list 'eglot-server-programs '(irony-mode . ("clangd"))))
 
 (use-package irony-eldoc
   :ensure t
   :after irony
   :hook (irony-mode . irony-eldoc))
 
-(use-package mhtml-mode
-  :ensure nil
-  :mode "\\.x?html\\'"
-  :after (eglot format-all flycheck)
+(use-package company-web
+  :ensure t
+  :after company)
+
+(use-package web-mode
+  :ensure t
+  :after (eglot format-all flycheck company-web)
+  :mode (
+         ("\\.html?\\'" . web-mode)
+         ("\\.html?\\'" . (lambda () (add-to-list 'eglot-server-programs '(web-mode . ("vscode-html-language-server" "--stdio")))))
+         ("\\.html?\\'" . (lambda () (setq format-all-formatters
+                                           '("HTML/XHTML/XML" (tidy)))))
+         )
   :hook (
-         (mhtml-mode . (lambda () (setq format-all-formatters
-                                        '("HTML/XHTML/XML" . (tidy)))))
-         (mhtml-mode . format-all)
-         (mhtml-mode . eglot-ensure)
+         (web-mode . format-all-mode)
+         (web-mode . eglot-ensure)
+         ))
+
+(use-package cargo-mode
+  :ensure t)
+
+(use-package rustic
+  :ensure t
+  :after (eglot format-all flycheck cargo-mode)
+  :mode "\\.rs\\'"
+  :hook (
+         (rustic-mode . (lambda () (setq format-all-formatters
+                                       '("Rust" (rustfmt)))))
+         (rustic-mode . cargo-minor-mode)
+         (rustic-mode . format-all-mode)
+         (rustic-mode . eglot-ensure)
          )
   :config
-  (add-to-list 'eglot-server-programs '(mhtml-mode . ("vscode-html-language-server"))))
-
+  (setq rustic-lsp-client 'eglot
+        rustic-format-on-save t)
+  (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer"))))

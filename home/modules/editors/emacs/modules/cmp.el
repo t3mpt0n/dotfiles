@@ -4,7 +4,7 @@
          ("C-x r b" . helm-filtered-bookmarks)
          ("C-x C-f" . helm-find-files))
   :config
-  (helm-mode)
+  (helm-mode 1)
   (general-define-key
    :states '(normal emacs)
    :prefix t3mpt0n/leader
@@ -16,8 +16,34 @@
 
 (use-package corfu
   :ensure t
+  :custom
+  (corfu-cycle t)
+  (corfu-preselect 'prompt)
+  :bind (:map corfu-map
+              ("<tab>" . corfu-next)
+              ("C-<tab>" . corfu-previous))
   :config
   (global-corfu-mode))
+
+(use-package cape
+  :ensure t
+  :bind ("C-c p" . cape-prefix-map)
+  :hook (
+         (completion-at-point-functions . cape-dabbrev)
+         (completion-at-point-functions . cape-file)
+         (completion-at-point-functions . cape-elisp-block)
+         ))
+
+(use-package dabbrev
+  :ensure nil
+  :bind (
+         ("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand)
+         )
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
 
 (use-package emacs
   :ensure nil
