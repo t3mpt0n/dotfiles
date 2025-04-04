@@ -3,7 +3,14 @@
   lib,
   ...
 }: {
-  home.packages = with pkgs; [
+  home.packages = let
+    retroarchCores = with pkgs.libretro; [
+      fbneo # Final Burn Neo
+      genesis-plus-gx # Sega Genesis and Sega CD Emulator
+      beetle-saturn # Sega Saturn Emulator
+      beetle-pce # PC ENGINE Emulator 
+    ];
+    in with pkgs; [
     parsec-bin
     lutris
     steam-rom-manager
@@ -24,5 +31,10 @@
     lunar-client
     osu-lazer-bin
     prismlauncher
-  ];
+
+    punes # NES Emulator
+    ares # Multi-System Emulator
+    retroarch-bare # Multi-System Emulator
+    retroarch-assets # For Retroarch
+    ] ++ retroarchCores;
 }

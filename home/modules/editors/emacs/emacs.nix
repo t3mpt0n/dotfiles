@@ -79,6 +79,13 @@
     html-tidy
 
     # Rust LSP
-    rustup
+    rust-analyzer
+    rustfmt
+    cargo
+    rustc
+
+    # Python LSP
+    pyright
+    black
   ];
 }

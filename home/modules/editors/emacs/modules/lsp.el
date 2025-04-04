@@ -12,6 +12,11 @@
   :ensure t
   :hook (after-init . global-flycheck-mode))
 
+(use-package direnv
+  :ensure t
+  :config
+  (direnv-mode))
+
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'"
@@ -122,3 +127,16 @@
   (setq rustic-lsp-client 'eglot
         rustic-format-on-save t)
   (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer"))))
+
+(use-package python-mode
+  :ensure nil
+  :after (eglot format-all flycheck)
+  :mode "\\.py\\'"
+  :hook (
+         (python-mode . (lambda () (setq format-all-formatters
+                                         '("Python" (black)))))
+         (python-mode . format-all-mode)
+         (python-mode . eglot-ensure)
+         )
+  :config
+  (add-to-list 'eglot-server-programs '(python-mode . ("pyright"))))

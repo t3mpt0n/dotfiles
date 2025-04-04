@@ -23,6 +23,11 @@
         "col.inactive_border" = "rgb(abb2b9)";
       };
 
+      input = {
+        kb_layout = "us,us_intl";
+        kb_options = "grp:alt_space_toggle";
+      };
+
       animations.enabled = true;
       bind =
         (builtins.concatLists (

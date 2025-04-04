@@ -71,7 +71,9 @@
           ...
         }:
         {
-          packages = import ./packages/packages.nix pargs;
+          packages = {
+            xenonrecomp = import ./packages/xenon.nix pargs;
+          };
           devShells = {
             default = pkgs.mkShell {
               nativeBuildInputs = with pkgs; [
