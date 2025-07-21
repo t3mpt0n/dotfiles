@@ -69,10 +69,18 @@
           pkgs,
           system,
           ...
-        }:
-        {
+        }: let
+          pkgs' = import nixpkgs
+            {
+              inherit system;
+              config.allowUnfree = true;
+            };
+          in {
           packages = {
-            xenonrecomp = import ./packages/xenon.nix pargs;
+            xenonrecomp = import ./packages/xenon.nix pkgs';
+            batocera-emulationstation = import ./packages/bemustation.nix pkgs';
+            cups-brother-mfcj1205w = pkgs'.callPackage ./packages/cups-brother-mfcj1205w.nix {};
+            extract-xiso = pkgs'.callPackage ./packages/extract-xiso.nix {};
           };
           devShells = {
             default = pkgs.mkShell {
@@ -134,6 +142,8 @@
           gamepads = import ./modules/gamepads;
           switch = import ./modules/switch.nix;
           grub_efi = import ./modules/grub.efi.nix;
+          minecraft = import ./modules/minecraft.nix;
+          printer = import ./modules/printer.nix;
         };
       };
     };

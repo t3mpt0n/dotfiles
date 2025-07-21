@@ -12,10 +12,16 @@
         "keyword.enabled" = false;
       };
     };
+
+    chromium = {
+      enable = true;
+      package = pkgs.ungoogled-chromium;
+    };
   };
 
   home.packages = with pkgs; [
     floorp
     tor-browser
+    brave
   ];
 }

@@ -48,6 +48,9 @@
     ffmpegthumbnailer
     mediainfo
 
+    # Needed for Org-Roam
+    graphviz
+
     # Nix LSP
     alejandra
     nixd

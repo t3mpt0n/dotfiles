@@ -22,13 +22,11 @@
         "col.active_border" = "rgb(ff8c00)";
         "col.inactive_border" = "rgb(abb2b9)";
       };
-
-      input = {
-        kb_layout = "us,us_intl";
-        kb_options = "grp:alt_space_toggle";
-      };
-
       animations.enabled = true;
+      bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
       bind =
         (builtins.concatLists (
           builtins.genList (
@@ -54,20 +52,22 @@
           ", XF86AudioRaiseVolume, exec, ${lib.getExe' pkgs.alsa-utils "amixer"} sset Master 5%+"
           ", XF86AudioMute, exec, ${lib.getExe' pkgs.alsa-utils "amixer"} sset Master toggle"
           "$mod SHIFT, q, killactive,"
+          "$mod, f, fullscreen"
         ];
+      env = [
+        "XDG_CURRENT_DESKTOP,Hyprland"
+      ];
       exec-once = [
+        "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+        "sleep 4"
+        "killall -e xdg-desktop-portal-hyprland"
+        "killall xdg-desktop-hyprland"
+        "${lib.getExe pkgs.xdg-desktop-portal-hyprland} &"
+        "sleep 4"
+        "${lib.getExe pkgs.xdg-desktop-portal} &"
       ];
     };
   };
-
-  xdg.portal =
-    if config.wayland.windowManager.hyprland.enable
-    then {
-      extraPortals = with pkgs; [xdg-desktop-portal-hyprland];
-      configPackages = with pkgs; [hyprland];
-      xdgOpenUsePortal = true;
-    }
-    else {};
 
   home.sessionVariables =
     if config.wayland.windowManager.hyprland.enable

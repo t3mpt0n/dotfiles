@@ -1,7 +1,7 @@
 { lib, ... }:
 {
   services.mako = {
-    enable = true;
+    enable = false;
     actions = true;
     anchor = "bottom-center";
     icons = true;

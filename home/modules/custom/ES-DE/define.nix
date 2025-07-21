@@ -46,7 +46,7 @@
 
       systemsortname = mkOption {
         type = nullOr str;
-        default = null;
+        default = "${name}";
         description = lib.mdDoc ''
           EN: Name that overrides `name` in EmulationStation's sorting algorithm.
           ES: Nombre definido por el usario que EmulationStation usa en lugar de `name`.

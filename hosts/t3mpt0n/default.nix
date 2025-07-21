@@ -30,6 +30,7 @@ nixpkgs.lib.nixosSystem {
       steam
       switch
       gamepads
+      printer
       hm.nixosModules.home-manager
       nur.modules.nixos.default
       agenix.nixosModules.default

@@ -1,0 +1,905 @@
+#! /usr/bin/perl
+#
+# CUPS filter for  Brother laser printers
+#   
+#   Copyright (C) 2019 Brother. Industries, Ltd.  All Rights Reserved
+# 
+#                                    Ver2.00
+
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2 of the License, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+# more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place, Suite 330, Boston, MA  02111-1307  USA
+#
+
+
+#use Cwd 'realpath';
+
+
+$ppdcust = "";
+
+#   log functions
+
+$LOGFILE="/tmp/br_cupswrapper_laser.log";
+$LOGLEVEL=7;
+$DEBUG=0;
+$LOG_LATESTONLY=1;
+$DEVICEURILOCK=1;
+$LPD_DEBUG=0;
+
+if ( $DEBUG > 0 ){
+  $LPD_DEBUG=2;
+}
+
+$width=-1;
+$height=-1;
+
+#my $basedir = Cwd::realpath ($0);
+my $basedir = `readlink $0`;
+if ( $basedir eq '' ){
+    $basedir = `realpath $0`;
+}
+chomp($basedir);
+
+$basedir =~ s/$PRINTER\/cupswrapper\/.*$/$PRINTER\//g;
+
+
+%units = ( pt   => \&pt2dot, 
+	   mm   => \&mm2dot, 
+	   inch => \&inch2dot, 
+	   in   => \&inch2dot, 
+	   cm   => \&cm2dot,
+	   m    => \&m2dot,
+	   ft   => \&ft2dot
+	   );
+
+
+
+#$LPDCONFIGEXE="brprintconflsr3";
+$LPDCONFIGEXE="brprintconf_";
+
+my $INPUT_PS   = "/tmp/br_cupswrapper_laser_input.ps";
+my $OUTPUT_PRN = "/tmp/br_cupswrapper_laser_output.prn";
+
+
+#    main
+
+logprint( 0 , "START\n");
+
+$ENV{OWNER} = $ARGV[1];
+$ENV{TITLE} = $ARGV[2];
+
+my $cmdoptions=$ARGV[4];
+my $PPD = $ENV{PPD};
+my $PRINTER=$basedir;
+my $CUPSINPUT='';
+if ( @ARGV >= 6 ){
+    $CUPSINPUT=$ARGV[7];
+}
+
+
+$PRINTER =~ s/^\/opt\/.*\/Printers\///g;
+$PRINTER =~ s/\/cupswrapper//g;
+$PRINTER =~ s/\///g;
+
+for  (my $i = 0 ; $i < @ARGV ; $i ++){
+    logprint( 0 , "ARG$i      = $ARGV[$i]\n");
+}
+
+logprint( 0 , "PRINTER   = $PRINTER \n");
+logprint( 0 , "PPD       = $PPD\n");
+logprint( 0 , "BASEPATH  = $basedir\n");
+
+logprint( 0 , "export PPD=$PPD\n");  
+logprint( 0 , "$0 \"$ARGV[1]\"  \"$ARGV[2]\"  \"$ARGV[3]\"  \"$ARGV[4]\"  \"$ARGV[5]\"  \"$ARGV[6]\"\n");  
+
+
+#my $LPDFILTER   =$basedir."/lpd/filter_".$PRINTER;
+#my $LPDFILTER   =$basedir."/lpd/filter_".$PRINTER;
+my $LPDFILTER   =$basedir."lpd/filter_".$PRINTER;
+
+logprint( 0 , "\n");
+
+
+ %vendor_commandline = (
+  'BRResolution=Draft'               => {"opt"=>"-reso" ,   "val"=>"Draft"},
+  'BRResolution=Normal'              => {"opt"=>"-reso" ,   "val"=>"Normal"},
+  'BRResolution=Fine'        		 => {"opt"=>"-reso" ,   "val"=>"Fine"},
+
+  'BRInputSlot=Manual'               => {"opt"=>"-inslot" , "val"=>"Manual"},
+  'BRInputSlot=MPTray'               => {"opt"=>"-inslot" , "val"=>"MPTray"},
+  'BRInputSlot=Tray1'                => {"opt"=>"-inslot" , "val"=>"Tray1"},
+  'BRInputSlot=Tray2'                => {"opt"=>"-inslot" , "val"=>"Tray2"},
+  'BRInputSlot=AutoSelect'           => {"opt"=>"-inslot" , "val"=>"AutoSelect"},
+
+  'Duplex=None'                      => {"opt"=>"-duplex" , "val"=>"None"},
+  'Duplex=DuplexTumble'              => {"opt"=>"-duplex" , "val"=>"DuplexTumble"},
+  'Duplex=DuplexNoTumble'            => {"opt"=>"-duplex" , "val"=>"DuplexNoTumble"},
+
+  'PageSize=A4'                     => {"opt"=>"-pt" , "val"=>"A4"},
+  'PageSize=BrA4_B'                 => {"opt"=>"-pt" , "val"=>"BrA4_B"},
+  'PageSize=Letter'                 => {"opt"=>"-pt" , "val"=>"Letter"},
+  'PageSize=Legal'                  => {"opt"=>"-pt" , "val"=>"Legal"},
+  'PageSize=BrLetter_B'             => {"opt"=>"-pt" , "val"=>"BrLetter_B"},
+  'PageSize=Executive'              => {"opt"=>"-pt" , "val"=>"Executive"},
+  'PageSize=A5'                     => {"opt"=>"-pt" , "val"=>"A5"},
+  'PageSize=A5Rotated'              => {"opt"=>"-pt" , "val"=>"PRA5Rotated"},
+  'PageSize=A6'                     => {"opt"=>"-pt" , "val"=>"A6"},
+  'PageSize=BrA6_B'                 => {"opt"=>"-pt" , "val"=>"BrA6_B"},
+  'PageSize=ISOB5'                  => {"opt"=>"-pt" , "val"=>"ISOB5"},
+  'PageSize=B5'                     => {"opt"=>"-pt" , "val"=>"JISB5"},
+  'PageSize=JISB6'                  => {"opt"=>"-pt" , "val"=>"JISB6"},
+  'PageSize=EnvDL'                  => {"opt"=>"-pt" , "val"=>"EnvDL"},
+  'PageSize=EnvC5'                  => {"opt"=>"-pt" , "val"=>"EnvC5"},
+  'PageSize=B6'                     => {"opt"=>"-pt" , "val"=>"B6"},
+  'PageSize=BrPostC4x6_S'           => {"opt"=>"-pt" , "val"=>"BrPostC4x6_S"},
+  'PageSize=BrPostC4x6_B'           => {"opt"=>"-pt" , "val"=>"BrPostC4x6_B"},
+  'PageSize=BrIndexC5x8_S'          => {"opt"=>"-pt" , "val"=>"BrIndexC5x8_S"},
+  'PageSize=BrIndexC5x8_B'          => {"opt"=>"-pt" , "val"=>"BrIndexC5x8_B"},
+  'PageSize=BrPhotoL_S'             => {"opt"=>"-pt" , "val"=>"BrPhotoL_S"},
+  'PageSize=BrPhotoL_B'             => {"opt"=>"-pt" , "val"=>"BrPhotoL_B"},
+  'PageSize=BrPhoto2L_S'            => {"opt"=>"-pt" , "val"=>"BrPhoto2L_S"},
+  'PageSize=BrPhoto2L_B'            => {"opt"=>"-pt" , "val"=>"BrPhoto2L_B"},
+  'PageSize=Postcard'               => {"opt"=>"-pt" , "val"=>"Postcard"},
+  'PageSize=BrHagaki_B'             => {"opt"=>"-pt" , "val"=>"BrHagaki_B"},
+  'PageSize=DoublePostcardRotated'  => {"opt"=>"-pt" , "val"=>"DoublePostcardRotated"},
+  'PageSize=Br12cmDisc_B'           => {"opt"=>"-pt" , "val"=>"Br12cmDisc_B"},
+  'PageSize=Env10'                  => {"opt"=>"-pt" , "val"=>"Env10"},
+  'PageSize=EnvMonarch'             => {"opt"=>"-pt" , "val"=>"EnvMonarch"},
+  'PageSize=Br3x5'                  => {"opt"=>"-pt" , "val"=>"Br3x5"},
+  'PageSize=Folio'                  => {"opt"=>"-pt" , "val"=>"Folio"},
+  'PageSize=Postcard'               => {"opt"=>"-pt" , "val"=>"Postcard"},
+  'PageSize=EnvYou4'                => {"opt"=>"-pt" , "val"=>"EnvYou4"},
+  'PageSize=EnvChou3'               => {"opt"=>"-pt" , "val"=>"EnvChou3"},
+  'PageSize=EnvChou4'               => {"opt"=>"-pt" , "val"=>"EnvChou4"},
+  'PageSize=210x270mm'              => {"opt"=>"-pt" , "val"=>"210x270mm"},
+  'PageSize=195x270mm'              => {"opt"=>"-pt" , "val"=>"195x270mm"},
+  'PageSize=184x260mm'              => {"opt"=>"-pt" , "val"=>"184x260mm"},
+  'PageSize=197x273mm'              => {"opt"=>"-pt" , "val"=>"197x273mm"},
+  'PageSize=MexicanLegal'           => {"opt"=>"-pt" , "val"=>"MexicanLegal"},
+  'PageSize=IndianLegal'            => {"opt"=>"-pt" , "val"=>"IndianLegal"},
+  'PageSize=EnvYou2'               => {"opt"=>"-pt" , "val"=>"EnvYou2"},
+
+  'BRMediaType=Plain'               => {"opt"=>"-md" , "val"=>"Plain"},
+  'BRMediaType=Thin'                => {"opt"=>"-md" , "val"=>"Thin"},
+  'BRMediaType=Thick'               => {"opt"=>"-md" , "val"=>"Thick"},
+  'BRMediaType=Thicker'             => {"opt"=>"-md" , "val"=>"Thicker"},
+  'BRMediaType=BOND'                => {"opt"=>"-md" , "val"=>"BOND"},
+  'BRMediaType=Env'                 => {"opt"=>"-md" , "val"=>"Env"},
+  'BRMediaType=EnvThick'            => {"opt"=>"-md" , "val"=>"EnvThick"},
+  'BRMediaType=EnvThin'             => {"opt"=>"-md" , "val"=>"EnvThin"},
+  'BRMediaType=Recycled'            => {"opt"=>"-md" , "val"=>"Recycled"},
+  'BRMediaType=Label'               => {"opt"=>"-md" , "val"=>"Label"},
+  'BRMediaType=Glossy'              => {"opt"=>"-md" , "val"=>"Glossy"},
+  'BRMediaType=PostCard'            => {"opt"=>"-md" , "val"=>"PostCard"},
+  'BRMediaType=Letterhead'          => {"opt"=>"-md" , "val"=>"Letterhead"},
+  'BRMediaType=ColoredPaper'        => {"opt"=>"-md" , "val"=>"ColoredPaper"},
+  'BRMediaType=Inkjet'              => {"opt"=>"-md" , "val"=>"Inkjet"},
+  'BRMediaType=IJHagakiCom'         => {"opt"=>"-md" , "val"=>"IJHagakiCom"},
+  'BRMediaType=GlossyHagakiCom'     => {"opt"=>"-md" , "val"=>"GlossyHagakiCom"},
+  'BRMediaType=PlainHagakiCom'      => {"opt"=>"-md" , "val"=>"PlainHagakiCom"},
+  'BRMediaType=IJHagakiAddr'        => {"opt"=>"-md" , "val"=>"IJHagakiAddr"},
+  'BRMediaType=GlossyHagakiAddr'    => {"opt"=>"-md" , "val"=>"GlossyHagakiAddr"},
+  'BRMediaType=PlainHagakiAddr'     => {"opt"=>"-md" , "val"=>"PlainHagakiAddr"},
+
+  'BRMonoColor=Auto'                => {"opt"=>"-corm" , "val"=>"Auto"},
+  'BRMonoColor=FullColor'           => {"opt"=>"-corm" , "val"=>"FullColor"},
+  'BRMonoColor=Mono'                => {"opt"=>"-corm" , "val"=>"Mono"},
+
+  'BRColorMatching=Normal'          => {"opt"=>"-cm" , "val"=>"Normal"},
+  'BRColorMatching=Auto'            => {"opt"=>"-cm" , "val"=>"Auto"},
+  'BRColorMatching=Vivid'           => {"opt"=>"-cm" , "val"=>"Vivid"},
+  'BRColorMatching=None'            => {"opt"=>"-cm" , "val"=>"None"},
+
+  'BRGray=ON'                       => {"opt"=>"-gray" , "val"=>"ON"},
+  'BRGray=OFF'                      => {"opt"=>"-gray" , "val"=>"OFF"},
+
+  'BREnhanceBlkPrt=ON'              => {"opt"=>"-bp" , "val"=>"ON"},
+  'BREnhanceBlkPrt=OFF'             => {"opt"=>"-bp" , "val"=>"OFF"},
+
+  'BRTonerSaveMode=OFF'             => {"opt"=>"-ts" , "val"=>"OFF"},
+  'BRTonerSaveMode=ON'              => {"opt"=>"-ts" , "val"=>"ON"},  
+
+  'BRImproveOutput=OFF'             => {"opt"=>"-improve" , "val"=>"OFF"},
+  'BRImproveOutput=BRLessPaperCurl' => {"opt"=>"-improve" , "val"=>"BRLessPaperCurl"},
+  'BRImproveOutput=BRFixIntensity'  => {"opt"=>"-improve" , "val"=>"BRFixIntensity"},
+
+  'BRSkipBlank=OFF'                 => {"opt"=>"-sb" , "val"=>"OFF"},
+  'BRSkipBlank=ON'                  => {"opt"=>"-sb" , "val"=>"ON"},  
+);
+
+
+
+
+  %DefaultBRResolution = (
+  "optionname" => 'DefaultBRResolution'   , 
+  "optionlist" => {
+     'Draft'               => {"opt"=>"-reso" , "val"=>"Draft"},
+     'Normal'              => {"opt"=>"-reso" , "val"=>"Normal"},
+     'Fine'        		   => {"opt"=>"-reso" , "val"=>"Fine"},
+  }
+ ) ;
+  %DefaultPageSize = (
+  "optionname" => 'DefaultPageSize'   , 
+  "optionlist" => {
+     'A4'                          => {"opt"=>"-pt" , "val"=>"A4"},
+     'BrA4_B'  	                   => {"opt"=>"-pt" , "val"=>"BrA4_B"},
+     'Letter'                      => {"opt"=>"-pt" , "val"=>"Letter"},
+	 'BrLetter_B'         		   => {"opt"=>"-pt" , "val"=>"BrLetter_B"},
+     'Legal'                       => {"opt"=>"-pt" , "val"=>"Legal"},
+     'Executive'                   => {"opt"=>"-pt" , "val"=>"Executive"},
+     'A5'                          => {"opt"=>"-pt" , "val"=>"A5"},
+     'A5Rotated'                   => {"opt"=>"-pt" , "val"=>"PRA5Rotated"},
+     'A6'                          => {"opt"=>"-pt" , "val"=>"A6"},
+     'BrA6_B'					   => {"opt"=>"-pt" , "val"=>"BrA6_B"},
+  	 'B6'                     	   => {"opt"=>"-pt" , "val"=>"B6"},
+	 'BrPostC4x6_S'          	   => {"opt"=>"-pt" , "val"=>"BrPostC4x6_S"},
+	 'BrPostC4x6_B'                => {"opt"=>"-pt" , "val"=>"BrPostC4x6_B"},
+	 'BrIndexC5x8_S'               => {"opt"=>"-pt" , "val"=>"BrIndexC5x8_S"},
+	 'BrIndexC5x8_B'               => {"opt"=>"-pt" , "val"=>"BrIndexC5x8_B"},
+	 'BrPhotoL_S'                  => {"opt"=>"-pt" , "val"=>"BrPhotoL_S"},
+	 'BrPhotoL_B'                  => {"opt"=>"-pt" , "val"=>"BrPhotoL_B"},
+	 'BrPhoto2L_S'                 => {"opt"=>"-pt" , "val"=>"BrPhoto2L_S"},
+	 'BrPhoto2L_B'                 => {"opt"=>"-pt" , "val"=>"BrPhoto2L_B"},
+	 'Postcard'                    => {"opt"=>"-pt" , "val"=>"Postcard"},
+	 'BrHagaki_B'                  => {"opt"=>"-pt" , "val"=>"BrHagaki_B"},
+	 'DoublePostcardRotated'       => {"opt"=>"-pt" , "val"=>"DoublePostcardRotated"},
+	 'Br12cmDisc_B'                => {"opt"=>"-pt" , "val"=>"Br12cmDisc_B"},
+     'Env10'                       => {"opt"=>"-pt" , "val"=>"Env10"},
+     'EnvMonarch'                  => {"opt"=>"-pt" , "val"=>"EnvMonarch"},
+     'EnvDL'                       => {"opt"=>"-pt" , "val"=>"EnvDL"},
+     'EnvC5'                       => {"opt"=>"-pt" , "val"=>"EnvC5"},
+     'ISOB5'                       => {"opt"=>"-pt" , "val"=>"ISOB5"},
+     'B5'                          => {"opt"=>"-pt" , "val"=>"JISB5"},
+     'JISB6'                       => {"opt"=>"-pt" , "val"=>"JISB6"},
+     'Br3x5'                       => {"opt"=>"-pt" , "val"=>"Br3x5"},
+     'Postcard'                    => {"opt"=>"-pt" , "val"=>"Postcard"},
+     'EnvYou4'                     => {"opt"=>"-pt" , "val"=>"EnvYou4"},
+  	 'EnvChou4'                    => {"opt"=>"-pt" , "val"=>"EnvChou4"},
+     'EnvChou3'                    => {"opt"=>"-pt" , "val"=>"EnvChou3"},
+     'FanFoldGermanLegal'          => {"opt"=>"-pt" , "val"=>"FanFoldGermanLegal"},
+     '195x270mm'                   => {"opt"=>"-pt" , "val"=>"195x270mm"},
+ 	 '184x260mm'                   => {"opt"=>"-pt" , "val"=>"184x260mm"},
+     '197x273mm'                   => {"opt"=>"-pt" , "val"=>"197x273mm"},
+     '210x270mm'                   => {"opt"=>"-pt" , "val"=>"210x270mm"},
+     'MexicanLegal'                => {"opt"=>"-pt" , "val"=>"MexicanLegal"},
+     'IndianLegal'                 => {"opt"=>"-pt" , "val"=>"IndianLegal"},
+     'EnvYou2'              	   => {"opt"=>"-pt" , "val"=>"EnvYou2"},
+  }
+ ) ;
+  %DefaultBRMediaType = (
+  "optionname" => 'DefaultBRMediaType'   , 
+  "optionlist" => {
+     'Plain'               => {"opt"=>"-md" , "val"=>"Plain"},
+     'Thin'                => {"opt"=>"-md" , "val"=>"Thin"},
+     'Thick'               => {"opt"=>"-md" , "val"=>"Thick"},
+     'Thicker'             => {"opt"=>"-md" , "val"=>"Thicker"},
+     'BOND'                => {"opt"=>"-md" , "val"=>"BOND"},
+     'Env'                 => {"opt"=>"-md" , "val"=>"Env"},
+     'EnvThick'            => {"opt"=>"-md" , "val"=>"EnvThick"},
+     'EnvThin'             => {"opt"=>"-md" , "val"=>"EnvThin"},
+     'Recycled'            => {"opt"=>"-md" , "val"=>"Recycled"},
+     'Label'               => {"opt"=>"-md" , "val"=>"Label"},
+     'Glossy'              => {"opt"=>"-md" , "val"=>"Glossy"},
+     'PostCard'            => {"opt"=>"-md" , "val"=>"PostCard"},
+     'Letterhead'          => {"opt"=>"-md" , "val"=>"Letterhead"},
+     'ColoredPaper'        => {"opt"=>"-md" , "val"=>"ColoredPaper"},
+     'Inkjet'      		   => {"opt"=>"-md" , "val"=>"Inkjet"},
+     'IJHagakiCom'         => {"opt"=>"-md" , "val"=>"IJHagakiCom"},
+     'GlossyHagakiCom'     => {"opt"=>"-md" , "val"=>"GlossyHagakiCom"},
+     'PlainHagakiCom'      => {"opt"=>"-md" , "val"=>"PlainHagakiCom"},
+     'IJHagakiAddr'        => {"opt"=>"-md" , "val"=>"IJHagakiAddr"},
+     'GlossyHagakiAddr'    => {"opt"=>"-md" , "val"=>"GlossyHagakiAddr"},
+     'PlainHagakiAddr'     => {"opt"=>"-md" , "val"=>"PlainHagakiAddr"},
+  }
+ ) ;
+  %DefaultBRInputSlot = (
+  "optionname" => 'DefaultBRInputSlot'   , 
+  "optionlist" => {
+     'Manual'               => {"opt"=>"-inslot" , "val"=>"Manual"},
+     'Tray1'                => {"opt"=>"-inslot" , "val"=>"Tray1"},
+     'Tray2'                => {"opt"=>"-inslot" , "val"=>"Tray2"},
+     'MPTray'               => {"opt"=>"-inslot" , "val"=>"MPTray"},
+     'AutoSelect'           => {"opt"=>"-inslot" , "val"=>"AutoSelect"},
+  }
+ ) ;
+  %DefaultDuplex = (
+  "optionname" => 'DefaultDuplex'   , 
+  "optionlist" => {
+     'None'                       => {"opt"=>"-duplex" , "val"=>"None"},
+     'DuplexTumble'               => {"opt"=>"-duplex" , "val"=>"DuplexTumble"},
+     'DuplexNoTumble'             => {"opt"=>"-duplex" , "val"=>"DuplexNoTumble"},
+  }
+ ) ;
+  %DefaultBRColorMatching = (
+  "optionname" => 'DefaultBRColorMatching'   , 
+  "optionlist" => {
+     'Normal'          => {"opt"=>"-cm" , "val"=>"Normal"},
+     'Auto'            => {"opt"=>"-cm" , "val"=>"Auto"},
+     'Vivid'           => {"opt"=>"-cm" , "val"=>"Vivid"},
+     'None'            => {"opt"=>"-cm" , "val"=>"None"},
+  }
+ ) ;
+  %DefaultBRGray = (
+  "optionname" => 'DefaultBRGray'   , 
+  "optionlist" => {
+     'OFF'          => {"opt"=>"-gray" , "val"=>"OFF"},
+     'ON'           => {"opt"=>"-gray" , "val"=>"ON"},
+  }
+ ) ;
+
+  %DefaultBREnhanceBlkPrt = (
+  "optionname" => 'DefaultBREnhanceBlkPrt'   , 
+  "optionlist" => {
+     'OFF'          => {"opt"=>"-bp" , "val"=>"OFF"},
+     'ON'           => {"opt"=>"-bp" , "val"=>"ON"},
+  }
+ ) ;
+
+  %DefaultBRTonerSaveMode = (
+  "optionname" => 'DefaultBRTonerSaveMode'   , 
+  "optionlist" => {
+     'OFF'          => {"opt"=>"-ts" , "val"=>"OFF"},
+     'ON'           => {"opt"=>"-ts" , "val"=>"ON"},
+  }
+ ) ;
+
+  %DefaultBRImproveOutput = (
+  "optionname" => 'DefaultBRImproveOutput'   , 
+  "optionlist" => {
+     'OFF'                       => {"opt"=>"-improve" , "val"=>"OFF"},
+     'BRLessPaperCurl'           => {"opt"=>"-improve" , "val"=>"BRLessPaperCurl"},
+     'BRFixIntensity'            => {"opt"=>"-improve" , "val"=>"BRFixIntensity"},
+  }
+ ) ;
+
+  %DefaultBRMonoColor = (
+  "optionname" => 'DefaultBRMonoColor'   , 
+  "optionlist" => {
+     'Auto'                => {"opt"=>"-corm" , "val"=>"Auto"},
+     'FullColor'               => {"opt"=>"-corm" , "val"=>"FullColor"},
+     'Mono'                => {"opt"=>"-corm" , "val"=>"Mono"},
+  }
+ ) ;
+  %DefaultBRBrightness = (
+  "optionname" => 'DefaultBRBrightness'   , 
+  "optionlist" => {
+     '*'               => {"opt"=>"-brit" , "val"=>"*"},
+  }
+ ) ;
+  %DefaultBRContrast = (
+  "optionname" => 'DefaultBRContrast'   , 
+  "optionlist" => {
+     '*'               => {"opt"=>"-cont" , "val"=>"*"},
+  }
+ ) ;
+  %DefaultBRRed = (
+  "optionname" => 'DefaultBRRed'   , 
+  "optionlist" => {
+     '*'               => {"opt"=>"-red" , "val"=>"*"},
+  }
+ ) ;
+  %DefaultBRGreen = (
+  "optionname" => 'DefaultBRGreen'   , 
+  "optionlist" => {
+     '*'               => {"opt"=>"-green" , "val"=>"*"},
+  }
+ ) ;
+  %DefaultBRBlue = (
+  "optionname" => 'DefaultBRBlue'   , 
+  "optionlist" => {
+     '*'               => {"opt"=>"-blue" , "val"=>"*"},
+  }
+ ) ;
+  %DefaultBRSaturation = (
+  "optionname" => 'DefaultBRSaturation'   , 
+  "optionlist" => {
+     '*'               => {"opt"=>"-satu" , "val"=>"*"},
+  }
+ ) ;
+  %DefaultBRSkipBlank = (
+  "optionname" => 'DefaultBRSkipBlank'   , 
+  "optionlist" => {
+     'OFF'          => {"opt"=>"-sb" , "val"=>"OFF"},
+     'ON'           => {"opt"=>"-sb" , "val"=>"ON"},
+  }
+ ) ;
+
+  %DefaultBRQuietMode = (
+  "optionname" => 'DefaultBRQuietMode'   , 
+  "optionlist" => {
+     'UseDeviceSettings'   => {"opt"=>"-qm" , "val"=>"UseDeviceSettings"},
+     'ON'                  => {"opt"=>"-qm" , "val"=>"ON"},
+  }
+ ) ;
+ %numeric_option = (
+  "BRBrightness"                => {"opt"=>"-brit"  , "val"=>"*"},
+  "BRContrast"                  => {"opt"=>"-cont"  , "val"=>"*"},
+  "BRRed"                       => {"opt"=>"-red"   , "val"=>"*"},
+  "BRGreen"                     => {"opt"=>"-green" , "val"=>"*"},
+  "BRBlue"                      => {"opt"=>"-blue"  , "val"=>"*"},
+  "BRSaturation"                => {"opt"=>"-satu"  , "val"=>"*"},
+);
+ %initial_configuration = (
+   "-md"       =>  "Plain"  ,
+   "-pt"       =>  "A4"     ,
+   "-inslot"   =>  "AutoSelect"   ,
+   "-reso"     =>  "Normal"    ,
+   "-corm"     =>  "Auto"  ,
+   "-cm"       =>  "Vivid"  ,
+   "-gray"     =>  "ON"  ,
+   "-bp"       =>  "OFF"  ,
+   "-ts"       =>  "OFF"  ,
+   "-improve"  =>  "OFF"  ,
+   "-duplex"   =>  "None"   ,
+   "-brit"     =>  "0"      ,
+   "-cont"     =>  "0"      ,
+   "-red"      =>  "0"      ,
+   "-green"    =>  "0"      ,
+   "-blue"     =>  "0"      ,
+   "-satu"     =>  "0"      ,
+   "-sb"       =>  "OFF"    ,
+   "-qm"       =>  "UseDeviceSettings"    ,
+ );
+ %ppddefaultslist = (
+    "DefaultBRMediaType"                       => \%DefaultBRMediaType,
+    "DefaultPageSize"                          => \%DefaultPageSize,
+    "DefaultBRInputSlot"                       => \%DefaultBRInputSlot,
+    "DefaultBRResolution"                      => \%DefaultBRResolution,
+    "DefaultBRMonoColor"                       => \%DefaultBRMonoColor,
+    "DefaultBRColorMatching"                   => \%DefaultBRColorMatching,
+    "DefaultBRGray"                            => \%DefaultBRGray,
+    "DefaultBREnhanceBlkPrt"                   => \%DefaultBREnhanceBlkPrt,
+    "DefaultBRTonerSaveMode"                   => \%DefaultBRTonerSaveMode,
+    "DefaultBRImproveOutput"                   => \%DefaultBRImproveOutput,
+    "DefaultDuplex"                            => \%DefaultDuplex,
+    "DefaultBRBrightness"                      => \%DefaultBRBrightness,
+    "DefaultBRContrast"                        => \%DefaultBRContrast,
+    "DefaultBRRed"                             => \%DefaultBRRed,
+    "DefaultBRGreen"                           => \%DefaultBRGreen,
+    "DefaultBRBlue"                            => \%DefaultBRBlue,
+    "DefaultBRSaturation"                      => \%DefaultBRSaturation,
+    "DefaultBRSkipBlank"                       => \%DefaultBRSkipBlank,
+    "DefaultBRQuietMode"                       => \%DefaultBRQuietMode,
+  );
+ %mediaoptlist = (
+    "DefaultPageSize"      => \%DefaultPageSize,
+    "DefaultBRMediaType"   => \%DefaultBRMediaType,
+    "DefaultInputSlot"     => \%DefaultInputSlot,
+    "DefaultDuplex"        => \%DefaultDuplex,
+  );
+
+
+
+my $LATESTINFO="/tmp/".$PRINTER."_latest_print_info";
+unlink $LATESTINFO;
+if ($DEBUG > 1 ){
+`touch $LATESTINFO`;
+}
+
+
+my $TEMPRC = "/tmp/br".$PRINTER."rc_".$$;
+
+
+`cp  $basedir/inf/br${PRINTER}rc  $TEMPRC`;
+$ENV{BRPRINTERRCFILE} = $TEMPRC;
+
+logprint( 0 , "TEMPRC    = $TEMPRC\n");
+
+$LOCKFILE="/tmp/$PRINTER"."_lf_".$ENV{DEVICE_URI};
+
+if ( $DEVICEURILOCK == 1){
+   open (FILE , "+> $LOCKFILE");
+   flock(FILE , 2);
+}
+
+
+$ENV{LPD_DEBUG} = $LPD_DEBUG;
+$ENV{PS}=1;
+
+$ENV{BRPAPERWIDTH}  = $width;
+$ENV{BRPAPERHEIGHT} = $height;
+
+
+
+my  %lpr_options = &set_options ($PPD , $cmdoptions );
+
+&exec_lpdconfig ( $basedir ,$PRINTER , \%lpr_options );
+
+    logprint( 2, "\n");
+if ( $DEBUG == 0 ){
+    $command = "cat $CUPSINPUT |  $LPDFILTER";
+    logprint( 2 , "$command\n");
+    system("$command");
+}
+elsif ($DEBUG == 1 ){
+    $command = "cat $CUPSINPUT > $INPUT_PS && cat $INPUT_PS |".
+	       "$LPDFILTER > $OUTPUT_PRN";
+
+    logprint( 2,  "export BRPAPERWIDTH=$ENV{BRPAPERWIDTH}\n");
+    logprint( 2,  "export BRPAPERHEIGHT=$ENV{BRPAPERHEIGHT}\n");
+    logprint( 2,  "export PPD=$ENV{PPD}\n");
+    logprint( 2,  "export BRPRINTERRCFILE=$LATESTINFO\n");
+    logprint( 2,  "export LPD_DEBUG=$ENV{LPD_DEBUG}\n");
+    logprint( 2,  "export PS=$ENV{PS}\n");
+
+    logprint( 2, "cat $INPUT_PS | $LPDFILTER > $OUTPUT_PRN \n");
+    system("$command 2> /tmp/br_cupswrapper_laser_lpderr");
+    system("cat $OUTPUT_PRN");
+
+    logprint( 2, "$command\n");
+
+}
+elsif ($DEBUG > 1 ){
+    $command = "cat $CUPSINPUT > $INPUT_PS && cat $INPUT_PS |".
+	       "$LPDFILTER > $OUTPUT_PRN";
+
+    logprint( 2,  "export BRPAPERWIDTH=$ENV{BRPAPERWIDTH}\n");
+    logprint( 2,  "export BRPAPERHEIGHT=$ENV{BRPAPERHEIGHT}\n");
+    logprint( 2,  "export PPD=$ENV{PPD}\n");
+    logprint( 2,  "export BRPRINTERRCFILE=$LATESTINFO\n");
+    logprint( 2,  "export LPD_DEBUG=$ENV{LPD_DEBUG}\n");
+    logprint( 2,  "export PS=$ENV{PS}\n");
+
+    logprint( 2, "cat $INPUT_PS | $LPDFILTER > $OUTPUT_PRN \n");
+    system("$command 2> /tmp/br_cupswrapper_laser_lpderr");
+    print "\0";
+
+}
+
+
+if ($DEBUG > 1 ){
+`mv  "$TEMPRC"   "$LATESTINFO"`;
+}else{
+unlink $TEMPRC;
+}
+#`echo "\n\nCUSTOM PAGE SIZE ${width}x${height}" >> $LATESTINFO`;
+#unlink  $TEMPRC;
+
+
+if ( $DEVICEURILOCK == 1 ){
+    close (FILE);
+}
+
+
+exit 0;
+
+#-----------------------------------------------------------
+
+sub logprint  {
+    ($level , $data) =  @_;
+    if ($DEBUG != 0 ){
+	if ($LOG_LATESTONLY == 1){
+	    open (LOG , '>'.$LOGFILE) or return 0;
+	    $LOG_LATESTONLY = 0;
+	}
+	else{
+	    open (LOG , '>>'.$LOGFILE) or return 0;
+	}
+	if ( $level < $LOGLEVEL){
+	    print LOG $data;
+	}
+	close (LOG);
+    }
+}
+
+
+#
+#   set options to @cmdopt table
+#
+
+
+sub set_option_table {
+    ($table_ref ,$key, $value, $lpr_options_ref) = @_;
+    my %table = %$table_ref;
+    my %lpr_opt = %$lpr_options_ref;
+
+    if ( exists ($table{$key})){
+	my $cmdref = $table{$key};
+	my $opt = $cmdref->{opt};
+	my $val = $cmdref->{val};
+	if (exists($lpr_opt{$opt})){
+	    $lpr_options_ref->{$opt} = $val;
+	    logprint( 2 ,   "$opt  <=  $lpr_options_ref->{$opt}  : ($value)\n");
+
+        if ( $opt eq "-pt" && $val eq "CUSTOM0" ){
+		$ppdcust = $value;
+	    }
+        if ( $opt eq "-brit" || $opt eq "-cont" || $opt eq "-red" || $opt eq "-green" || $opt eq "-blue" || $opt eq "-satu" ){
+		$lpr_options_ref->{$opt} = $value;
+	    }
+		
+
+	}
+        if ( exists ($cmdref->{opt2})){
+	  my $opt = $cmdref->{opt2};
+	  my $val = $cmdref->{val2};
+	  if (exists($lpr_opt{$opt})){
+	      $lpr_options_ref->{$opt} = $val;
+	      logprint( 2 ,   "$opt  <=  $lpr_options_ref->{$opt}  : ($value)\n");
+
+              if ( $opt eq "-pt" && $val eq "CUSTOM0" ){
+		  $ppdcust = $value;
+	      }
+
+	  }
+        }
+
+
+
+
+
+    }
+}
+sub set_option_table_n {
+    ($table_ref ,$key, $value , $lpr_options) = @_;
+    my %table = %$table_ref;
+    if ( exists ($table{$key})){
+	($table{$key})->{val} = $value;
+	&set_option_table (\%table , $key , ""  ,$lpr_options);
+    }
+}
+
+
+#
+#   Custom paper
+#
+
+sub pt2dot{
+    (my $xi, my $yi) = @_;
+    my $xo = $xi * 600 / 72;
+    my $yo = $yi * 600 / 72;
+    return (int ($xo) , int ($yo) );
+}
+sub mm2dot{
+    (my $xi, my $yi) = @_;
+    my $xo = $xi * 6000 / 254;
+    my $yo = $yi * 6000 / 254;
+    return (int ($xo) , int ($yo) );
+}
+sub inch2dot{
+    (my $xi, my $yi) = @_;
+    my $xo = $xi * 600;
+    my $yo = $yi * 600;
+    return (int ($xo) , int ($yo) );
+}
+sub cm2dot{
+    (my $xi, my $yi) = @_;
+    my $xo = $xi * 60000 / 254;
+    my $yo = $yi * 60000 / 254;
+    return (int ($xo) , int ($yo) );
+}
+sub m2dot{
+    (my $xi, my $yi) = @_;
+    my $xo = $xi * 6000000 / 254;
+    my $yo = $yi * 6000000 / 254;
+    return (int ($xo) , int ($yo) );
+}
+sub ft2dot{
+    (my $xi, my $yi) = @_;
+    my $xo = $xi * 600 * 12;
+    my $yo = $yi * 600 * 12;
+    return (int ($xo) , int ($yo) );
+}
+
+
+
+sub check_custom_paper {
+    my $x = 0;
+    my $y = 0;
+    my $unitfunc;
+    my $unit = '';
+    my $ssize = '';
+
+    (my $PPD , my $lpr_options_ref) = @_;
+
+    if ( $lpr_options_ref->{'-pt'} eq "CUSTOM0" ){
+
+	foreach (keys %units){
+
+	    if ( $ppdcust =~ /[0-9]$_$/) {
+		logprint( 2 ,   "HIT $_\n");
+		$unit = $_;
+		$unitfunc = $units{$_};
+	    }
+	}
+	$ssize = $ppdcust;
+	$ssize =~ s/^Custom\.//g;
+	$ssize =~ s/$unit$//g;
+
+
+	my @psiz = split (/x/,$ssize);
+	($x , $y) = &$unitfunc ( $psiz[0] ,$psiz[1]);
+
+	return ($x , $y);
+    }
+    elsif ( $lpr_options_ref->{'-pt'} =~  /CUSTOM[1-9]/ ){
+
+	my $tmp = '*PaperDimension '."$lpr_options_ref->{'-pt'}";
+	my $ssize = `grep \"$tmp\" $PPD`;
+	chomp($ssize);
+	$ssize =~ s/\"$//;
+	$ssize =~ s/^.*\"//;
+	my @psiz = split (/ /,$ssize);
+	($x , $y) = &pt2dot ( $psiz[0] ,$psiz[1]);
+	return ($x , $y);
+    }
+    return ("{Undefined}" , "{Undefined}");
+}
+
+
+
+#
+#   get options from PPD and command-line arguments
+#
+sub set_options {
+    ($PPD , $cmdoptions) =  @_;
+    
+    my %cmdopt = ();
+    
+    
+    #   get command line options 
+
+    foreach(split (/ /,$cmdoptions)) {
+	my @eachcmdopt = split (/=/,$_);
+	$cmdopt{$eachcmdopt[0]} = $eachcmdopt[1] ;
+    }
+    
+    
+    #get PPD options
+
+    my @ppddefaults = `grep '^*Default' $PPD`;
+    my %ppdopt = ();
+
+    foreach(@ppddefaults){
+	chomp();
+	my $label = $_;
+	$label =~ s/^\*//g;
+	$label =~ s/: .*$//g;
+	my $value = $_;
+	$value =~ s/^.*: //g;
+	$ppdopt{$label} = $value;
+    }
+    
+
+    my  %lpr_options = %initial_configuration;
+    
+    
+    #set ppd options
+
+    logprint( 2 ,   "\nSET PPD OPTIONS\n");
+    foreach(keys %ppdopt){
+	my $option_name  =  $_ ;
+	my $option_value =  $ppdopt{$_};
+	my $ppdoptdb_ref =  $ppddefaultslist{$option_name};
+	
+	$list = $ppdoptdb_ref->{optionlist}; 
+	my @key = (keys %$list);
+
+	foreach(@key){
+	    my $tmp = '^'.$_.'$';
+	    if ( $option_value  =~  /$tmp/){
+		&set_option_table( $list , $_ , $option_value, \%lpr_options);
+	    }
+
+	}
+    }
+    
+    #set Vendor options (string)
+    
+    logprint( 2 ,   "\nSET VENDOR COMMAND OPTIONS\n");
+    foreach(keys %cmdopt){
+	my $option_name_value  =  $_  . "=" .$cmdopt{$_};
+	my $option_value = $cmdopt{$_};
+
+        foreach(keys %vendor_commandline){
+            my $tmp=  '^'.$_.'$';
+	    if ( $option_name_value =~ /$tmp/){
+		&set_option_table( \%vendor_commandline,
+			   $_, 
+			   $option_value ,
+			   \%lpr_options);
+	    }
+        }
+    }
+    
+    logprint( 2 ,   "\nSET PPD CMD OPTIONS\n");
+    
+    foreach(keys %cmdopt){
+	my $option_name  =  "Default" . $_;
+	my $option_value =  $cmdopt{$_ };
+	my $ppdoptdb_ref =  $ppddefaultslist{$option_name};
+	
+	$list = $ppdoptdb_ref->{optionlist}; 
+
+
+	foreach(keys %$list){
+	    my $tmp=  '^'.$_.'$';
+            if ( $option_value =~ /$tmp/ ){
+	       &set_option_table( $list,
+			   $_, 
+                           $option_value,
+			   \%lpr_options);
+            }
+        }
+    }
+    
+    #set Vendor options (numeric)
+    
+#    logprint( 2 ,   "\nSET VENDOR NUMERIC COMMAND OPTIONS\n");
+#
+#    foreach(keys %cmdopt){
+#	my $option_name  =  $_ ;
+#	my $n_value      =  $cmdopt{$_} ;
+#	
+#	&set_option_table_n( \%numeric_option , 
+#			     $option_name  ,
+#			     $n_value,
+#			     \%lpr_options);
+#
+#    }
+
+    #set MEDIA extension options    
+
+    logprint( 2 ,   "\nSET MEDIA (STANDARD) COMMAND OPTIONS\n");
+
+    foreach my $option (split( /,/ , $cmdopt{media})){
+
+	foreach my $cur_optlist (keys %mediaoptlist){
+	    $cur_opttbl = $cur_optlist ->{optionlist};
+            foreach (keys %$cur_opttbl ){
+
+              my $tmp =  '^'.$_.'$';
+	      if ( $option =~ /$tmp/ ){
+		  &set_option_table( $cur_opttbl ,
+				     $_,
+                                     $option,
+				     \%lpr_options);
+	      }
+	    }
+        }
+     }
+
+    
+#    ($width , $height) = check_custom_paper ($PPD,
+#					     \%lpr_options);
+#    if ( $width ne "{Undefined}" &&  $height ne "{Undefined}" ){
+#	$ENV{BRPAPERWIDTH} = ${width};
+#        $ENV{BRPAPERHEIGHT} = ${height};
+#	logprint( 0 , "\nCUSTOM PAPER x=$width y=$height\n\n");
+#    }
+
+    return     %lpr_options;
+}
+
+
+#exec lpd config
+
+sub exec_lpdconfig {
+    (my $basedir , my $PRINTER , my $lpr_options_ref) =  @_;
+
+    my $lpddir = $basedir;
+    my %lpr_options = %$lpr_options_ref;
+
+    $lpddir = $basedir."/lpd/";
+    #my $lpdconf = $lpddir.'/'.$LPDCONFIGEXE;
+	my $lpdconf = $LPDCONFIGEXE.$PRINTER;
+    
+    while(($op , $val) = each(%lpr_options)){
+#        my $lpdconf_command = "$lpdconf -P $PRINTER $op $val -rcfile $TEMPRC";
+        my $lpdconf_command = "$lpdconf $op $val -rcfile $TEMPRC";
+	logprint( 0 ,   "$lpdconf_command\n");
+	`$lpdconf_command`;
+    }
+
+}
+
