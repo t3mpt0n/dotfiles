@@ -17,6 +17,15 @@
   :config
   (direnv-mode))
 
+(use-package tree-sitter
+  :ensure t
+  :hook (tree-sitter-after-on . tree-sitter-hl-mode)
+  :config
+  (global-tree-sitter-mode))
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter)
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'"
@@ -140,3 +149,15 @@
          )
   :config
   (add-to-list 'eglot-server-programs '(python-mode . ("pyright"))))
+
+(use-package typst-ts-mode
+  :ensure t
+  :after (eglot format-all flycheck tree-sitter-langs)
+  :mode "\\.typ\\'"
+  :hook (
+         (typst-ts-mode . eglot-ensure)
+         )
+  :config
+  (add-to-list 'eglot-server-programs
+               `((typst-ts-mode) .
+                 ,(eglot-alternatives `("tinymist")))))

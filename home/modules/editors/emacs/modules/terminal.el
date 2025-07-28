@@ -6,10 +6,10 @@
                        "*.ti" ("terminfo/e" "terminfo/e/*")
                        ("terminfo/65" "terminfo/65/*")
                        ("integration" "integration/*")
-                       (:exclude ".dir-locals.el" "*-tests.el")))
-
-  :config
-  (general-define-key
-   :states '(normal emacs)
-   :prefix t3mpt0n/leader
-   "o T" '(eat :which-key "Open Terminal")))
+                       (:exclude ".dir-locals.el" "*-tests.el"))))
+(use-package multi-vterm
+  :after vterm
+  :ensure t
+  :bind (
+         ("C-; o T" . multi-vterm)
+         ))

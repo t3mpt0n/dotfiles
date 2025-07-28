@@ -29,13 +29,13 @@
   hardware.printers = {
     ensurePrinters =  [
       {
-        name = "Brother_MFCJ1205W";
+        name = "Brother_MFC-J1205W";
         location = "Bedroom";
         deviceUri = "ipp://192.168.1.165/ipp/print";
         model = "everywhere";
       }
     ];
-    ensureDefaultPrinter = "Brother_MFCJ1205W";
+    ensureDefaultPrinter = "Brother_MFC-J1205W";
   };
   services.printing.logLevel = "debug";
   environment.systemPackages = with pkgs; [

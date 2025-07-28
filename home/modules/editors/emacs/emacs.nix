@@ -40,7 +40,15 @@
     package = pkgs.emacs30-pgtk;
   };
 
+  home.file = {
+    ".emacs.d/tree-sitter".source = "${pkgs.emacsPackages.treesit-grammars.with-all-grammars}/lib";
+  };
+
   home.packages = with pkgs; [
+    emacsPackages.vterm
+    libvterm
+    emacsPackages.treesit-grammars.with-all-grammars
+    
     # Dirvish dependencies
     fd
     imagemagick
@@ -90,5 +98,10 @@
     # Python LSP
     pyright
     black
+
+    # Typst LSP
+    typst
+    tinymist
+    typstyle
   ];
 }

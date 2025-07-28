@@ -2,12 +2,13 @@
   lib,
   inputs,
   pkgs,
-  self,
+  pkgsStable,
   ...
 }: let
   inherit (pkgs) fetchurl fetchzip fetchFromGitHub fetchFromGitLab appimageTools;
+  
   gamescopecmd = "gamescope -W 2560 -H 1440 -w 2560 -h 1440 -r 60 -O DP-3 --xwayland-count 1 --adaptive-sync --fullscreen";
-  es-de = pkgs.emulationstation-de.overrideAttrs (finalAttrs: previousAttrs: {
+  es-de = pkgsStable.emulationstation-de.overrideAttrs (finalAttrs: previousAttrs: {
     pname = "es-de";
     version = "3.3.0";
     src = fetchzip {
@@ -15,14 +16,14 @@
       hash = "sha256-CHoOpvDEbGo3UcJb4S5HlIRsoCAN1qU+hovvU4pCRMo=";
     };
 
-    buildInputs = with pkgs; [
+    buildInputs = with pkgsStable; [
       bluez
       bluez-tools
     ] ++ previousAttrs.buildInputs;
   });
 in rec {
   programs.emulationstation = {
-    enable = true;
+    enable = false;
     package = es-de;
     emulators = [
       pkgs.ares

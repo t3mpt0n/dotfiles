@@ -118,7 +118,14 @@ user_pref("browser.urlbar.weather.featureGate", false);
 
 // Clean up firefox suggest
 user_pref("browser.search.suggest.enabled", false);
+user_pref("browser.newtabpage.activity-stream.system.showSponsored", false)
+user_pref("browser.urlbar.quicksuggest.enabled", false);
+user_pref("browser.urlbar.suggest.quicksuggest.nonsponsored", false);
+user_pref("browser.urlbar.suggest.quicksuggest.sponsored", false);
 
 // Basic Security
+user_pref("privacy.sanitize.sanitizeOnShutdown", true);
 user_pref("privacy.clearOnShutdown.history", true);
 user_pref("privacy.clearOnShutdown.downloads", true);
+user_pref("privacy.clearOnShutdown.cookies", false);
+user_pref("signon.rememberSignons", false);

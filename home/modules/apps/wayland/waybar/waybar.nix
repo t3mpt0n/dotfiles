@@ -14,7 +14,7 @@
         layer = "top";
         position = "top";
         modules-left = lib.mkDefault [
-          "hyprland/workspaces"
+          "sway/workspaces"
           "disk"
         ];
         modules-center = lib.mkDefault [ "clock" ];
@@ -50,6 +50,7 @@
             "6" = "";
           };
         };
+        
         "clock" = {
           interval = 1;
           format = "({:%a) %H:%M:%S}";

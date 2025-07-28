@@ -32,13 +32,17 @@ in
         {
           # Programs
           "${M}+p" = "exec ${lib.getExe pkgs.wofi} --show run";
-          "${M}+Shift+Return" = "exec ${lib.getExe pkgs.kitty}";
-          "${M}+w" = "exec ${lib.getExe pkgs.floorp}";
+          "${M}+Shift+Return" = "exec ${lib.getExe' pkgs.emacs30-pgtk "emacsclient"} -c -e '(multi-vterm)'";
+          "${M}+w" = "exec firefox";
           "${M}+Shift+S" = "exec ${lib.getExe pkgs.steam}";
           "${M}+Shift+D" = "exec ${lib.getExe pkgs.discord}";
         };
 
       startup = [
+        { command = "systemctl --user restart waybar"; always = true; }
+        { command = "${lib.getExe' pkgs.emacs30-pgtk "emacs"} --daemon"; }
+        { command = "${lib.getExe pkgs.corectrl}"; }
+        { command = "noisetorch"; }
       ];
     };
   };

@@ -7,10 +7,11 @@
 {
   services.swayidle = {
     enable = true;
+    systemdTarget = "sway-session.target";
     events = [
       {
         event = "before-sleep";
-        command = if config.programs.swaylock.enable then "${lib.getExe pkgs.swaylock}" else "";
+        command = "${lib.getExe pkgs.swaylock}";
       }
     ];
 

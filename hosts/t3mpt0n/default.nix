@@ -5,7 +5,8 @@ inputs@{
   nur,
   agenix,
   t3mpt0n_nvim,
-  cosmic,
+  nixpkgs-stable,
+  niri,
   ...
 }:
 let
@@ -16,7 +17,7 @@ let
 in
 nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
-  specialArgs = { inherit inputs self t3mpt0n_nvim; };
+  specialArgs = { inherit inputs self t3mpt0n_nvim nixpkgs-stable; };
   modules =
     with nixosModules;
     [
@@ -34,7 +35,7 @@ nixpkgs.lib.nixosSystem {
       hm.nixosModules.home-manager
       nur.modules.nixos.default
       agenix.nixosModules.default
-      cosmic.nixosModules.default
+      niri.nixosModules.niri
       ./home.nix
       ../ssh.nix
       {

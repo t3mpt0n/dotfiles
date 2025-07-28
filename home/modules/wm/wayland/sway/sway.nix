@@ -11,7 +11,7 @@
     config = rec {
       modifier = "Mod4";
       bars = [
-        (if config.programs.waybar.enable then { command = "${lib.getExe pkgs.waybar}"; } else { })
+        { command = "${lib.getExe pkgs.waybar}"; }
       ];
       input = {
         "type:keyboard" = {
@@ -26,6 +26,8 @@
         in
         {
           "${M}+Shift+c" = "reload";
+          "${M}+Ctrl+Q" = "exec swaylock";
+          "${M}+e" = "exec ${lib.getExe' pkgs.emacs30-pgtk "emacsclient"} -c -a 'emacs'";
 
           # Window keys
           "${M}+h" = "focus left";
@@ -36,6 +38,10 @@
           "${M}+Shift+Down" = "move down";
           "${M}+Shift+Up" = "move up";
           "${M}+Shift+Right" = "move right";
+          "${M}+Shift+H" = "move left";
+          "${M}+Shift+J" = "move down";
+          "${M}+Shift+K" = "move up";
+          "${M}+Shift+L" = "move right";
           "${M}+1" = wn 1;
           "${M}+2" = wn 2;
           "${M}+3" = wn 3;

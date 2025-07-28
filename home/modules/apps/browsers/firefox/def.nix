@@ -5,6 +5,9 @@
 }: {
   programs.firefox = {
     enable = true;
+    nativeMessagingHosts = with pkgs; [
+      keepassxc
+    ];
     policies = {
       HttpsOnlyMode = "enabled";
       DNSOverHTTPS = {
@@ -45,58 +48,85 @@
     profiles = {
       day2day = {
         isDefault = true;
+        bookmarks = {
+          
+        };
+        extensions = {
+          packages = with pkgs.nur.repos.rycee.firefox-addons; [
+            ublock-origin
+            keepassxc-browser
+            violentmonkey
+            darkreader
+
+            ## YouTube
+            youtube-shorts-block
+            return-youtube-dislikes
+            
+          ];
+          force = true;
+        };
         search = {
           engines = {
             ## Package Lookup
-            nixpack = {
-              name = "Nix Packages";
+            "Nix Packages" = {
               urls = [{
-                template = "https://search.nixos.packages";
+                template = "https://search.nixos.org/packages";
                 params = [
                   { name = "type"; value = "packages"; }
                   { name = "query"; value = "{searchTerms}"; }
                 ];
               }];
-
+              iconMapObj."16" = "https://nixos.org/favicon.ico";
               definedAliases = [ "@nixpkg" ];
             };
 
+            ## Option Lookup
+            "Home Manager Options" = {
+              urls = [{
+                template = "https://home-manager-options.extranix.com/?query={searchTerms}&release=master";
+              }];
+              iconMapObj."16" = "https://extranix.com/favicon.ico";
+              definedAliases = [ "@hmopt" ];
+            };
+
+            "NixOS Options" = {
+              urls = [{
+                template = "https//search.nixos.org/options?query={searchTerms}&type=packages";
+              }];
+              definedAliases = [ "@nixopt"];
+            };
+
             ## Wikis
-            nixos-wiki = {
-               name = "NixOS Wiki";
+            "NixOS Wiki" = {
                urls = [{ template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; }];
                iconMapObj."16" = "https://wiki.nixos.org/favicon.ico";
                definedAliases = [ "@nixwiki" ];
             };
-            nixos-wiki-unofficial = {
-              name = "Unofficial NixOS Wiki";
+            "Unofficial NixOS Wiki" = {
               urls = [{ template = "https://nixos.wiki/index.php?search={searchTerms}&go=Go"; }];
               iconMapObj."16" = "https://nixos.wiki/favicon.ico";
               definedAliases = [ "@nixwikiu" ];
             };
-            arch-wiki = {
-              name = "Arch Linux Wiki";
+            "Arch Linux Wiki" = {
               urls = [{ template = "https://wiki.archlinux.org/index.php?search={searchTerms}"; }];
               iconMapObj."16" = "https://wiki.archlinux.org/favicon.ico";
               definedAliases = [ "@archwiki" ];
             };
-            gentoo-wiki = {
-              name = "Gentoo Wiki";
+            "Gentoo Wiki" = {
               urls = [{ template = "https://wiki.gentoo.org/index.php?search={searchTerms}"; }];
               iconMapObj."16" = "https://gentoo.org/favicon.ico";
               definedAliases = [ "@gentoowiki" ];
             };
 
             ## Actual Search Engines
-            brave-search = {
-              name = "Brave Search";
+            "Brave Search" = {
+              id = "brave";
               urls = [{ template = "https://search.brave.com/search?q={searchTerms}"; }];
               iconMapObj."16" = "https://brave.com/favicon.ico";
               definedAliases = [ "@brave" ];
             };
 
-            yandex = {
-              name = "Yandex";
+            "Yandex" = {
               urls = [{ template = "https://yandex.com/search?text={searchTerms}"; }];
               iconMapObj."16" = "https://yandex.com/favicon.ico";
               definedAliases = [ "@yandex" ];
@@ -104,6 +134,8 @@
 
             bing.metadata.hidden = true;
           };
+          default = "Brave Search";
+          force = true;
         };
       };
     };

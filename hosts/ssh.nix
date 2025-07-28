@@ -28,8 +28,6 @@ in
     };
   };
 
-  programs.ssh.startAgent = true;
-
   users.users.jd.openssh.authorizedKeys.keys = everyone;
   users.users.root.openssh.authorizedKeys.keys = hosts;
 }
