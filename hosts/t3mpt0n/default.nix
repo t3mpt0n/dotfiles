@@ -38,6 +38,7 @@ nixpkgs.lib.nixosSystem {
       niri.nixosModules.niri
       ./home.nix
       ../ssh.nix
+      ../gpg.nix
       {
         environment.systemPackages = with pkgs; [
           inputs.t3mpt0n_nvim.outputs.packages.x86_64-linux.default

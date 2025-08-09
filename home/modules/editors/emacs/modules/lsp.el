@@ -1,7 +1,7 @@
 (use-package eglot
   :ensure nil
-  :hook ((prog-mode . eglot-ensure)
-         (eglot--managed-mode . corfu-mode)))
+  :init
+  (flymake-mode -1))
 
 (use-package format-all
   :ensure t
@@ -10,7 +10,8 @@
 
 (use-package flycheck
   :ensure t
-  :hook (after-init . global-flycheck-mode))
+  :config
+  (global-flycheck-mode))
 
 (use-package direnv
   :ensure t
@@ -19,13 +20,15 @@
 
 (use-package tree-sitter
   :ensure t
-  :hook (tree-sitter-after-on . tree-sitter-hl-mode)
   :config
   (global-tree-sitter-mode))
 
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
+(use-package tree-sitter-ispell :ensure t :after tree-sitter)
+(use-package tree-sitter-langs :ensure t :after tree-siter)
+(use-package tree-sitter-indent :ensure t :after tree-sitter)
+
+(use-package websocket :ensure t)
+
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'"
@@ -35,17 +38,17 @@
   :config
   (add-to-list 'eglot-server-programs '(nix-mode . ("nixd"))))
 
-(use-package latex-mode
-  :ensure nil
-  :mode "\\.tex\\'"
-  :after (eglot format-all flycheck)
-  :hook (
-         (latex-mode . format-all-mode)
-         (latex-mode . eglot-ensure)
-         (latex-mode . (lambda () (setq format-all-formatters
-                                        '(("LaTeX" (auctex)))))))
-  :config
-  (add-to-list 'eglot-server-programs '(latex-mode . ("texlab"))))
+;; (use-package latex-mode
+;;   :ensure nil
+;;   :mode "\\.tex\\'"
+;;   :after (eglot format-all flycheck)
+;;   :hook (
+;;          (latex-mode . format-all-mode)
+;;          (latex-mode . eglot-ensure)
+;;          (latex-mode . (lambda () (setq format-all-formatters
+;;                                         '(("LaTeX" (auctex)))))))
+;;   :config
+;;   (add-to-list 'eglot-server-programs '(latex-mode . ("texlab"))))
 
 (use-package markdown-mode
   :ensure t
@@ -62,7 +65,8 @@
 
 (use-package flycheck-kotlin
   :ensure t
-  :after (eglot format-all flycheck)
+  :requires flycheck
+  :after (eglot format-all)
   :config (flycheck-kotlin-setup))
 
 (use-package kotlin-mode
@@ -152,12 +156,26 @@
 
 (use-package typst-ts-mode
   :ensure t
-  :after (eglot format-all flycheck tree-sitter-langs)
-  :mode "\\.typ\\'"
-  :hook (
-         (typst-ts-mode . eglot-ensure)
-         )
+  :demand t
+  :requires tree-sitter
+  :after eglot
+  :mode ("\\.typ\\'" . typst-ts-mode)
+  :hook (typst-ts-mode . eglot-ensure)
   :config
-  (add-to-list 'eglot-server-programs
-               `((typst-ts-mode) .
-                 ,(eglot-alternatives `("tinymist")))))
+  (keymap-set typst-ts-mode-map "C-c C-e" #'typst-ts-tmenu)
+  (add-to-list 'eglot-server-programs '(typst-ts-mode . ("tinymist")))
+  :custom
+  (typst-ts-mode-watch-options "--open")
+  (typst-ts-mode-enable-raw-blocks-highlight t)
+  (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory)))
+
+
+(use-package typst-preview
+  :ensure (:type git
+                 :host github
+                 :repo "havarddj/typst-preview.el")
+  :after (typst-ts-mode websocket)
+  :bind (:map typst-preview-mode-map
+              ("C-c C-j" . typst-preview-send-position))
+  :config
+  (setq typst-preview-browser "firefox"))

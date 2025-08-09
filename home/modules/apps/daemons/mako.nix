@@ -1,5 +1,4 @@
-{ lib, ... }:
-{
+{lib, ...}: {
   services.mako = {
     enable = true;
     actions = true;

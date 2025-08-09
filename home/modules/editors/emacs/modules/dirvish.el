@@ -1,4 +1,9 @@
-(use-package pdf-tools :ensure t)
+(use-package pdf-tools
+  :ensure t
+  :mode ("\\.pdf\\'" . pdf-view-mode)
+  :config
+  (pdf-tools-install))
+
 (use-package dirvish
   :ensure t
   :after pdf-tools
@@ -11,9 +16,4 @@
                              git-msg
                              file-time
                              file-size
-                             ))
-  (general-define-key
-   :states 'normal
-   :prefix t3mpt0n/leader
-   "d" '(:which-key "Dirvish")
-   "d d" '(dirvish :which-key "Open Dirvish in current directory")))
+                             )))

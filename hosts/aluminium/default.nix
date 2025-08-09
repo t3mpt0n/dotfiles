@@ -36,6 +36,7 @@ nixpkgs.lib.nixosSystem {
       disko.nixosModules.disko
       ./home.nix
       ../ssh.nix
+      ../gpg.nix
       {
         environment.systemPackages = [
           t3mpt0n_nvim.outputs.packages.x86_64-linux.default

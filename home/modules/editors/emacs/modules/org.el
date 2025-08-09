@@ -8,12 +8,16 @@
         org-hide-leading-stars t
         org-return-follows-link t
         org-startup-indented t
+        org-file-apps '(
+                        (auto-mode . emacs)
+                        ("\\.x?html?\\'" . "firefox %s")
+                        )
         ))
 
-(use-package org-bullets
+(use-package cdlatex
   :ensure t
-  :after org
-  :hook (org-mode . (lambda () (org-bullets-mode 1))))
+  :requires org
+  :hook (org-mode . turn-on-org-cdlatex))
 
 (use-package org-ref
   :ensure t
@@ -24,15 +28,16 @@
          )
   :config
   (setq bibtex-completion-bibliography '(
-                                         "~/Documents/masterRef.bib"
+                                         "~/Docs/masterRef.bib"
                                          )
         bibtex-completion-library-path '(
-                                         "~/Documents/bib.pdfs"
+                                         "~/Docs/bib.pdfs"
                                          )))
 
 (use-package org-roam
   :ensure t
   :after org
+  :requires org
   :custom
   (org-roam-directory (file-truename "/home/jd/Documents/ORG-ROAM"))
   :bind (("C-c n l" . org-roam-buffer-toggle)
@@ -44,3 +49,11 @@
          )
   :config
   (require 'org-roam-protocol))
+
+(use-package org-modern
+  :ensure t
+  :after org
+  :hook (
+         (org-mode . org-modern-mode)
+         (org-agenda-finalize . org-modern-agenda)
+         ))

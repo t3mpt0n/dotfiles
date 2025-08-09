@@ -2,37 +2,35 @@
   :ensure t
   :bind (("M-x" . helm-M-x)
          ("C-x r b" . helm-filtered-bookmarks)
-         ("C-x C-f" . helm-find-files))
+         ("C-x C-f" . helm-find-files)
+         ("C-; b m" . helm-buffers-list))
   :config
-  (helm-mode 1)
-  (general-define-key
-   :states '(normal emacs)
-   :prefix t3mpt0n/leader
-   "f f" '(helm-find-files :which-key "Find Files")
-   "f r" '(helm-recentf :which-key "Recent Files")
-   "SPC" '(helm-M-x :which-key "M-x")
-   "B l" '(helm-filtered-bookmarks :which-key "List Bookmarks")
-   "b m" '(helm-buffers-list :which-key "Buffer Menu")))
+  (helm-mode 1))
 
 (use-package corfu
   :ensure t
+  :bind (:map corfu-map
+              ("TAB" . corfu-next)
+              ([tab] . corfu-next)
+              ("S-TAB" . corfu-previous)
+              ([backtab] . corfu-previous))
+  :init
+  (global-corfu-mode)
+  :config
+  (setq corfu-auto t)
   :custom
   (corfu-cycle t)
-  (corfu-preselect 'prompt)
-  :bind (:map corfu-map
-              ("<tab>" . corfu-next)
-              ("C-<tab>" . corfu-previous))
-  :config
-  (global-corfu-mode))
-
-(use-package cape
+  (corfu-preselect 'prompt))
+(use-package nerd-icons-corfu
   :ensure t
-  :bind ("C-c p" . cape-prefix-map)
-  :hook (
-         (completion-at-point-functions . cape-dabbrev)
-         (completion-at-point-functions . cape-file)
-         (completion-at-point-functions . cape-elisp-block)
-         ))
+  :after corfu
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+  (setq nerd-icons-corfu-mapping
+        '((array :style "cod" :icon "symbol_array" :face font-lock-type-face)
+          (boolean :style "cod" :icon "symbol_boolean" :face font-lock-builtin-face)
+          (file :fn nerd-icons-icon-for-file :face font-lock-string-face)
+          (t :style "cod" :icon "code" :face font-lock-warning-face))))
 
 (use-package dabbrev
   :ensure nil
@@ -44,6 +42,18 @@
   (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
   (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
   (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
+
+(use-package cape
+  :ensure t
+  :bind ("C-c p" . cape-prefix-map)
+  :hook (
+         (completion-at-point-functions . cape-dabbrev)
+         (completion-at-point-functions . cape-file)
+         (completion-at-point-functions . cape-keyword)
+         (completion-at-point-functions . cape-dict)
+         )
+  :config
+  )
 
 (use-package emacs
   :ensure nil
@@ -59,3 +69,10 @@
   :config
   (yas-global-mode 1)
   (setq yas-snippet-dirs '("~/.emacs.d/snippets")))
+
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode 1))
+
+

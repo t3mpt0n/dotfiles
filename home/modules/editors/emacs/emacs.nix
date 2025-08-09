@@ -45,10 +45,11 @@
   };
 
   home.packages = with pkgs; [
+    ispell
     emacsPackages.vterm
     libvterm
     emacsPackages.treesit-grammars.with-all-grammars
-    
+
     # Dirvish dependencies
     fd
     imagemagick
@@ -67,6 +68,8 @@
     # LaTeX LSP
     texlab
     texliveFull
+    gnumake
+    ghostscript
     auctex
 
     # Markdown LSP

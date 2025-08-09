@@ -12,8 +12,10 @@
 (add-hook #'prog-mode-hook #'display-line-numbers-mode) ;Display current line number on very left column in all buffers
 
 ;; Frame modification
+(set-frame-parameter nil 'alpha-background 85)
+(add-to-list 'default-frame-alist '(alpha-background . 85))
 (add-to-list 'default-frame-alist '(font . "GeistMono Nerd Font 14"))
-(set-frame-parameter nil 'alpha-background t3mpt0n/alpha)
+
 
 ;Theme
 (use-package doom-themes
@@ -43,3 +45,4 @@
   :ensure t
   :hook (prog-mode . indent-bars-mode))
 
+(global-prettify-symbols-mode)
