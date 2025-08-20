@@ -1,7 +1,5 @@
 (use-package eglot
-  :ensure nil
-  :init
-  (flymake-mode -1))
+  :ensure nil)
 
 (use-package format-all
   :ensure t
@@ -30,25 +28,20 @@
 (use-package websocket :ensure t)
 
 (use-package nix-mode
+  :ensure t)
+(use-package nix-ts-mode
   :ensure t
-  :mode "\\.nix\\'"
-  :after (eglot format-all flycheck)
-  :hook (nix-mode . (lambda () (setq format-all-formatters
-                                     '(("Nix" (alejandra))))))
+  :requires nix-mode
+  :mode ("\\.nix$" . nix-ts-mode)
+  :hook (
+         ((nix-mode nix-ts-mode) . eglot-ensure))
   :config
-  (add-to-list 'eglot-server-programs '(nix-mode . ("nixd"))))
-
-;; (use-package latex-mode
-;;   :ensure nil
-;;   :mode "\\.tex\\'"
-;;   :after (eglot format-all flycheck)
-;;   :hook (
-;;          (latex-mode . format-all-mode)
-;;          (latex-mode . eglot-ensure)
-;;          (latex-mode . (lambda () (setq format-all-formatters
-;;                                         '(("LaTeX" (auctex)))))))
-;;   :config
-;;   (add-to-list 'eglot-server-programs '(latex-mode . ("texlab"))))
+  (add-to-list 'eglot-server-programs '((nix-mode nix-ts-mode) . ("nixd" "--inlay-hints" :initializationOptions (:nixd (:nixpkgs (:expr "import (builtins.getFlake \"/etc/nixos\").inputs.nixpkgs")
+                                                                         :formatting (:command [ "alejandra" ])
+                                                                         :options (:nixos (:expr "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.<name>.options")
+                                                                                          :home-manager (:expr "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.<name>.options.home-manager.users.type.getSubOptions []"))
+                                                                         )))))
+  )
 
 (use-package markdown-mode
   :ensure t
@@ -144,15 +137,13 @@
 (use-package python-mode
   :ensure nil
   :after (eglot format-all flycheck)
-  :mode "\\.py\\'"
-  :hook (
-         (python-mode . (lambda () (setq format-all-formatters
-                                         '("Python" (black)))))
-         (python-mode . format-all-mode)
-         (python-mode . eglot-ensure)
-         )
+  :mode ("\\.py\\'" . python-ts-mode)
+  :hook ((python-mode python-ts-mode) . eglot-ensure)
   :config
-  (add-to-list 'eglot-server-programs '(python-mode . ("pyright"))))
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("basedpyright-langserver" "--stdio"))))
+(use-package flymake-ruff
+  :ensure t
+  :hook ((python-mode python-ts-mode) . flymake-ruff-load))
 
 (use-package typst-ts-mode
   :ensure t
@@ -179,3 +170,25 @@
               ("C-c C-j" . typst-preview-send-position))
   :config
   (setq typst-preview-browser "firefox"))
+
+(use-package geiser-guile
+  :ensure t
+  :mode ("\\.scm\\'" . geiser-mode))
+
+(use-package julia-mode :ensure t)
+(use-package eglot-jl
+  :ensure t
+  :init
+  (eglot-jl-init))
+(use-package julia-repl
+  :ensure t)
+(use-package julia-ts-mode
+  :ensure t
+  :requires julia-mode
+  :after eglot-jl
+  :mode "\\.jl$"
+  :hook (
+         (julia-ts-mode . (lambda () (flymake-mode 1)))
+         ((julia-mode julia-ts-mode) . eglot-ensure)
+         )
+  )

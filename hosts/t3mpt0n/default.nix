@@ -7,6 +7,7 @@ inputs@{
   t3mpt0n_nvim,
   nixpkgs-stable,
   niri,
+  devenv,
   ...
 }:
 let
@@ -42,7 +43,7 @@ nixpkgs.lib.nixosSystem {
       {
         environment.systemPackages = with pkgs; [
           inputs.t3mpt0n_nvim.outputs.packages.x86_64-linux.default
-        ];
+        ] ++ [ devenv.packages.x86_64-linux.devenv ];
       }
     ]
     ++ imports'

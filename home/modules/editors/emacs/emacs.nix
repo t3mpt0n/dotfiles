@@ -12,6 +12,7 @@
       ${builtins.readFile ./modules/ui.el}
       ${builtins.readFile ./modules/dashboard.el}
       ${builtins.readFile ./modules/cmp.el}
+      ${builtins.readFile ./modules/auctex.el}
       ${builtins.readFile ./modules/org.el}
       ${builtins.readFile ./modules/terminal.el}
       ${builtins.readFile ./modules/dirvish.el}
@@ -26,7 +27,7 @@
     enable = true;
     package = pkgs.emacs30-pgtk;
   };
-
+  
   services.emacs = {
     enable = false;
     client = {
@@ -46,6 +47,7 @@
 
   home.packages = with pkgs; [
     ispell
+    imagemagick
     emacsPackages.vterm
     libvterm
     emacsPackages.treesit-grammars.with-all-grammars
@@ -99,12 +101,18 @@
     rustc
 
     # Python LSP
-    pyright
-    black
+    basedpyright
+    ruff
 
     # Typst LSP
     typst
     tinymist
     typstyle
+
+    # Guile Scheme
+    guile
+
+    # Julia
+    julia
   ];
 }

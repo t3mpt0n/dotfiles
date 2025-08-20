@@ -34,17 +34,20 @@
         WINE_FULLSCREEN_FSR = "1";
         SDL_VIDEODRIVER = "x11";
       };
+      capSysNice = true;
     };
   };
 
   environment.systemPackages = let
-    steam-run =  (pkgs.steam.override {
-      extraLibraries = pkgs: with pkgs; [
-        fuse
-      ];
-    }).run;
-    in [
-      steam-run
-      pkgs.steamtinkerlaunch
-    ];
+    steam-run =
+      (pkgs.steam.override {
+        extraLibraries = pkgs:
+          with pkgs; [
+            fuse
+          ];
+      }).run;
+  in [
+    steam-run
+    pkgs.steamtinkerlaunch
+  ];
 }

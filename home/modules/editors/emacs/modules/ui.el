@@ -1,7 +1,3 @@
-(defvar t3mpt0n/font "GeistMono Nerd Font")
-(defvar t3mpt0n/font/size "16")
-(defvar t3mpt0n/alpha 85)
-
 (setq inhibit-startup-message t) ;Remove annoying startup message
 (scroll-bar-mode -1) ;Remove scroll bar
 (tool-bar-mode -1) ;Remove tool bar
@@ -14,28 +10,31 @@
 ;; Frame modification
 (set-frame-parameter nil 'alpha-background 85)
 (add-to-list 'default-frame-alist '(alpha-background . 85))
-(add-to-list 'default-frame-alist '(font . "GeistMono Nerd Font 14"))
-
 
 ;Theme
-(use-package doom-themes
+;; (use-package doom-themes
+;;   :ensure t
+;;   :config
+;;   (setq doom-themes-enable-bold t)
+;;   (setq doom-themes-enable-italic t)
+;;   (doom-themes-visual-bell-config)
+;;   (doom-themes-org-config))
+(use-package ef-themes
   :ensure t
+  :init
+  (mapc #'disable-theme custom-enabled-themes)
   :config
-  (setq doom-themes-enable-bold t)
-  (setq doom-themes-enable-italic t)
-  (load-theme 'doom-gruvbox t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
+  (ef-themes-select 'ef-dream))
 
-(use-package doom-modeline
-  :ensure t
-  :config
-  (doom-modeline-mode))
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :config
+;;   (doom-modeline-mode))
 
 (use-package nerd-icons
   :ensure t
   :custom
-  (nerd-icons-font-family t3mpt0n/font))
+  (nerd-icons-font-family "Terminess Nerd Font"))
 
 (use-package rainbow-delimiters
   :ensure t
@@ -46,3 +45,6 @@
   :hook (prog-mode . indent-bars-mode))
 
 (global-prettify-symbols-mode)
+
+(set-face-attribute 'default nil :family "Terminess Nerd Font" :height 180)
+(set-face-attribute 'italic nil :family "3270 Nerd Font" :height 175)

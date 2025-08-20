@@ -48,6 +48,11 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    devenv = {
+      url = "github:cachix/devenv";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -59,6 +64,7 @@
       disko,
       t3mpt0n_nvim,
       niri,
+      devenv,
       ...
     }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
