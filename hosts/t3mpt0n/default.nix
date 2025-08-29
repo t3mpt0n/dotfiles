@@ -8,6 +8,7 @@ inputs@{
   nixpkgs-stable,
   niri,
   devenv,
+  emacs-overlay,
   ...
 }:
 let
@@ -33,6 +34,7 @@ nixpkgs.lib.nixosSystem {
       switch
       gamepads
       printer
+      gamingmice
       hm.nixosModules.home-manager
       nur.modules.nixos.default
       agenix.nixosModules.default

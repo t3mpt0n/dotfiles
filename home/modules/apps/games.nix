@@ -14,7 +14,6 @@
     gamemode
     pegasus-frontend
     iortcw
-    libsForQt5.kget
     mangohud
     dualsensectl
     atlauncher

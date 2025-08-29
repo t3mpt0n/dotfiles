@@ -53,6 +53,11 @@
       url = "github:cachix/devenv";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -65,6 +70,7 @@
       t3mpt0n_nvim,
       niri,
       devenv,
+      emacs-overlay,
       ...
     }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
@@ -79,6 +85,7 @@
           self',
           inputs',
           pkgs,
+          emacs,
           system,
           ...
         }: let
@@ -160,6 +167,7 @@
           grub_efi = import ./modules/grub.efi.nix;
           minecraft = import ./modules/minecraft.nix;
           printer = import ./modules/printer.nix;
+          gamingmice = import ./modules/gamingmice.nix;
         };
       };
     };
