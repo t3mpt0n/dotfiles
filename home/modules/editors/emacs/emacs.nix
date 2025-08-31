@@ -12,10 +12,10 @@
       ${builtins.readFile ./modules/ui.el}
       ${builtins.readFile ./modules/dashboard.el}
       ${builtins.readFile ./modules/cmp.el}
+      ${builtins.readFile ./modules/projects.el}
       ${builtins.readFile ./modules/auctex.el}
       ${builtins.readFile ./modules/org.el}
       ${builtins.readFile ./modules/terminal.el}
-      ${builtins.readFile ./modules/dirvish.el}
       ${builtins.readFile ./modules/lsp.el}
       ${builtins.readFile ./modules/magit.el}
       ${builtins.readFile ./modules/rss.el}
@@ -99,11 +99,7 @@
     rustfmt
     cargo
     rustc
-
-    # Python LSP
-    basedpyright
-    ruff
-
+    
     # Typst LSP
     typst
     tinymist
@@ -114,5 +110,9 @@
 
     # Julia
     julia
+
+    # Zig LSP
+    zig
+    zls
   ];
 }

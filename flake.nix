@@ -149,6 +149,11 @@
             path = ./templates/scala;
             description = "Basic Scala Project Template";
           };
+
+          python = {
+            path = ./templates/python;
+            description = "Bare Bones Python Template w/ Direnv & LSP Support";
+          };
         };
         nixosConfigurations = import ./hosts inputs;
         nixosModules = {

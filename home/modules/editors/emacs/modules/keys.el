@@ -2,7 +2,9 @@
 (setq next-line-add-newlines t)
 (defconst t3mpt0n/leader "C-;")
 (show-paren-mode 1)
-(use-package general :ensure t
+(use-package general
+  :ensure t
+  :demand t
   :config
   (general-define-key
    :prefix t3mpt0n/leader

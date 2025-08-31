@@ -1,3 +1,4 @@
+(flymake-mode -1)
 (use-package vertico
   :ensure t
   :init
@@ -121,7 +122,7 @@
 (use-package cape
   :ensure t
   :bind ("C-c p" . cape-prefix-map)
-  :config
+  :init
   (add-hook 'complete-at-point-functions #'cape-dabbrev)
   (add-hook 'complete-at-point-functions #'cape-keyword)
   (add-hook 'complete-at-point-functions #'cape-file)

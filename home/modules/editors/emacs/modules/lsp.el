@@ -27,21 +27,28 @@
 
 (use-package websocket :ensure t)
 
-(use-package nix-mode
-  :ensure t)
 (use-package nix-ts-mode
   :ensure t
-  :requires nix-mode
   :mode ("\\.nix$" . nix-ts-mode)
   :hook (
-         ((nix-mode nix-ts-mode) . eglot-ensure))
+         (nix-ts-mode . eglot-ensure))
   :config
-  (add-to-list 'eglot-server-programs '((nix-mode nix-ts-mode) . ("nixd" "--inlay-hints" :initializationOptions (:nixd (:nixpkgs (:expr "import (builtins.getFlake \"/etc/nixos\").inputs.nixpkgs")
+  (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nixd" "--inlay-hints" :initializationOptions (:nixd (:nixpkgs (:expr "import (builtins.getFlake \"/etc/nixos\").inputs.nixpkgs")
                                                                          :formatting (:command [ "alejandra" ])
                                                                          :options (:nixos (:expr "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.<name>.options")
                                                                                           :home-manager (:expr "(builtins.getFlake \"/etc/nixos\").nixosConfigurations.<name>.options.home-manager.users.type.getSubOptions []"))
-                                                                         )))))
-  )
+                                                                         ))))))
+
+(use-package zigger
+  :ensure zig-mode zig-ts-mode
+  :mode ("\\.zig$" . zig-ts-mode)
+  :hook ((zig-ts-mode . eglot-ensure)
+         (zig-ts-mode . (lambda ()
+                       (add-hook 'before-save-hook
+                                 (lambda ()
+                                   (eglot-code-actions nil nil "source.fixAll" t))))))
+  :config
+  (add-to-list 'eglot-server-programs '(zig-ts-mode . ("zls"))))
 
 (use-package markdown-mode
   :ensure t
@@ -115,80 +122,50 @@
          (web-mode . eglot-ensure)
          ))
 
-(use-package cargo-mode
-  :ensure t)
-
-(use-package rustic
-  :ensure t
-  :after (eglot format-all flycheck cargo-mode)
-  :mode "\\.rs\\'"
-  :hook (
-         (rustic-mode . (lambda () (setq format-all-formatters
-                                       '("Rust" (rustfmt)))))
-         (rustic-mode . cargo-minor-mode)
-         (rustic-mode . format-all-mode)
+(use-package t3mpt0n/rust-ide
+  :ensure rustic cargo-mode flycheck-rust rust-mode
+  :mode ("\\.rs$" . rustic-mode) 
+  :hook ((rustic-mode . cargo-minor-mode)
          (rustic-mode . eglot-ensure)
-         )
+         (rustic-mode . rustic-mode-auto-save-hook)
+         (flycheck-mode . flycheck-rust-setup))
+  :init
+    (defun rustic-mode-auto-save-hook ()
+    "Enable auto-saving in rustic-mode buffers."
+    (when buffer-file-name
+      (setq-local compilation-ask-about-save nil)))
+  (setq rust-mode-treesitter-derive t)
   :config
   (setq rustic-lsp-client 'eglot
         rustic-format-on-save t)
-  (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer"))))
+  (push 'rustic-clippy flycheck-checkers)
+  (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer")))
+  :custom
+  (rustic-format-trigger 'on-save))
 
-(use-package python-mode
-  :ensure nil
-  :after (eglot format-all flycheck)
-  :mode ("\\.py\\'" . python-ts-mode)
-  :hook ((python-mode python-ts-mode) . eglot-ensure)
+(use-package t3mpt0n/python-ide
+  :ensure pyenv-mode anaconda-mode python-black company-anaconda
+  :init
+  (add-hook 'completion-at-point-functions (cape-company-to-capf #'company-anaconda))
+  :mode
+  ("\\.py\\'" . python-ts-mode)
+  :hook ((python-ts-mode . (lambda ()
+                             (progn
+                               (flycheck-mode 1)
+                               (anaconda-mode)
+                               (anaconda-eldoc-mode)
+                               (python-black-on-save-mode)))))
   :config
   (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("basedpyright-langserver" "--stdio"))))
-(use-package flymake-ruff
-  :ensure t
-  :hook ((python-mode python-ts-mode) . flymake-ruff-load))
-
-(use-package typst-ts-mode
-  :ensure t
-  :demand t
-  :requires tree-sitter
-  :after eglot
-  :mode ("\\.typ\\'" . typst-ts-mode)
-  :hook (typst-ts-mode . eglot-ensure)
-  :config
-  (keymap-set typst-ts-mode-map "C-c C-e" #'typst-ts-tmenu)
-  (add-to-list 'eglot-server-programs '(typst-ts-mode . ("tinymist")))
-  :custom
-  (typst-ts-mode-watch-options "--open")
-  (typst-ts-mode-enable-raw-blocks-highlight t)
-  (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory)))
-
-
-(use-package typst-preview
-  :ensure (:type git
-                 :host github
-                 :repo "havarddj/typst-preview.el")
-  :after (typst-ts-mode websocket)
-  :bind (:map typst-preview-mode-map
-              ("C-c C-j" . typst-preview-send-position))
-  :config
-  (setq typst-preview-browser "firefox"))
 
 (use-package geiser-guile
   :ensure t
   :mode ("\\.scm\\'" . geiser-mode))
 
-(use-package julia-mode :ensure t)
-(use-package eglot-jl
-  :ensure t
+;; Minimal Julia IDE
+(use-package t3mpt0n/julia-ide
+  :ensure julia-mode eglot-jl julia-repl julia-ts-mode
   :init
-  (eglot-jl-init))
-(use-package julia-repl
-  :ensure t)
-(use-package julia-ts-mode
-  :ensure t
-  :requires julia-mode
-  :after eglot-jl
-  :mode "\\.jl$"
-  :hook (
-         (julia-ts-mode . (lambda () (flymake-mode 1)))
-         ((julia-mode julia-ts-mode) . eglot-ensure)
-         )
-  )
+  (eglot-jl-init)
+  :mode ("\\.jl$" . julia-ts-mode)
+  :hook (julia-ts-mode . eglot-ensure))
