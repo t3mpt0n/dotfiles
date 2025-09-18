@@ -9,12 +9,13 @@
 
   xdg.configFile."emacs/early-init.el" = {
     text = ''
-      			${builtins.readFile ./early.minimal-emacs.el}
+      			${builtins.readFile ./.early.minimal-emacs.el}
       			'';
   };
   xdg.configFile."emacs/init.el" = {
     text = ''
-      			${builtins.readFile ./minimal-emacs.el}
+      			${builtins.readFile ./.straight-bootstrap.el}
+      			${builtins.readFile ./.minimal-emacs.el}
       		'';
   };
 }
