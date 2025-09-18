@@ -14,8 +14,10 @@
   };
   xdg.configFile."emacs/init.el" = {
     text = ''
-      			${builtins.readFile ./.straight-bootstrap.el}
-      			${builtins.readFile ./.minimal-emacs.el}
-      		'';
+            			${builtins.readFile ./.straight-bootstrap.el}
+            			${builtins.readFile ./.evil-bootstrap.el}
+      						${builtins.readFile ./.leaf-bootstrap.el}
+            			${builtins.readFile ./.minimal-emacs.el}
+            		'';
   };
 }
