@@ -4,7 +4,6 @@ inputs@{
   hm,
   nur,
   agenix,
-  t3mpt0n_nvim,
   nixpkgs-stable,
   devenv,
   ...

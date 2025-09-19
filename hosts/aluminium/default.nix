@@ -4,7 +4,6 @@ inputs@{
   hm,
   nur,
   agenix,
-  t3mpt0n_nvim,
   disko,
   ...
 }:
@@ -16,7 +15,7 @@ let
 in
 nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
-  specialArgs = { inherit inputs self t3mpt0n_nvim; };
+  specialArgs = { inherit inputs self; };
   modules =
     with nixosModules;
     [
@@ -37,11 +36,6 @@ nixpkgs.lib.nixosSystem {
       ./home.nix
       ../ssh.nix
       ../gpg.nix
-      {
-        environment.systemPackages = [
-          t3mpt0n_nvim.outputs.packages.x86_64-linux.default
-        ];
-      }
     ]
     ++ imports'
     ++ keys;
