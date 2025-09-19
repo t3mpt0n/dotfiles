@@ -2,7 +2,9 @@
 
 (leaf t3mpt0n/delimiters
   :straight rainbow-delimiters
-  :hook (prog-mode-hook . rainbow-delimiters-mode))
+  :hook
+  (prog-mode-hook . rainbow-delimiters-mode)
+  (prog-mode-hook . electric-pair-mode))
 
 (leaf t3mpt0n/capf-setup
   :straight corfu cape

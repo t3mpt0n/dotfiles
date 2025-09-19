@@ -52,3 +52,14 @@
 (leaf t3mpt0n/line-numbers
   :straight nil
   :hook (prog-mode-hook . display-line-numbers-mode))
+
+(leaf which-key
+  :straight nil
+  :config
+  (which-key-mode))
+
+(leaf marginalia
+  :straight t
+  :bind (:minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+  :init (marginalia-mode))

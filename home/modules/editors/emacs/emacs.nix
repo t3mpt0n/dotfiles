@@ -19,6 +19,7 @@
       ${builtins.readFile ./.minimal-emacs.el}
       ${builtins.readFile ./cleanup.el}
       ${builtins.readFile ./magit.el}
+      ${builtins.readFile ./cmp.el}
       ${builtins.readFile ./ui.el}
     '';
   };
