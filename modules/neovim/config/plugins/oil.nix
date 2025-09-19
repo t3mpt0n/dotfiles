@@ -1,5 +1,0 @@
-{
-  plugins.oil = {
-    enable = true;
-  };
-}
