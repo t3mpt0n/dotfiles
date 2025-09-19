@@ -17,6 +17,8 @@
     text = ''
       ${builtins.readFile ./.bootstrap.el}
       ${builtins.readFile ./.minimal-emacs.el}
+      ${builtins.readFile ./cleanup.el}
+      ${builtins.readFile ./magit.el}
       ${builtins.readFile ./ui.el}
     '';
   };
