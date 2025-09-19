@@ -45,12 +45,12 @@
   outputs =
     inputs@{
       self,
-      hm,
-      nixpkgs,
-      nixpkgs-stable,
-      disko,
-      devenv,
-      ...
+        hm,
+        nixpkgs,
+        nixpkgs-stable,
+        disko,
+        devenv,
+        ...
     }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
@@ -61,12 +61,12 @@
       perSystem =
         pargs@{
           config,
-          self',
-          inputs',
-          pkgs,
-          emacs,
-          system,
-          ...
+            self',
+            inputs',
+            pkgs,
+            emacs,
+            system,
+            ...
         }: let
           pkgs' = import nixpkgs
             {
@@ -78,19 +78,12 @@
             inherit system;
             config.allowUnfree = true;
           };
-          packages = {
-            xenonrecomp = import ./packages/xenon.nix pkgs';
-            batocera-emulationstation = import ./packages/bemustation.nix pkgs';
-            cups-brother-mfcj1205w = pkgs'.callPackage ./packages/cups-brother-mfcj1205w.nix {};
-            extract-xiso = pkgs'.callPackage ./packages/extract-xiso.nix {};
+          devShells.default = pkgs.mkShell {
+            packages = with pkgs; [
+              inputs.nil.outputs.packages.x86_64-linux.nil
+              nixfmt-rfc-style
+            ];
           };
-          
-            devShells.default = pkgs.mkShell {
-              packages = with pkgs; [
-                inputs.nil.outputs.packages.x86_64-linux.nil
-                nixpkgs-rfc-style
-              ];
-            };
           
         };
 
