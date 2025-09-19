@@ -5,6 +5,7 @@
 {
   home.packages = with pkgs; [
     pkgs.emacs30-pgtk
+    cascadia-code # Font
   ];
 
   xdg.configFile."emacs/early-init.el" = {
