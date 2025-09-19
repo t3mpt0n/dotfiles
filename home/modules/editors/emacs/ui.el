@@ -9,6 +9,7 @@
 
 (leaf t3mpt0n/font
   :straight ligature all-the-icons
+  :hook (prog-mode-hook . visual-line-mode)
   :config
   (add-to-list 'default-frame-alist '(width . 120))
   (add-to-list 'default-frame-alist '(height . 65))
@@ -64,5 +65,3 @@
   :bind (:minibuffer-local-map
          ("M-A" . marginalia-cycle))
   :init (marginalia-mode))
-
-(menu-bar--wrap-long-lines-window-edge)

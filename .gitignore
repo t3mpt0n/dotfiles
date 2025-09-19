@@ -1,3 +1,4 @@
 packages/ship-of-harkinian/baserom.z64
 *~
 *.~undo-tree~
+.direnv

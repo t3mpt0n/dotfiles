@@ -19,6 +19,10 @@
   :straight nix-mode nix-ts-mode
   :after eglot
   :hook
-  (nix-ts-mode . eglot-ensure)
+  (nix-ts-mode-hook . eglot-ensure)
+  (nix-ts-mode-hook . flycheck-eglot-mode)
   :config
-  (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nil"))))
+  (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nil" :initializationOptions (
+                                                                                     :nil (:formatting (:command ["nixfmt"])
+                                                                                                       :nix (:flake (:autoArchive t
+                                                                                                                     :autoEvalInputs t))))))))

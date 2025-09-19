@@ -35,6 +35,11 @@
       url = "github:cachix/devenv";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nil = {
+      url = "github:oxalica/nil";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -79,9 +84,14 @@
             cups-brother-mfcj1205w = pkgs'.callPackage ./packages/cups-brother-mfcj1205w.nix {};
             extract-xiso = pkgs'.callPackage ./packages/extract-xiso.nix {};
           };
-          devShells = {
-            default = pkgs.mkShell {};
-          };
+          
+            devShells.default = pkgs.mkShell {
+              packages = with pkgs; [
+                inputs.nil.outputs.packages.x86_64-linux.nil
+                nixpkgs-rfc-style
+              ];
+            };
+          
         };
 
       flake = {

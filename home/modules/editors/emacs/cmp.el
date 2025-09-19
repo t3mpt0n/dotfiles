@@ -6,21 +6,31 @@
   (prog-mode-hook . rainbow-delimiters-mode)
   (prog-mode-hook . electric-pair-mode))
 
-(leaf t3mpt0n/capf-setup
-  :straight corfu cape
-  :hook (fundamental-mode . (lambda () (corfu-mode -1)))
+(leaf corfu
+  :straight t
+  :bind
+  (:corfu-map
+   ("TAB" . corfu-next)
+   ([tab] . corfu-next)
+   ("S-TAB" . corfu-previous)
+   ([backtab] . corfu-previous))
+  :config
+  (global-corfu-mode)
+  :custom
+  (corfu-cycle . t)
+  (corfu-preselect . 'prompt)
+  (tab-always-indent . 'complete)
+  (text-mode-ispell-word-completion . nil)
+  (read-extended-command-predicate . #'command-completion-default-include-p))
+
+(leaf cape
+  :straight t
   :bind ("M-p" . cape-prefix-map)
   :init
   (add-hook 'completion-at-point-functions #'cape-dabbrev)
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-elisp-block)
-  (add-hook 'completion-at-point-functions #'cape-elisp-symbol)
-  :config
-  (global-corfu-mode)
-  :custom
-  (tab-always-indent . 'complete)
-  (text-mode-ispell-word-completion . nil)
-  (read-extended-command-predicate . #'command-completion-default-include-p))
+  (add-hook 'completion-at-point-functions #'cape-elisp-symbol))
 
 (leaf t3mpt0n/dabbrev
   :straight nil
