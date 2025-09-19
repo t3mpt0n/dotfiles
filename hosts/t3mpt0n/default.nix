@@ -6,9 +6,7 @@ inputs@{
   agenix,
   t3mpt0n_nvim,
   nixpkgs-stable,
-  niri,
   devenv,
-  emacs-overlay,
   ...
 }:
 let
@@ -38,14 +36,11 @@ nixpkgs.lib.nixosSystem {
       hm.nixosModules.home-manager
       nur.modules.nixos.default
       agenix.nixosModules.default
-      niri.nixosModules.niri
       ./home.nix
       ../ssh.nix
       ../gpg.nix
       {
-        environment.systemPackages = with pkgs; [
-          inputs.t3mpt0n_nvim.outputs.packages.x86_64-linux.default
-        ] ++ [ devenv.packages.x86_64-linux.devenv ];
+        environment.systemPackages = [ devenv.packages.x86_64-linux.devenv ];
       }
     ]
     ++ imports'

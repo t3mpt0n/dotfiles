@@ -32,30 +32,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    t3mpt0n_nvim = {
-      type = "path";
-      path = "/etc/nixos/modules/neovim/";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-    };
-
-    cosmic = {
-      url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    
-    niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     devenv = {
       url = "github:cachix/devenv";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -67,10 +45,7 @@
       nixpkgs,
       nixpkgs-stable,
       disko,
-      t3mpt0n_nvim,
-      niri,
       devenv,
-      emacs-overlay,
       ...
     }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
@@ -106,55 +81,11 @@
             extract-xiso = pkgs'.callPackage ./packages/extract-xiso.nix {};
           };
           devShells = {
-            default = pkgs.mkShell {
-              nativeBuildInputs = with pkgs; [
-                git
-                wget
-                bat
-                neovim
-                lsb-release
-                psmisc
-              ];
-            };
-            python =
-              let
-                pypk = with pkgs.python313Packages; [
-                  black
-                  flake8
-                  pillow
-                ];
-              in
-              pkgs.mkShell {
-                buildInputs = with pkgs; [
-                  pypk
-                  pyright
-                ];
-              };
+            default = pkgs.mkShell {};
           };
         };
 
       flake = {
-        templates = {
-          clojure = {
-            path = ./templates/clojure;
-            description = "Basic Clojure Template";
-          };
-
-          latex-notes = {
-            path = ./templates/latex/notes;
-            description = "LaTeX Note Template";
-          };
-
-          scala = {
-            path = ./templates/scala;
-            description = "Basic Scala Project Template";
-          };
-
-          python = {
-            path = ./templates/python;
-            description = "Bare Bones Python Template w/ Direnv & LSP Support";
-          };
-        };
         nixosConfigurations = import ./hosts inputs;
         nixosModules = {
           core = import ./modules/core.nix;

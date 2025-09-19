@@ -56,10 +56,13 @@
 (leaf which-key
   :straight nil
   :config
-  (which-key-mode))
+  (which-key-mode)
+  :setq (which-key-idle-delay . 0.1))
 
 (leaf marginalia
   :straight t
   :bind (:minibuffer-local-map
          ("M-A" . marginalia-cycle))
   :init (marginalia-mode))
+
+(menu-bar--wrap-long-lines-window-edge)
