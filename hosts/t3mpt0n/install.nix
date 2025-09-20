@@ -1,6 +1,4 @@
 {
-  pkgs,
-}: {
   disko.devices = {
     disk = {
       bare_1TB = {
@@ -19,24 +17,7 @@
                 mountOptions = [ "umask=0077" ];
               };
             };
-            cryptswap = {
-              size = "16G";
-              content = {
-                type = "luks";
-                name = "cryptswap";
-                settings = {
-                  allowDiscards = true;
-                };
-                content = {
-                  type = "swap";
-                  mountpoint = "swap";
-                  
-                  discardPolicy = "both";
-                  resumeDevice = false;
-                };
-              };
-            };
-            cryptzfs = {
+            cryptbutter = {
               size = "100%";
               content = {
                 type = "luks";
@@ -45,65 +26,41 @@
                   allowDiscards = true;
                 };
                 content = {
-                  type = "zfs";
-                  pool = "syspool";
+                  type = "btrfs";
+                  extraArgs = [ "-f" ];
+                  subvolumes = let
+                    ssdMountOpt = [
+                      "noatime"
+                      "relatime"
+                      "compress=zstd"
+                      "ssd"
+                      "space_cache=v2"
+                    ];
+                  in {
+                    "@nixos-root" = {
+                      mountpoint = "/";
+                      mountOptions = ssdMountOpt;
+                    };
+                    "@nixos-sysconf" = {
+                      mountpoint = "/etc/nixos";
+                      mountOptions = ssdMountOpt;
+                    };
+                    "@nixos-nixstore" = {
+                      mountpoint = "/nix";
+                      mountOptions = ssdMountOpt;
+                    };
+
+                    "@linux-home" = {
+                      mountpoint = "/home";
+                      mountOptions = ssdMountOpt;
+                    };
+
+                    "@swap" = {
+                      mountpoint = "/swap";
+                      swap.swapfile.size = "16G";
+                    };
+                  };
                 };
-              };
-            };
-          };
-        };
-      };
-
-      zpool = {
-        syspool = {
-          type = "zpool";
-          options = {
-            ashift = "12";
-            autotrim = "on";
-            compatibility = "openzfs-2.1-linux";
-          };
-          rootFsOptions = {
-            acltype = "posixacl";
-            xattr = "sa";
-            realtime = "on";
-            compression = "lz4";
-          };
-
-          datasets = {
-            "NixOS" = {
-              type = "zfs_fs";
-              options.mountpoint = "none";
-              mountpoint = "none";
-            };
-
-            "LinuxHome" = {
-              type = "zfs_fs";
-              options = {
-                mountpoint = "/home";
-              };
-              mountpoint = "/home";
-            };
-
-            "NixOS/ROOT" = {
-              type = "zfs_fs";
-              options = {
-                canmount = "noauto";
-                mountpoint = "/";
-              };
-              mountpoint = "/";
-            };
-            "NixOS/ROOT/NIX" = {
-              type = "zfs_fs";
-              options = {
-                canmount = "on";
-                mountpoint = "/nix";
-              };
-            };
-            "NixOS/ROOT/SYSCONF" = {
-              type = "zfs_fs";
-              options = {
-                canmount = "on";
-                mountpoint = "/etc/nixos";
               };
             };
           };

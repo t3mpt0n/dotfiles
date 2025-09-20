@@ -11,10 +11,12 @@ let
 in
 {
   imports =
-    mods
+    mod_apps
+++ mod_shell
+++ mod_wm
     ++ conf
     ++ [
-      ../../modules/fonts
+      ../../modules/fonts.nix
       ../../modules/editors/emacs/emacs.nix
       ./profile.nix
     ];
