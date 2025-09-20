@@ -40,6 +40,11 @@
       url = "github:oxalica/nil";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -50,6 +55,7 @@
         nixpkgs-stable,
         disko,
         devenv,
+        catppuccin
         ...
     }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {

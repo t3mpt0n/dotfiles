@@ -16,6 +16,7 @@ in
 ++ mod_wm
     ++ conf
     ++ [
+      inputs.catppuccin.homeModules.catppuccin
       ../../modules/fonts.nix
       ../../modules/editors/emacs/emacs.nix
       ./profile.nix

@@ -1,13 +1,14 @@
 inputs@{
   nixpkgs,
-  self,
-  hm,
-  nur,
-  agenix,
-  nixpkgs-stable,
-  devenv,
-  disko,
-  ...
+    self,
+    hm,
+    nur,
+    agenix,
+    nixpkgs-stable,
+    devenv,
+    disko,
+    catppuccin,
+    ...
 }:
 let
   inherit (self) nixosModules;
@@ -36,6 +37,7 @@ nixpkgs.lib.nixosSystem {
       nur.modules.nixos.default
       agenix.nixosModules.default
       disko.nixosModules.disko
+      catppuccin.nixosModules.catppuccin
       ./home.nix
       ../ssh.nix
       ../gpg.nix

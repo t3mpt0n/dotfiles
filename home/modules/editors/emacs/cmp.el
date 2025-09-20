@@ -154,3 +154,6 @@
   ;; (keymap-set consult-narrow-map (concat consult-narrow-key " ?") #'consult-narrow-help)
   )
 
+(leaf multiple-cursors
+  :straight t
+  :bind ("C-S-c C-S-c" . 'mc/edit-lines))
