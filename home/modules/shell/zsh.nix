@@ -37,4 +37,9 @@
       fi
     '';
   };
+
+  catppuccin.zsh-syntax-highlighting = {
+    enable = true;
+    flavor = "mocha";
+  };
 }

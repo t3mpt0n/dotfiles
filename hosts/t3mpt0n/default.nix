@@ -39,8 +39,7 @@ nixpkgs.lib.nixosSystem {
       disko.nixosModules.disko
       catppuccin.nixosModules.catppuccin
       ./home.nix
-      ../ssh.nix
-      ../gpg.nix
+      ../crypt.nix
       ./install.nix
       {
         environment.systemPackages = [ devenv.packages.x86_64-linux.devenv ];

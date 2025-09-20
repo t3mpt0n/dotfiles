@@ -12,7 +12,7 @@
       bind = [
         "$mod, p, exec, ${lib.getExe pkgs.wofi} --show run"
         "$mod SHIFT, Return, exec, ${lib.getExe pkgs.kitty}"
-        "$mod, w, exec, ${lib.getExe pkgs.floorp}"
+        "$mod, w, exec, ${lib.getExe pkgs.firefox}"
         "$mod SHIFT, S, exec, ${lib.getExe pkgs.steam}"
         "$mod SHIFT, D, exec, ${lib.getExe pkgs.discord}"
         "$mod SHIFT, E, exec, ${lib.getExe' pkgs.emacs30-pgtk "emacsclient"} -c"

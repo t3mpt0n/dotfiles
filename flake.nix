@@ -41,10 +41,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    catppuccin = {
-      url = "github:catppuccin/nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    catppuccin.url = "github:catppuccin/nix";
   };
 
   outputs =
@@ -55,7 +52,7 @@
         nixpkgs-stable,
         disko,
         devenv,
-        catppuccin
+        catppuccin,
         ...
     }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {

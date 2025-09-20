@@ -13,6 +13,7 @@
 (leaf projectile
   :straight t
   :bind ("C-c p" . projectile-command-map)
+  :setq (projectile-known-projects-file . "~/.local/share/emacs/projectile-bookmarks.eld")
   :config (projectile-mode +1))
 
 (leaf t3mpt0n/nix-setup
