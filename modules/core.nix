@@ -43,9 +43,10 @@ in
 
   time.timeZone = lib.mkDefault "America/New_York";
 
+  users.mutableUsers = false;
   users.users.jd = {
     isNormalUser = true;
-    initialHashedPassword = "$y$j9T$u4SE06MPTzat0HqZaWXkm.$Clf4bhmne/b8gcRkDWAn5k2fBCczIacE.bmS5r0daz3";
+    initialHashedPassword = "$y$j9T$Wc2D5b6JHhcNSdMaSGxm9.$EvXoES6LlMs/RAyEOILJ3qgn69byBqmtHOvRHgo.a9D";
     shell = pkgs.zsh;
     extraGroups = [
       "input"
@@ -56,8 +57,8 @@ in
     ];
   };
   users.users.root = {
-    initialHashedPassword = "$y$j9T$NV/MDjRvPku.uUHjtc8GP/$wQORifd3JOSbCor4K/1QIGfckUxXNS0r9QmI/Z2L6MC";
-    shell = pkgs.fish;
+    initialHashedPassword = "$y$j9T$Wc2D5b6JHhcNSdMaSGxm9.$EvXoES6LlMs/RAyEOILJ3qgn69byBqmtHOvRHgo.a9D";
+    shell = pkgs.zsh;
   };
 
   zramSwap.enable = true;

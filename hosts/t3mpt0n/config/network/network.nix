@@ -9,6 +9,7 @@
 
   networking = {
     hostName = "t3mpt0n";
+    hostId = "dd6e4664";
     firewall = {
       enable = true;
       allowedTCPPorts = [
