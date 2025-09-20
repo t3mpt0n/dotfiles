@@ -2,13 +2,18 @@
 let
   inherit (inputs.nixpkgs) lib;
   conf = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./config);
-  mods = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ../../modules);
-in
-{
+  mod_apps = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ../../modules/apps);
+  mod_wm = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ../../modules/wm);
+  mod_shell = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ../../modules/shell);
+in {
   imports =
-    mods
+    mod_apps
+    ++ mod_wm
+    ++ mod_shell
     ++ conf
     ++ [
       ./profile.nix
+      ../../modules/fonts.nix
+      ../../modules/editors/emacs/emacs.nix
     ];
 }
