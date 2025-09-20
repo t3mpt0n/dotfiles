@@ -16,14 +16,13 @@ let
 in
 nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
-  specialArgs = { inherit inputs self t3mpt0n_nvim nixpkgs-stable; };
+  specialArgs = { inherit inputs self nixpkgs-stable; };
   modules =
     with nixosModules;
     [
       core
       network
       nix
-      grub_efi
       audio
       android
       bluetooth

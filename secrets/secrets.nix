@@ -24,11 +24,4 @@ in
 {
   "doom1.wad.bfg.age".publicKeys = everyone;
   "doom2.wad.age".publicKeys = everyone;
-  "spotify.age".publicKeys = all_t3mpt0n;
-  "authinfo.age".publicKeys = all_t3mpt0n;
-  "t3mpvpn.age".publicKeys = all_t3mpt0n;
-  "t3mpvpn-psk.age".publicKeys = all_t3mpt0n;
-  "alvpn.age".publicKeys = all_aluminium;
-  "alvpn.psk.age".publicKeys = all_aluminium;
-  "spotifyd.age".publicKeys = everyone;
 }

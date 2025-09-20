@@ -10,7 +10,6 @@
   ];
 
   boot = {
-    loader.grub.enableCryptodisk = true;
     initrd = {
       availableKernelModules = [
         "cryptd"
@@ -76,7 +75,6 @@
           options = opts;
         }
       );
-
     in
     {
       # SSD

@@ -18,6 +18,7 @@
 (leaf t3mpt0n/nix-setup
   :straight nix-mode nix-ts-mode
   :after eglot
+  :mode ("\\.nix\\'" . nix-ts-mode)
   :hook
   (nix-ts-mode-hook . eglot-ensure)
   (nix-ts-mode-hook . flycheck-eglot-mode)
