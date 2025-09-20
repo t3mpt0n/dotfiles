@@ -10,7 +10,6 @@
       "consoleblank=0"
     ];
     kernelModules = [ "kvm-amd" ];
-    initrd.kernelModules = [ "amdgpu" ];
   };
   
   hardware = {

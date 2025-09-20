@@ -8,4 +8,6 @@
     "usbhid"
     "sd_mod"
   ];
+
+  hardware.enableRedistributableFirmware = true;
 }
