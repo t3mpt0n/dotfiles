@@ -11,4 +11,5 @@
   ];
 
   users.users.jd.extraGroups = [ "tss" ];
+  hardware.cpu.amd.updateMicrocode = true;
 }

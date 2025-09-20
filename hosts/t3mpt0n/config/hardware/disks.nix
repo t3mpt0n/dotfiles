@@ -14,6 +14,7 @@
   boot = {
     initrd = {
       availableKernelModules = [
+        "nvme"
         "cryptd"
       ];
     };

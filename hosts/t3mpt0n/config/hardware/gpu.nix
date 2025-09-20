@@ -3,12 +3,16 @@
   ...
 }:
 {
-  boot.kernelParams = [
-    "video=HDMI-A-1:1680x1050@60"
-    "video=DP-3:2560x1440@165"
-    "consoleblank=0"
-  ];
-
+  boot = {
+    kernelParams = [
+      "video=HDMI-A-1:1680x1050@60"
+      "video=DP-3:2560x1440@165"
+      "consoleblank=0"
+    ];
+    kernelModules = [ "kvm-amd" ];
+    initrd.kernelModules = [ "amdgpu" ];
+  };
+  
   hardware = {
     graphics = {
       enable32Bit = true;
