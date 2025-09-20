@@ -31,6 +31,7 @@ nixpkgs.lib.nixosSystem {
       gamepads
       printer
       gamingmice
+      systemdboot
       hm.nixosModules.home-manager
       nur.modules.nixos.default
       agenix.nixosModules.default

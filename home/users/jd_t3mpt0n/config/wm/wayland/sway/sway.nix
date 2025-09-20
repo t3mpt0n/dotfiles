@@ -15,13 +15,11 @@ in
         "HDMI-A-1" = {
           mode = "1680x1050@60Hz";
           position = "0,320";
-          background = "/home/jd/Media/Images/Wallpaper/1680x1050/Ginger Bread.jpg fill";
         };
         "DP-3" = {
           mode = "2560x1440@165Hz";
           position = "1680,0";
           adaptive_sync = "on";
-          background = "/home/jd/Media/Images/Wallpaper/2560x1440/Beaver Pond.jpg fill";
         };
       };
 

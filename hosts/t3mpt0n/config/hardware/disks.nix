@@ -12,7 +12,6 @@
     };
   };
   boot = {
-    loader.systemd-boot.enable = true;
     initrd = {
       availableKernelModules = [
         "cryptd"

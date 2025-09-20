@@ -106,6 +106,7 @@
           minecraft = import ./modules/minecraft.nix;
           printer = import ./modules/printer.nix;
           gamingmice = import ./modules/gamingmice.nix;
+          systemdboot = import ./modules/systemd-boot.nix;
         };
       };
     };
