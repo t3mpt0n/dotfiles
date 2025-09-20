@@ -81,30 +81,49 @@
         "Shift+XF86AudioRaiseVolume" = "exec ${lib.getExe pkgs.brightnessctl} set 5%+";
         "Shift+XF86AudioLowerVolume" = "exec ${lib.getExe pkgs.brightnessctl} set 5%-";
       };
-      colors = {
-        unfocused = {
-          background = "#808080"; # grey
-          border = "#ABB2B9"; # light grey
-          text = "#FFFFFF"; # white
-          indicator = "#409876";
-          childBorder = "#ABB2B9";
+      colors = let
+        catppuccin_mocha = {
+          base = "#1E1E2E";
+          text = "#CDD6F4";
+          lavender = "#B4BEFE";
+          rosewater = "#F5E0DC";
+          overlay0 = "#6C7086";
+          peach = "#FAB387";
         };
-
+      in with catppuccin_mocha; {
+        unfocused = {
+          background = base;
+          border = overlay0;
+          text = text;
+          indicator = rosewater;
+          childBorder = overlay0;
+        };
+        
+        focusedInactive = {
+          background = base;
+          border = overlay0;
+          text = text;
+          indicator = rosewater;
+          childBorder = overlay0;
+        };
+        
         focused = {
-          background = "#000000"; # black
-          border = "#FF8C00"; # Dark Orange
-          text = "#FFFFFF";
-          indicator = "#409876";
-          childBorder = "#FF8C00";
+          childBorder = lavender;
+          background = base;
+          text = text;
+          indicator = rosewater;
+          border = lavender;
         };
 
         urgent = {
-          background = "#FF0000"; # Red
-          border = "#FF0000";
-          text = "#FFFFFF";
-          indicator = "#859457";
-          childBorder = "#FF0000";
+          childBorder = peach;
+          background = base;
+          text = text;
+          indicator = overlay0;
+          border = overlay0;
         };
+
+        background = base;
       };
 
       gaps = {

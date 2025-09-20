@@ -3,7 +3,7 @@
   programs.git = {
     extraConfig = {
       core = {
-        editor = "nvim";
+        editor = "emacsclient -c -a 'emacs'";
       };
       gpg = {
         format = "ssh";
