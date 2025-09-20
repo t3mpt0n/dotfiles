@@ -5,7 +5,7 @@
 {
   home.packages = with pkgs; [
     emacs30-pgtk
-    cascadia-code # Font
+    cascadia-code
     emacsPackages.tree-sitter
     emacsPackages.tree-sitter-langs
   ];
