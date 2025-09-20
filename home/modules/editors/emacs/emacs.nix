@@ -8,6 +8,7 @@
     cascadia-code
     emacsPackages.tree-sitter
     emacsPackages.tree-sitter-langs
+    emacsPackages.vterm
   ];
 
   xdg.configFile."emacs/early-init.el" = {
@@ -30,4 +31,8 @@
   xdg.configFile."emacs/tree-sitter" = {
     source = "${pkgs.emacsPackages.treesit-grammars.with-all-grammars}/lib";
   };
+
+  imports = [
+    ./vterm_zsh.nix
+  ];
 }

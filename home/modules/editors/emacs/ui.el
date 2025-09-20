@@ -9,6 +9,7 @@
 
 (leaf t3mpt0n/font
   :straight ligature all-the-icons
+  :setq-default (word-wrap . t)
   :config
   (add-to-list 'default-frame-alist '(width . 120))
   (add-to-list 'default-frame-alist '(height . 65))
@@ -34,8 +35,7 @@
                                        "\\\\" "://"))
   ;; Enables ligature checks globally in all buffers. You can also do it
   ;; per mode with `ligature-mode'.
-  (global-ligature-mode t)
-  (global-visual-line-mode +1))
+  (global-ligature-mode t))
 
 (leaf t3mpt0n/transparency
   :straight nil
