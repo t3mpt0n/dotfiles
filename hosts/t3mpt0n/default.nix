@@ -34,7 +34,7 @@ nixpkgs.lib.nixosSystem {
       hm.nixosModules.home-manager
       nur.modules.nixos.default
       agenix.nixosModules.default
-      disko.nixosModules.nix
+      disko.nixosModules.disko
       ./home.nix
       ../ssh.nix
       ../gpg.nix
