@@ -12,7 +12,6 @@ in
     mods
     ++ conf
     ++ [
-      inputs.nixvim.homeManagerModules.nixvim
       ./profile.nix
     ];
 }
