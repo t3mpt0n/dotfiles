@@ -14,6 +14,8 @@
       jre21_minimal
     ];
   in with pkgs; [
+    nicotine-plus
+    tidal-dl
     yt-dlp
     zathura
     kicad
