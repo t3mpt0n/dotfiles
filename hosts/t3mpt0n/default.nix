@@ -34,7 +34,6 @@ nixpkgs.lib.nixosSystem {
       gamingmice
       systemdboot
       agenix.nixosModules.default
-      ./age.nix
       {
         environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
       }

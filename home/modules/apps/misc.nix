@@ -16,6 +16,7 @@
   in with pkgs; [
     nicotine-plus
     tidal-dl
+    quodlibet
     yt-dlp
     zathura
     kicad

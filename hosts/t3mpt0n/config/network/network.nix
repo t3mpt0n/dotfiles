@@ -15,12 +15,12 @@
       allowedTCPPorts = [
         53
         80
-        49874
+        2234
       ];
       allowedUDPPorts = [
         53
         80
-        49874
+        2234
       ];
       trustedInterfaces = [
         "virbr0"
