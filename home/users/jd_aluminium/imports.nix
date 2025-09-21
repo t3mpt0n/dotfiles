@@ -12,8 +12,11 @@ in {
     ++ mod_shell
     ++ conf
     ++ [
+      inputs.catppuccin.homeModules.catppuccin
+      inputs.agenix.homeManagerModules.default
       ./profile.nix
       ../../modules/fonts.nix
+      ../../modules/catppuccin.nix
       ../../modules/editors/emacs/emacs.nix
     ];
 }

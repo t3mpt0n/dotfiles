@@ -5,11 +5,10 @@
 {
   programs.kitty = {
     enable = true;
-    theme = "Gruvbox Dark Soft";
     font = {
-      name = "GeistMono Nerd Font";
+      name = "Cascadia Code Nerd Font";
       size = 16;
-      package = pkgs.nerd-fonts.geist-mono;
+      package = pkgs.nerd-fonts.caskaydia-cove;
     };
     shellIntegration = {
       enableBashIntegration = true;

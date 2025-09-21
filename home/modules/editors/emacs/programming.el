@@ -18,7 +18,6 @@
 
 (leaf t3mpt0n/nix-setup
   :straight nix-mode nix-ts-mode
-  :after eglot
   :mode ("\\.nix\\'" . nix-ts-mode)
   :hook
   (nix-ts-mode-hook . eglot-ensure)
@@ -27,4 +26,15 @@
   (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nil" :initializationOptions (
                                                                                      :nil (:formatting (:command ["nixfmt"])
                                                                                                        :nix (:flake (:autoArchive t
-                                                                                                                     :autoEvalInputs t))))))))
+                                                                                                                                  :autoEvalInputs t
+                                                                                                                                  :nixpkgsInputName "nixpkgs"))))))))
+
+(leaf t3mpt0n/yaml-setup
+  :straight yaml-pro prettier-js
+  :mode
+  ("\\.yaml\\'" . yaml-ts-mode)
+  ("\\.yaml\\'" . yaml-pro-ts-mode)
+  ("\\.yaml\\'" . prettier-js-mode)
+  :setq (prettier-js-use-modules-bin . t)
+  :config
+  (add-to-list 'eglot-server-programs '((yaml-ts-mode yaml-pro-ts-mode) . ("yaml-language-server"))))

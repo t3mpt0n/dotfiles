@@ -33,9 +33,13 @@ nixpkgs.lib.nixosSystem {
       printer
       gamingmice
       systemdboot
+      agenix.nixosModules.default
+      {
+        environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
+      }
+      
       hm.nixosModules.home-manager
       nur.modules.nixos.default
-      agenix.nixosModules.default
       disko.nixosModules.disko
       catppuccin.nixosModules.catppuccin
       ./home.nix

@@ -57,6 +57,7 @@
             keepassxc-browser
             violentmonkey
             darkreader
+            firefox-color
 
             ## YouTube
             youtube-shorts-block

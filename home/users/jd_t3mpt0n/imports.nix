@@ -17,6 +17,8 @@ in
     ++ conf
     ++ [
       inputs.catppuccin.homeModules.catppuccin
+      inputs.agenix.homeManagerModules.default
+      ../../modules/catppuccin.nix
       ../../modules/fonts.nix
       ../../modules/editors/emacs/emacs.nix
       ./profile.nix

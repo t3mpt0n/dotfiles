@@ -6,6 +6,12 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOs/nixpkgs/nixos-25.05";
     nur.url = "github:nix-community/NUR";
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,11 +32,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     devenv = {
       url = "github:cachix/devenv";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,13 +48,14 @@
   outputs =
     inputs@{
       self,
-        hm,
-        nixpkgs,
-        nixpkgs-stable,
-        disko,
-        devenv,
-        catppuccin,
-        ...
+      agenix,
+      hm,
+      nixpkgs,
+      nixpkgs-stable,
+      disko,
+      devenv,
+      catppuccin,
+      ...
     }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [

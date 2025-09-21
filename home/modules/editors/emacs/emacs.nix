@@ -24,6 +24,7 @@
       ${builtins.readFile ./magit.el}
       ${builtins.readFile ./cmp.el}
       ${builtins.readFile ./programming.el}
+      ${builtins.readFile ./shell.el}
       ${builtins.readFile ./ui.el}
     '';
   };

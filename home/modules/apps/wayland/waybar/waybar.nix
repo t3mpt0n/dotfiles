@@ -5,6 +5,7 @@
   ...
 }:
 {
+  catppuccin.waybar.enable = false;
   programs.waybar = {
     enable = true;
     package = pkgs.waybar;
