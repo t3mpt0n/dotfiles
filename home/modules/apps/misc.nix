@@ -27,7 +27,6 @@
     vlc
     zotero
     pavucontrol
-    streamrip
     kid3-qt
   ] ++ compression_apps ++ libreo;
   
@@ -42,4 +41,5 @@
 
   programs.zathura.enable = true;
   programs.mpv.enable = true;
+  programs.vesktop.enable = true;
 }
