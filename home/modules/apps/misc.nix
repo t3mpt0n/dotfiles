@@ -15,7 +15,6 @@
     ];
   in with pkgs; [
     nicotine-plus
-    tidal-dl
     quodlibet
     yt-dlp
     zathura
@@ -28,6 +27,7 @@
     zotero
     pavucontrol
     kid3-qt
+    streamrip
   ] ++ compression_apps ++ libreo;
   
   programs.obs-studio = {
