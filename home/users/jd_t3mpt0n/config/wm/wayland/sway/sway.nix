@@ -15,11 +15,13 @@ in
         "HDMI-A-1" = {
           mode = "1680x1050@60Hz";
           position = "0,320";
+          bg = "/data/big/pictures/Wallpapers/4K 16:9/Catppuccin-NixOS-Black.png fill";
         };
         "DP-3" = {
           mode = "2560x1440@165Hz";
           position = "1680,0";
           adaptive_sync = "on";
+          bg = "/data/big/pictures/Wallpapers/4K 16:9/Catppuccin-NixOS-Black.png fill";
         };
       };
 

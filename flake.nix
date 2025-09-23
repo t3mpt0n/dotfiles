@@ -84,15 +84,6 @@
             config.allowUnfree = true;
           };
           packages = import ./packages pkgs';
-          devShells.default = pkgs.mkShell {
-            packages = with pkgs; [
-              inputs.nil.outputs.packages.x86_64-linux.nil
-              nixfmt-rfc-style
-              prettier
-              yaml-language-server
-            ];
-          };
-          
         };
 
       flake = {
