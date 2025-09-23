@@ -57,3 +57,19 @@
   :config
   (dolist (m '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode))
     (add-to-list 'eglot-server-programs `(,m . "clojure-lsp"))))
+
+(leaf t3mpt0n/python-setup
+  :straight elpy
+  :mode ("\\.py\\'" . python-ts-mode)
+  :init (elpy-enable)
+  :hook
+  (python-ts-mode-hook . eglot-ensure)
+  (python-ts-mode-hook . elpy-mode)
+  (elpy-mode-hook . flycheck-mode)
+  (elpy-mode-hook . (lambda ()
+                      (add-hook 'before-save-hook
+                                'elpy-black-fix-code nil t)))
+  :setq (elpy-modules . (delq 'elpy-module-flymake elpy-modules))
+  :config
+  (add-to-list 'eglot-server-programs (python-ts-mode . "basedpyright-langserver"))
+  (add-to-list 'company-backends '(elpy-company-backend :with company-yasnippet)))

@@ -29,6 +29,7 @@
       ${builtins.readFile ./cmp.el}
       ${builtins.readFile ./programming.el}
       ${builtins.readFile ./shell.el}
+      ${builtins.readFile ./dired.el}
       ${builtins.readFile ./ui.el}
     '';
   };
