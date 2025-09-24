@@ -23,7 +23,7 @@ in
         {
           "${M}+p" = "exec ${lib.getExe pkgs.wofi} --show run";
           "${M}+Shift+Return" = "exec ${lib.getExe pkgs.kitty}";
-          "${M}+w" = "exec ${lib.getExe pkgs.floorp}";
+          "${M}+w" = "exec ${lib.getExe pkgs.firefox}";
           "${M}+Shift+D" = "exec ${lib.getExe pkgs.discord}";
         };
     };

@@ -4,6 +4,7 @@ inputs@{
   hm,
   nur,
   agenix,
+  devenv,
   disko,
   ...
 }:
@@ -11,7 +12,6 @@ let
   inherit (self) nixosModules;
   inherit (nixpkgs) lib;
   imports' = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./config);
-  keys = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./keys);
 in
 nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
@@ -34,9 +34,10 @@ nixpkgs.lib.nixosSystem {
       agenix.nixosModules.default
       disko.nixosModules.disko
       ./home.nix
-      ../ssh.nix
-      ../gpg.nix
+      ../crypt.nix
+      {
+        environment.systemPackages = [ devenv.packages.x86_64-linux.devenv ];
+      }
     ]
-    ++ imports'
-    ++ keys;
+    ++ imports';
 }
