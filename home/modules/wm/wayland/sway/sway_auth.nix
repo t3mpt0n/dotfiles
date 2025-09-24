@@ -6,7 +6,7 @@
 }:
 {
   services.swayidle = {
-    enable = false;
+    enable = true;
     systemdTarget = "sway-session.target";
     events = [
       {
