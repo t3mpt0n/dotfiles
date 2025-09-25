@@ -30,6 +30,7 @@
       ${builtins.readFile ./programming.el}
       ${builtins.readFile ./shell.el}
       ${builtins.readFile ./dired.el}
+      ${builtins.readFile ./org.el}
       ${builtins.readFile ./ui.el}
     '';
   };
