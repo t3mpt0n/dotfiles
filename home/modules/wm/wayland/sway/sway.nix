@@ -22,8 +22,10 @@
         wn = n: "workspace number " + (toString n);
         mwn = n: "move container to workspace number " + (toString n);
       in {
+        "${M}+p" = "exec ${lib.getExe pkgs.fuzzel}";
         "${M}+Shift+c" = "reload";
         "${M}+Ctrl+Q" = "exec swaylock";
+        "${M}+Return" = "exec emacsclient -c -e '(vterm (random))'";
         "${M}+e" = "exec ${lib.getExe' pkgs.emacs30-pgtk "emacsclient"} -c -a 'emacs'";
 
         # Window keys

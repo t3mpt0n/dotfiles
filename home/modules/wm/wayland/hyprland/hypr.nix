@@ -40,6 +40,7 @@
           9
         ))
         ++ [
+          "$mod, p, exec, ${lib.getExe pkgs.fuzzel}"
           "$mod, h, movefocus, l"
           "$mod, j, movefocus, d"
           "$mod, k, movefocus, u"
