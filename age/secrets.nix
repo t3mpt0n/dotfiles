@@ -4,4 +4,6 @@ let
 in {
   "wpk.age".publicKeys = [ sydney t3mpt0n_host ];
   "wpsk.age".publicKeys = [ sydney t3mpt0n_host ];
+  "pemail.age".publicKeys = [ sydney ];
+  "remail.age".publicKeys = [ sydney ];
 }

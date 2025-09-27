@@ -28,6 +28,7 @@
     pavucontrol
     kid3-qt
     streamrip
+    thunderbird
   ] ++ compression_apps ++ libreo;
   
   programs.obs-studio = {

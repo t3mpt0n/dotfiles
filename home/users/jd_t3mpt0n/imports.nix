@@ -20,6 +20,8 @@ in
       inputs.agenix.homeManagerModules.default
       ../../modules/catppuccin.nix
       ../../modules/fonts.nix
+      ../../modules/mail.nix
+      ../../modules/age.nix
       ../../modules/editors/emacs/emacs.nix
       ./profile.nix
     ];
