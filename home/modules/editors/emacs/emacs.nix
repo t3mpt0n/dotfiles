@@ -1,16 +1,9 @@
 {
   pkgs,
+  config,
   ...
 }:
 {
-  home.packages = with pkgs; [
-    emacs30-pgtk
-    cascadia-code
-    emacsPackages.tree-sitter
-    emacsPackages.tree-sitter-langs
-    emacsPackages.vterm
-  ];
-
   home.sessionVariables = {
     EDITOR = "emacsclient -c -a 'emacs'";
   };
@@ -31,14 +24,31 @@
       ${builtins.readFile ./shell.el}
       ${builtins.readFile ./dired.el}
       ${builtins.readFile ./org.el}
+      ${builtins.readFile ./mu4e.el}
       ${builtins.readFile ./ui.el}
     '';
+  };
+
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs30-pgtk;
+    extraPackages = epkgs: [
+      epkgs.tree-sitter
+      epkgs.tree-sitter-langs
+      epkgs.vterm
+      pkgs.mu
+      epkgs.mu4e
+    ];
   };
 
   xdg.configFile."emacs/tree-sitter" = {
     source = "${pkgs.emacsPackages.treesit-grammars.with-all-grammars}/lib";
   };
-
+  
+  systemd.user.tmpfiles.rules = if config.services.mbsync.configFile != null then [
+    "L ${config.xdg.configHome}/emacs/.mbsyncrc - - - - ${config.services.mbsync.configFile}"
+  ] else [];
+    
   imports = [
     ./vterm_zsh.nix
   ];

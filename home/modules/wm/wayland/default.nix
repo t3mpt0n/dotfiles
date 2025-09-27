@@ -3,7 +3,7 @@
   home = {
     sessionVariables = {
       SDL_VIDEODRIVER = "wayland";
-      GDK_BACKEND = "wayland,x11";
+      GDK_BACKEND = "wayland";
       QT_QPA_PLATFORM = "wayland;xcb";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       _JAVA_AWT_WM_NONREPARENTING = "1";
