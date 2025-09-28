@@ -3,7 +3,6 @@ inputs@{
   self,
   hm,
   nur,
-  agenix,
   devenv,
   disko,
   ...
@@ -31,7 +30,6 @@ nixpkgs.lib.nixosSystem {
       gamepads
       hm.nixosModules.home-manager
       nur.modules.nixos.default
-      agenix.nixosModules.default
       disko.nixosModules.disko
       ./home.nix
       ../crypt.nix

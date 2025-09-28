@@ -13,10 +13,8 @@ in {
     ++ conf
     ++ [
       inputs.catppuccin.homeModules.catppuccin
-      inputs.agenix.homeManagerModules.default
       ./profile.nix
       ../../modules/mail.nix
-      ../../modules/age.nix
       ../../modules/fonts.nix
       ../../modules/catppuccin.nix
       ../../modules/editors/emacs/emacs.nix

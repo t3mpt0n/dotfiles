@@ -60,11 +60,6 @@
         mbsync = {
           enable = true;
           create = "both";
-          extraConfig = {
-            account = {
-              PassCmd = "${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.remail.path}";
-            };
-          };
         };
         mu.enable = true;
       };

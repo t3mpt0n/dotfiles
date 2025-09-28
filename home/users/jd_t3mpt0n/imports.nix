@@ -17,7 +17,6 @@ in
     ++ conf
     ++ [
       inputs.catppuccin.homeModules.catppuccin
-      inputs.agenix.homeManagerModules.default
       ../../modules/catppuccin.nix
       ../../modules/fonts.nix
       ../../modules/mail.nix

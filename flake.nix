@@ -7,8 +7,8 @@
     nixpkgs-stable.url = "github:NixOs/nixpkgs/nixos-25.05";
     nur.url = "github:nix-community/NUR";
 
-    agenix = {
-      url = "github:ryantm/agenix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     
@@ -48,7 +48,6 @@
   outputs =
     inputs@{
       self,
-      agenix,
       hm,
       nixpkgs,
       nixpkgs-stable,
