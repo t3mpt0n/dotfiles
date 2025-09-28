@@ -21,7 +21,7 @@
         address = "mail@t3mpt0n.com";
         realName = "Sydney London";
         userName = "personal_mail";
-        passwordCommand = "${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.pemail.path}";
+#        passwordCommand = "${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.pemail.path}";
 
         imap = {
           host = "imap.purelymail.com";
@@ -45,7 +45,7 @@
         address = "route@t3mpt0n.com";
         realName = "London Sydney";
         userName = "routing_mail";
-        passwordCommand = "${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.remail.path}";
+ #       passwordCommand = "${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.remail.path}";
 
         imap = {
           host = "imap.purelymail.com";
@@ -74,7 +74,7 @@
   services = {
     mbsync = {
       enable = true;
-      configFile = "${config.xdg.configHome}/mbsyncrc";
+      configFile = "${config.xdg.configHome}/isyncrc";
       postExec = "${lib.getExe pkgs.mu} index";
       preExec = "${lib.getExe' pkgs.coreutils "mkdir"} -p ${config.accounts.email.maildirBasePath}";
     };

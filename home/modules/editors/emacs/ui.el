@@ -13,7 +13,7 @@
   :config
   (add-to-list 'default-frame-alist '(width . 120))
   (add-to-list 'default-frame-alist '(height . 65))
-  (add-to-list 'default-frame-alist '(font . "Cascadia Code NF 15"))
+  (add-to-list 'default-frame-alist '(font . "CaskaydiaCoveNerdFont 15"))
   ;; Enable the "www" ligature in every possible major mode
   (ligature-set-ligatures 't '("www"))
   ;; Enable traditional ligature support in eww-mode, if the
