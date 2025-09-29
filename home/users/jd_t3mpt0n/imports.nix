@@ -19,7 +19,7 @@ in
       inputs.catppuccin.homeModules.catppuccin
       ../../modules/catppuccin.nix
       ../../modules/fonts.nix
-      ../../modules/mail.nix
+#      ../../modules/mail.nix
       ../../modules/editors/emacs/emacs.nix
       ./profile.nix
     ];

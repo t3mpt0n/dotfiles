@@ -54,7 +54,7 @@
         extensions = {
           packages = with pkgs.nur.repos.rycee.firefox-addons; [
             ublock-origin
-            keepassxc-browser
+            bitwarden
             violentmonkey
             darkreader
             firefox-color

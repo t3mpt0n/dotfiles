@@ -3,7 +3,6 @@ inputs@{
     self,
     hm,
     nur,
-    agenix,
     nixpkgs-stable,
     devenv,
     disko,
@@ -32,12 +31,7 @@ nixpkgs.lib.nixosSystem {
       gamepads
       printer
       gamingmice
-      systemdboot
-      agenix.nixosModules.default
-      {
-        environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
-      }
-      
+      systemdboot      
       hm.nixosModules.home-manager
       nur.modules.nixos.default
       disko.nixosModules.disko

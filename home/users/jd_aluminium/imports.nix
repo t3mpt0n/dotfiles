@@ -14,7 +14,7 @@ in {
     ++ [
       inputs.catppuccin.homeModules.catppuccin
       ./profile.nix
-      ../../modules/mail.nix
+#      ../../modules/mail.nix
       ../../modules/fonts.nix
       ../../modules/catppuccin.nix
       ../../modules/editors/emacs/emacs.nix

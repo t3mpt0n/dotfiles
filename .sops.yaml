@@ -1,0 +1,7 @@
+keys:
+- &sydney age12yx655hzl0lv7afwm2f069umst8gd6d5hmly5r3q28nl3m8sxs2sfm7awf
+creation_rules:
+- path_regex: sops/[^/]+\.(yaml|json|env|ini)$
+  key_groups:
+  - age:
+    - *sydney

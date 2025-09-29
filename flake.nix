@@ -48,6 +48,7 @@
   outputs =
     inputs@{
       self,
+      sops-nix,
       hm,
       nixpkgs,
       nixpkgs-stable,
