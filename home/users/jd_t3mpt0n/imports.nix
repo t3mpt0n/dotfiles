@@ -10,17 +10,8 @@ let
   mod_wm = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ../../modules/wm);
 in
 {
-  imports =
-    mod_apps
-++ mod_shell
-++ mod_wm
-    ++ conf
-    ++ [
-      inputs.catppuccin.homeModules.catppuccin
-      ../../modules/catppuccin.nix
-      ../../modules/fonts.nix
-#      ../../modules/mail.nix
-      ../../modules/editors/emacs/emacs.nix
+  imports = [
+      ../../modules
       ./profile.nix
     ];
 }

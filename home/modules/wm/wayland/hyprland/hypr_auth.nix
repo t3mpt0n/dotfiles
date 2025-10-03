@@ -5,7 +5,7 @@
   };
 
   services.hypridle = {
-    enable = true;
+    enable = lib.mkDefault false;
     settings = {
       general = {
         lock_cmd = "${lib.getExe pkgs.swaylock}";

@@ -66,7 +66,6 @@ in
     users.users.jd = {
       isNormalUser = true;
       hashedPasswordFile = config.sops.secrets.jd-pass.path;
-      shell = pkgs.zsh;
       extraGroups = [
         "input"
         "video"
@@ -77,7 +76,6 @@ in
     };
     users.users.root = {
       hashedPasswordFile = config.sops.secrets.jd-pass.path;
-      shell = pkgs.zsh;
     };
 
     zramSwap.enable = true;
