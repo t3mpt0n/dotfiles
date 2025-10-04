@@ -15,18 +15,6 @@
     end
     '';
 
-    plugins = [
-      {
-        name = "autopair";
-        src = pkgs.fetchFromGitHub {
-          owner = "jorgebucaran";
-          repo = "autopair.fish";
-          rev = "v1.0.4";
-          hash = "";
-        };
-      }
-    ];
-
     functions = {
       vterm_printf = ''
       if begin; [  -n "$TMUX" ]  ; and  string match -q -r "screen|tmux" "$TERM"; end

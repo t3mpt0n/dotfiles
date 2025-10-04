@@ -12,7 +12,6 @@
     syntaxHighlighting = {
       enable = true;
     };
-    shellAliases = import ./alias.xtnd;
     oh-my-zsh = {
       enable = true;
       plugins = [

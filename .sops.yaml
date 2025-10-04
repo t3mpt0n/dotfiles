@@ -1,7 +1,13 @@
 keys:
-- &sydney age12yx655hzl0lv7afwm2f069umst8gd6d5hmly5r3q28nl3m8sxs2sfm7awf
+- &sydney_root age12yx655hzl0lv7afwm2f069umst8gd6d5hmly5r3q28nl3m8sxs2sfm7awf
+- &sydney_id 7bd239076aeddb164805f794a3e735d6c0921b71
 creation_rules:
 - path_regex: sops/[^/]+\.(yaml|json|env|ini)$
   key_groups:
   - age:
-    - *sydney
+    - *sydney_root
+- path_regex: home/modules/crypt/sops/[^/]+\.(yaml|json|env|ini)$
+  key_groups:
+  - pgp:
+    - *sydney_id
+    

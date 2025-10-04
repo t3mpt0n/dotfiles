@@ -10,13 +10,6 @@
     starship.enable = lib.mkDefault true;
     bat = {
       enable = lib.mkDefault true;
-      extraPackages = with pkgs.bat-extras; [
-        core
-        batwatch
-        batman
-        batdiff
-        prettybat
-      ];
     };
   };
 }

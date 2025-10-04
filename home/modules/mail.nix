@@ -4,12 +4,16 @@
   config,
   ...
 }: {
+  sops.secrets = {
+    personal_email.sopsFile = ./crypt/sops/email.yaml;
+    routing_email.sopsFile = ./crypt/sops/email.yaml;
+  };
+    
   programs = {
+    mu.enable = true;
     mbsync = {
       enable = true;
     };
-
-    mu.enable = true;
   };
   
   accounts.email = {
@@ -21,7 +25,7 @@
         address = "mail@t3mpt0n.com";
         realName = "Sydney London";
         userName = "personal_mail";
-#        passwordCommand = "${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.pemail.path}";
+        passwordCommand = "${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.personal_email.path}";
 
         imap = {
           host = "imap.purelymail.com";
@@ -45,7 +49,7 @@
         address = "route@t3mpt0n.com";
         realName = "London Sydney";
         userName = "routing_mail";
- #       passwordCommand = "${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.remail.path}";
+        passwordCommand = "${lib.getExe' pkgs.coreutils "cat"} ${config.sops.secrets.routing_email.path}";
 
         imap = {
           host = "imap.purelymail.com";

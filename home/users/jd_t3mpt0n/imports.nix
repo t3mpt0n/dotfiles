@@ -5,13 +5,20 @@
 let
   inherit (inputs.nixpkgs) lib;
   conf = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./config);
-  mod_apps = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ../../modules/apps);
-  mod_shell = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ../../modules/shell);
-  mod_wm = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ../../modules/wm);
 in
 {
-  imports = [
-      ../../modules
-      ./profile.nix
-    ];
+  imports = lib.lists.flatten [
+    inputs.sops-nix.homeManagerModules.sops
+    inputs.catppuccin.homeModules.catppuccin
+    conf
+    ../../modules
+    ./profile.nix
+
+    {
+      programs = {
+        vesktop.enable = true;
+        fish.enable = true;
+      };
+    }
+  ];
 }

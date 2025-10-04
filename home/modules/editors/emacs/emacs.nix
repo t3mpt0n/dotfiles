@@ -14,6 +14,7 @@
     emacsPackages.tree-sitter-langs
     mu
     emacsPackages.mu4e
+    emacsPackages.vterm
   ];
   home.sessionVariables = {
     EDITOR = "emacsclient -c -a 'emacs'";
@@ -43,8 +44,4 @@
   xdg.configFile."emacs/tree-sitter" = {
     source = "${pkgs.emacsPackages.treesit-grammars.with-all-grammars}/lib";
   };
-    
-  imports = [
-    ./vterm_zsh.nix
-  ];
 }
