@@ -15,6 +15,7 @@
     mu
     emacsPackages.mu4e
     emacsPackages.vterm
+    marksman
   ];
   home.sessionVariables = {
     EDITOR = "emacsclient -c -a 'emacs'";

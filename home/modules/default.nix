@@ -11,6 +11,8 @@ let
   browser_mod = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./browsers);
   daemon_mod = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./daemons);
   styling_mod = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./styling);
+  gaming_mod = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./gaming);
+  audio_mod = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./audio);
 in {
   imports = lib.lists.flatten [
     crypt_mod
@@ -19,6 +21,8 @@ in {
     browser_mod
     daemon_mod
     styling_mod
+    gaming_mod
+    audio_mod
     ./editors/emacs/emacs.nix
   ];
 }

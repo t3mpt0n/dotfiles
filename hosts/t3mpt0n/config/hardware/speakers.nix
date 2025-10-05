@@ -31,14 +31,11 @@
           }
         ];
       };
-      "01-low-latency" = {
-        context.properties = {
-          default.clock = {
-            rate = 48000;
-            quantum = 32;
-            min-quantum = 32;
-            max-quantum = 32;
-          };
+      
+      low-latency = {
+        "context.properties" = {
+          "default.clock.rate" = 192000;
+          "default.allowed-rates" = [ 32000 44100 48000 88200 96000 192000 ];
         };
       };
     };

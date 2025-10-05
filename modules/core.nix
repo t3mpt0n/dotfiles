@@ -60,6 +60,11 @@ in
         sopsFile = ../sops/users.json;
 	neededForUsers = true;
       };
+
+      secrets.sydney_id = {
+        format = "yaml";
+        sopsFile = ../sops/creds.yaml;
+      };
     };
   
     users.mutableUsers = false;

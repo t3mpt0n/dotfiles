@@ -5,7 +5,7 @@
 }:
 {
   programs.zsh = {
-    enable = true;
+    enable = lib.mkDefault false;
     dotDir = ".config/zsh";
     enableCompletion = true;
     autosuggestion.enable = true;

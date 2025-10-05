@@ -40,6 +40,9 @@ nixpkgs.lib.nixosSystem {
       ../crypt.nix
       ./install.nix
       {
+        programs.git.enable = true;
+        programs.git.config.safe.directory = "/etc/nixos";
+        nixpkgs.overlays = [ inputs.prismlauncher.outputs.overlays.default ];
         environment.systemPackages = [ devenv.packages.x86_64-linux.devenv ];
       }
     ]

@@ -71,5 +71,10 @@
                                 'elpy-black-fix-code nil t)))
   :setq (elpy-modules . (delq 'elpy-module-flymake elpy-modules))
   :config
-  (add-to-list 'eglot-server-programs (python-ts-mode . "basedpyright-langserver"))
+  (add-to-list 'eglot-server-programs '(python-ts-mode . "basedpyright-langserver"))
   (add-to-list 'company-backends '(elpy-company-backend :with company-yasnippet)))
+
+(leaf prog/markdown
+  :mode ("\\.md\\'" . markdown-mode)
+  :hook (markdown-mode-hook . eglot-ensure)
+  :config (add-to-list 'eglot-server-programs '(markdown-mode . "marksman")))

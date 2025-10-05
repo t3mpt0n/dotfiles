@@ -5,7 +5,7 @@
   ...
 }: {
   programs.git = {
-    enable = true;
+    enable = lib.mkDefault true;
     userName = "t3mpt0n";
     userEmail = "git@t3mpt0n.com";
     extraConfig = {

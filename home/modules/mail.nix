@@ -4,11 +4,6 @@
   config,
   ...
 }: {
-  sops.secrets = {
-    personal_email.sopsFile = ./crypt/sops/email.yaml;
-    routing_email.sopsFile = ./crypt/sops/email.yaml;
-  };
-    
   programs = {
     mu.enable = true;
     mbsync = {

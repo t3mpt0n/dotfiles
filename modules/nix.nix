@@ -13,9 +13,11 @@
       trusted-substituters = [
       	"https://cache.nixos.org"
         "https://nix-community.cachix.org"
+        "https://prismlauncher.cachix.org"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "prismlauncher.cachix.org-1:9/n/FGyABA2jLUVfY+DEp4hKds/rwO+SCOtbOkDzd+c="
       ];
       trusted-users = [
         "root"
