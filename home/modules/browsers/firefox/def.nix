@@ -135,7 +135,7 @@
 
             bing.metadata.hidden = true;
           };
-          default = "Brave Search";
+          default = "DuckDuckGo";
           force = true;
         };
       };
