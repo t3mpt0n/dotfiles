@@ -15,7 +15,9 @@
     mu
     emacsPackages.mu4e
     emacsPackages.vterm
+    multimarkdown
     marksman
+    texliveFull
   ];
   home.sessionVariables = {
     EDITOR = "emacsclient -c -a 'emacs'";

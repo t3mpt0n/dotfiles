@@ -10,6 +10,7 @@ in
   imports = lib.lists.flatten [
     inputs.sops-nix.homeManagerModules.sops
     inputs.catppuccin.homeModules.catppuccin
+    inputs.plasma-manager.homeModules.plasma-manager
     conf
     ../../modules
     ./profile.nix

@@ -4,22 +4,6 @@
   ...
 }:
 {
-  home.packages = with pkgs; [
-    xdg-desktop-portal-wlr
-    xdg-desktop-portal-hyprland
-    xdg-desktop-portal-gtk
-    kdePackages.xdg-desktop-portal-kde
-  ];
-  xdg.portal = {
-    xdgOpenUsePortal = true;
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-wlr
-      xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-      kdePackages.xdg-desktop-portal-kde
-    ];
-  };
   xdg.desktopEntries = {
     Thunar = {
       name = "Thunar";

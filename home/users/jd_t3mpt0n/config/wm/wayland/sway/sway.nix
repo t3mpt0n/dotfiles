@@ -34,7 +34,6 @@ in
           "${M}+Shift+Return" = "exec ${lib.getExe' pkgs.kitty "kitty"}";
           "${M}+w" = "exec firefox";
           "${M}+Shift+S" = "exec ${lib.getExe pkgs.steam}";
-          "${M}+Shift+D" = "exec ${lib.getExe pkgs.discord}";
         };
 
       startup = [

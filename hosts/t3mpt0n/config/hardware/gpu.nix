@@ -30,10 +30,6 @@
     amdgpu = {
       initrd.enable = true;
       opencl.enable = true;
-      amdvlk = {
-        enable = false;
-        support32Bit.enable = false;
-      };
     };
   };
 

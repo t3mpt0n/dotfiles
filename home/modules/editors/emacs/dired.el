@@ -9,3 +9,7 @@
   :straight t
   :config
   (pdf-tools-install))
+
+(leaf nov
+  :straight t
+  :mode ("\\.epub\\'" . nov-mode))

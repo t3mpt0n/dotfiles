@@ -26,6 +26,7 @@
         "${M}+Shift+c" = "reload";
         "${M}+Ctrl+Q" = "exec swaylock";
         "${M}+Return" = "exec emacsclient -c -e '(vterm (random))'";
+        "${M}+Shift+D" = lib.mkIf config.programs.vesktop.enable "exec ${lib.getExe config.programs.vesktop.package}";
         "${M}+e" = "exec ${lib.getExe' pkgs.emacs30-pgtk "emacsclient"} -c -a 'emacs'";
 
         # Window keys
