@@ -19,8 +19,6 @@
         border_size = 2;
         resize_on_border = true;
         allow_tearing = true;
-        "col.active_border" = "rgb(ff8c00)";
-        "col.inactive_border" = "rgb(abb2b9)";
       };
       animations.enabled = true;
       bindm = [
