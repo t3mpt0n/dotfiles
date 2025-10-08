@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 {
   programs.hyprlock = {
-    enable = false;
+    enable = lib.mkDefault false;
   };
 
   services.hypridle = {

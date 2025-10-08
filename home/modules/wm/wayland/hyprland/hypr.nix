@@ -41,6 +41,7 @@
         ))
         ++ [
           "$mod, p, exec, ${lib.getExe pkgs.fuzzel}"
+          "$mod, e, exec, ${lib.getExe' pkgs.emacs-pgtk "emacsclient"} -c -a 'emacs'"
           "$mod, h, movefocus, l"
           "$mod, j, movefocus, d"
           "$mod, k, movefocus, u"
