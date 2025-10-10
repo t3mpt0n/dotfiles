@@ -78,3 +78,14 @@
   :mode ("\\.md\\'" . markdown-mode)
   :hook (markdown-mode-hook . eglot-ensure)
   :config (add-to-list 'eglot-server-programs '(markdown-mode . "marksman")))
+
+(leaf prog/tex
+  :straight auctex
+  :setq-default (TeX-master . nil)
+  :setq
+  (TeX-parse-self . t)
+  (TeX-auto-save . t))
+
+(leaf prog/mermaidjs
+  :straight mermaid-mode
+  :mode ("\\.mermaid\\'" . mermaid-mode))

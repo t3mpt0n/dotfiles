@@ -14,7 +14,7 @@
         "$mod SHIFT, Return, exec, ${lib.getExe' pkgs.emacs-pgtk "emacsclient"} -c -e '(vterm (random))'"
         "$mod, w, exec, ${lib.getExe pkgs.firefox}"
         "$mod SHIFT, S, exec, ${lib.getExe pkgs.steam}"
-        "$mod SHIFT, D, exec, ${lib.getExe pkgs.discord}"
+        "$mod SHIFT, D, exec, ${lib.getExe pkgs.vesktop}"
       ];
 
       exec-once = ["${lib.getExe pkgs.waybar}"];

@@ -59,12 +59,8 @@
       ];
       exec-once = [
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-        "sleep 4"
-        "killall -e xdg-desktop-portal-hyprland"
-        "killall xdg-desktop-hyprland"
-        "${lib.getExe pkgs.xdg-desktop-portal-hyprland} &"
-        "sleep 4"
-        "${lib.getExe pkgs.xdg-desktop-portal} &"
+        "emacs --daemon"
+        "corectrl"
       ];
     };
   };

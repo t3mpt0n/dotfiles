@@ -34,3 +34,7 @@
                                    "%?"
                                    :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
                                    :unnarrowed t))))
+
+(leaf ob-mermaid
+  :straight t
+  :setq (ob-mermaid-cli-path . "mmdc"))

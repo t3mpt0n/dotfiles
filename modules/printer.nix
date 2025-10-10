@@ -13,14 +13,5 @@
       pkgs.sane-airscan
     ];
   };
-  services.avahi = {
-    enable = true;
-    nssmdns = true;
-    openFirewall = true;
-    publish = {
-      enable = true;
-      userServices = true;
-    };
-  };
   users.users.jd.extraGroups = [ "scanner" "lp" ];
 }
