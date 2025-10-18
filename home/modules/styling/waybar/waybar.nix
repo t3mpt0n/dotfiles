@@ -16,6 +16,7 @@
         position = "top";
         modules-left = lib.mkDefault [
           "sway/workspaces"
+          "hyprland/workspaces"
           "disk"
         ];
         modules-center = lib.mkDefault [ "clock" ];

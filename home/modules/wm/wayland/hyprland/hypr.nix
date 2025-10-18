@@ -6,6 +6,7 @@
 }: {
   wayland.windowManager.hyprland = {
     enable = lib.mkDefault false;
+    portalPackage = pkgs.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
     systemd = {
       enable = true;
@@ -35,7 +36,7 @@
               "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
             ]
           )
-          9
+            9
         ))
         ++ [
           "$mod, p, exec, ${lib.getExe pkgs.fuzzel}"
@@ -54,11 +55,8 @@
           "$mod SHIFT, q, killactive,"
           "$mod, f, fullscreen"
         ];
-      env = [
-        "XDG_CURRENT_DESKTOP,Hyprland"
-      ];
-      exec-once = [
-        "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+      exec-once = let
+      in [
         "emacs --daemon"
         "corectrl"
       ];

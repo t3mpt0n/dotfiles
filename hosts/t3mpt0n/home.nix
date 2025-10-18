@@ -17,4 +17,6 @@ inputs: {
       jd = import ../../home/users/jd_t3mpt0n/imports.nix inputs;
     };
   };
+  
+  environment.pathsToLink = [ "/share/xdg-desktop-portal" "/share/applications" ];
 }
