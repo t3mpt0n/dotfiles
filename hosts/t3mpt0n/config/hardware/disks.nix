@@ -86,4 +86,6 @@
     "d /data/big/videos 0755 jd users"
     "d /data/fast/games 0755 jd users"
   ];
+
+  services.udisks2.enable = true;
 }

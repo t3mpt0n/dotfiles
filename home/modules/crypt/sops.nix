@@ -5,9 +5,14 @@
   osConfig,
   ...
 }: {  
-  sops = {
-    age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
-    age.sshKeyPaths = [ "${osConfig.sops.secrets.sydney_id.path}" ];
-    gnupg.home = "${config.programs.gpg.homedir}";
+  sops = if config.programs.gpg.enable then {
+    gnupg = {
+      sshKeyPaths = [];
+      home = config.programs.gpg.homedir;
+    };
+  } else {
+    age = {
+      keyFile = "${config.xdg.dataHome}/age-key.txt";
+    };
   };
 }

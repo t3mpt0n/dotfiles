@@ -44,7 +44,7 @@
       ${builtins.readFile ./ui.el}
     '';
   };
-
+  
   xdg.configFile."emacs/tree-sitter" = {
     source = "${pkgs.emacsPackages.treesit-grammars.with-all-grammars}/lib";
   };

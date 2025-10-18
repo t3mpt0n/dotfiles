@@ -22,5 +22,6 @@ in {
     styling_mod
     audio_mod
     ./editors/emacs/emacs.nix
+    ./mail.nix
   ];
 }

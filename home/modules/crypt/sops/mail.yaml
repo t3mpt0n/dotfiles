@@ -1,0 +1,19 @@
+mail-at-t3mpt0n-dot-com: ENC[AES256_GCM,data:Fr6G6kpRduTkDeFh6+D+NEles1g=,iv:nOuWPEX9R9VwGfs1rbUGaSAIw7Y/8wPqUb+IQupKVWU=,tag:gwpotwjonlVWPwWu7sMW8Q==,type:str]
+route-at-t3mpt0n-dot-com: ENC[AES256_GCM,data:iX91tEJSGowht89zhr76jLX2BTk=,iv:1EPRIvSZ2KEdqsbCTlNMx0YtmAFIYmZvuS7RrHWmqgs=,tag:kOPhW6Kbe1t1Witayufg5w==,type:str]
+sops:
+    lastmodified: "2025-10-18T16:07:00Z"
+    mac: ENC[AES256_GCM,data:UrVJGCzYPeVUHHn8YBW/LDLy8JBUKQ4/oBUBabTeIQkYUjio4LvomtpZ0FjtqLn6rrJT453XevugTdo8bJVlOjyTZo9i7KFDUNkLnYjrxZnQcSsJMN204o9KS0hCqhuL9rQA+yzcFTf6RVJsWK9HJUHtVt/Yhs6Gf7Us99tUiA4=,iv:bCgQFpTZXKKz8RGFsGOOl42QGM6Bt5xGQn8mnPgmlPY=,tag:tJPAiM0z1GkajTLoYQ5F1A==,type:str]
+    pgp:
+        - created_at: "2025-10-18T15:27:23Z"
+          enc: |-
+            -----BEGIN PGP MESSAGE-----
+
+            hF4DSIxgZkr4TnQSAQdAVMLx3FGMIcTLDTMcNpLA5+YEVIA7FmdTNxkeMQxlqHUw
+            vuDoiioyBhTL2Z7351qli7+IAQ78hl88Kj8Jc0PqEOlvigpCIRrI7sKzYbCQSIxU
+            0l4B/ZIfLnb4REOo5MVlRSYPJRdI39XaESGicMR7C+SzktYA6HnEGAS/D+VAQLRh
+            hRNckvjBFBE6U/GSpj1yJgYlTQisz6GsdzFIs+vf2Zg77XkQpGLIiu3Ueba4p+xo
+            =WTjm
+            -----END PGP MESSAGE-----
+          fp: 7bd239076aeddb164805f794a3e735d6c0921b17
+    unencrypted_suffix: _unencrypted
+    version: 3.11.0

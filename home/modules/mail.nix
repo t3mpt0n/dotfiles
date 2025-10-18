@@ -9,6 +9,25 @@
     mbsync = {
       enable = true;
     };
+    msmtp.enable = true;
+    notmuch = {
+      enable = true;
+      hooks = {
+        preNew = lib.mkIf config.programs.mbsync.enable "mbsync -c ~/.config/isyncrc -a";
+      };
+    };
+  };
+
+  sops.secrets = {
+    mail-at-t3mpt0n-dot-com = {
+      format = "yaml";
+      sopsFile = ./crypt/sops/mail.yaml;
+    };
+
+    route-at-t3mpt0n-dot-com = {
+      format = "yaml";
+      sopsFile = ./crypt/sops/mail.yaml;
+    };
   };
   
   accounts.email = {
@@ -19,8 +38,8 @@
         primary = true;
         address = "mail@t3mpt0n.com";
         realName = "Sydney London";
-        userName = "personal_mail";
-        passwordCommand = "${lib.getExe' pkgs.coreutils "cat"} ${config.age.secrets.personal_email.path}";
+        userName = "mail@t3mpt0n.com";
+        passwordCommand = "cat ${config.sops.secrets.mail-at-t3mpt0n-dot-com.path}";
 
         imap = {
           host = "imap.purelymail.com";
@@ -37,14 +56,16 @@
           create = "both";
         };
         mu.enable = true;
+        msmtp.enable = true;
+        notmuch.enable = true;
       };
 
       route = {
         enable = true;
         address = "route@t3mpt0n.com";
         realName = "London Sydney";
-        userName = "routing_mail";
-        passwordCommand = "${lib.getExe' pkgs.coreutils "cat"} ${config.sops.secrets.routing_email.path}";
+        userName = "route@t3mpt0n.com";
+        passwordCommand = "cat ${config.sops.secrets.route-at-t3mpt0n-dot-com.path}";
 
         imap = {
           host = "imap.purelymail.com";
@@ -61,6 +82,8 @@
           create = "both";
         };
         mu.enable = true;
+        msmtp.enable = true;
+        notmuch.enable = true;
       };
     };
   };
