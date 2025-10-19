@@ -23,7 +23,7 @@
     maxCacheTtl = 0;
     maxCacheTtlSsh = 0;
     sshKeys = [
-      "F89CF58546B97DFD551BFAAC71C09D4DF9C75F8A" # Identity Key
+      "0C0A7D9390D2CF3425CFDAFA2CE6304F0013C8A5" # Git Auth Key 1
     ];
     extraConfig = ''
       allow-emacs-pinentry
