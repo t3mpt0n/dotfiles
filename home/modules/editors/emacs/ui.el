@@ -55,7 +55,7 @@
   :hook (prog-mode-hook . display-line-numbers-mode))
 
 (leaf which-key
-  :straight nil
+  :straight which-key
   :config
   (which-key-mode)
   :setq (which-key-idle-delay . 0.1))

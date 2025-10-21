@@ -27,13 +27,14 @@
   :bind ("C-c p" . projectile-command-map)
   :config (projectile-mode +1))
 
-(leaf t3mpt0n/nix-setup
-  :straight nix-ts-mode
-  :mode ("\\.nix\\'" . nix-ts-mode)
+(leaf prog/nix
+  :straight nix-ts-mode nix-mode
+  :mode ("\\.nix\\'" . nix-mode)
   :hook
+  (nix-mode-hook . nix-ts-mode)
   (nix-ts-mode-hook . eglot-ensure)
   :setq
-  (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nil"))))
+  (add-to-list 'eglot-server-programs '(nix-mode . ("nil"))))
 
 (leaf rust-mode
   :straight t
@@ -51,13 +52,6 @@
   (rustic-lsp-client . 'eglot)
   :custom (rustic-cargo-use-last-stored-arguments . t))
 
-(leaf clojure-mode
-  :straight t
-  :hook ((clojure-mode clojurec-mode clojurescript-mode) . eglot-ensure)
-  :config
-  (dolist (m '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode))
-    (add-to-list 'eglot-server-programs `(,m . "clojure-lsp"))))
-
 (leaf t3mpt0n/python-setup
   :straight elpy
   :mode ("\\.py\\'" . python-ts-mode)
@@ -74,18 +68,56 @@
   (add-to-list 'eglot-server-programs '(python-ts-mode . "basedpyright-langserver"))
   (add-to-list 'company-backends '(elpy-company-backend :with company-yasnippet)))
 
-(leaf prog/markdown
+(leaf prog/go
+  :require project go-mode
+  :mode ("\\.go\\'" . go-ts-mode)
+  :init
+  (defun project-find-go-module (dir)
+  (when-let ((root (locate-dominating-file dir "go.mod")))
+    (cons 'go-module root)))
+
+  (defun eglot-format-buffer-before-save ()
+    (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+
+  (cl-defmethod project-root ((project (head go-module)))
+    (cdr project))
+  
+  :hook
+  (project-find-functions . project-find-go-module)
+  (go-ts-mode-hook . eglot-ensure)
+  (go-ts-mode-hook . eglot-format-buffer-before-save)
+
+  :config
+  (add-to-list 'eglot-server-programs '(go-ts-mode . ("gopls" :initializationOptions (:gopls (:staticcheck t
+                                                                                                           :matcher "CaseSensitive"))))))
+
+(leaf markup/markdown
   :mode ("\\.md\\'" . markdown-mode)
   :hook (markdown-mode-hook . eglot-ensure)
   :config (add-to-list 'eglot-server-programs '(markdown-mode . "marksman")))
 
-(leaf prog/tex
+(leaf markup/tex
   :straight auctex
   :setq-default (TeX-master . nil)
   :setq
   (TeX-parse-self . t)
   (TeX-auto-save . t))
 
-(leaf prog/mermaidjs
+(leaf markup/mermaidjs
   :straight mermaid-mode
   :mode ("\\.mermaid\\'" . mermaid-mode))
+
+(leaf markup/plantuml
+  :straight plantuml-mode
+  :mode ("\\.plantuml\\'" . plantuml-mode)
+  :setq
+  (plantuml-jar-path . "plantuml")
+  (plantuml-default-exec-mode . 'jar)
+  :config
+  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t))))
+
+(leaf db/csv
+  :straight csv-mode
+  :mode ("\\.csv\\'" . csv-mode)
+  :hook (csv-mode-hook . csv-guess-set-seperator))
