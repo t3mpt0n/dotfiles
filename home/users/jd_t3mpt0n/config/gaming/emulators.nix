@@ -4,7 +4,14 @@
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [
+  home.packages = with pkgs; let
+    libretroCores = with pkgs.libretro; [
+      mesen
+      mesen-s
+      mupen64plus
+      swanstation
+    ];
+  in [
     mesen
     mame
     mame-tools
@@ -12,5 +19,9 @@
     retrofe
     rmg-wayland
     pcsx2
-  ];
+    ppsspp-sdl-wayland
+
+    retroarch-bare
+  ]
+  ++ libretroCores;
 }
