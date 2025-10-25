@@ -57,7 +57,6 @@
   :mode ("\\.py\\'" . python-ts-mode)
   :init (elpy-enable)
   :hook
-  (python-ts-mode-hook . eglot-ensure)
   (python-ts-mode-hook . elpy-mode)
   (elpy-mode-hook . flycheck-mode)
   (elpy-mode-hook . (lambda ()
@@ -65,11 +64,11 @@
                                 'elpy-black-fix-code nil t)))
   :setq (elpy-modules . (delq 'elpy-module-flymake elpy-modules))
   :config
-  (add-to-list 'eglot-server-programs '(python-ts-mode . "basedpyright-langserver"))
   (add-to-list 'company-backends '(elpy-company-backend :with company-yasnippet)))
 
 (leaf prog/go
-  :require project go-mode
+  :straight go-mode
+  :require project
   :mode ("\\.go\\'" . go-ts-mode)
   :init
   (defun project-find-go-module (dir)
