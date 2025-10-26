@@ -117,6 +117,7 @@
           gamingmice = import ./modules/gamingmice.nix;
           systemdboot = import ./modules/systemd-boot.nix;
           sudo = import ./modules/sudo.nix;
+          services = import ./modules/services;
         };
       };
     };

@@ -1,0 +1,16 @@
+aria2-token: ENC[AES256_GCM,data:CQj1miGGVA5MZZVBZzNloT2caykG7w==,iv:uOOV9vYv9HQTA+Ivjf7Iv0wszNlvK3XttJucda0N4eM=,tag:fqNu0bz361EbpH5PBPnE6w==,type:str]
+sops:
+    age:
+        - recipient: age1ydjdl44py0ghlldry7rwq4w599kmrdx9uzvy2g9aw5d94ulfg3vsk4m3tm
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDcWJKc0cvLzgxdnIyQzZp
+            UkxSYnkvTXljQ25TWTQ5ckpHTlpUUkZnT1ZFCjJBcXpMTHR0QjdZRE9acHB5bmlK
+            WkdRZmM0L21WZWRzUWJYa1dKelJWQUkKLS0tIDBpMHdZcTNSSEpYd2VLYkJOR1lV
+            U0prRGVYT3ZobENYdy9VbkU2Tk1kRkkKmUyBVYgcQkQPvTIyJxdsgjRQ31xFCgOs
+            JU+kSA2yJ2daVBNwl4S+MHgEMs5n/1OoGc7OcPPnoMNyUwOL1WF1TQ==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-10-25T23:58:33Z"
+    mac: ENC[AES256_GCM,data:F36qyW4Z8iOyq6ENyn3ij/2ruZHH4QBGNxfY3XyInbqvWtagty918t0gygDr6E3pXMpIEoqmaxbzodCAXRG4KbyPBT28SBHGjN4JQntqkuYWQiLfY4BJh0UkesgRqJ87JwWghqIvoyAdFG66MVp/qseNy+DuzUq0jIYsTU4nbHw=,iv:4o6VlMwxJsCEkci2lV7zTZY4aC1l/3HzyyTpu30V7T0=,tag:Rj++FTRlA7CboDbrKZW1hQ==,type:str]
+    unencrypted_suffix: _unencrypted
+    version: 3.11.0
