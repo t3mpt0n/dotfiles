@@ -6,5 +6,6 @@
 }: {
   imports = [
     ./aria2.nix
+    ./caddy.nix
   ];
 }

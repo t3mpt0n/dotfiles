@@ -17,7 +17,16 @@
       openPorts = config.networking.firewall.enable;
       rpcSecretFile = config.sops.secrets.aria2-token.path;
     };
-  };
 
-  environment.systemPackages = [ (lib.mkIf config.jc'.srv.aria2.enable pkgs.ariang) ];
+    caddy = lib.mkIf config.jc'.srv.aria2.webUI {
+      virtualHosts."http://localhost:${toString (config.services.aria2.settings.rpc-listen-port - 1)}" = {
+        extraConfig = ''
+          file_server {
+            root ${pkgs.ariang}/share/ariang
+          }
+          reverse_proxy /jsonrpc localhost:${toString config.services.aria2.settings.rpc-listen-port}
+        '';
+      };
+    };
+  };
 }

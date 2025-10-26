@@ -45,7 +45,10 @@ nixpkgs.lib.nixosSystem {
         programs.git.config.safe.directory = "/etc/nixos";
         nixpkgs.overlays = [ inputs.prismlauncher.outputs.overlays.default ];
         environment.systemPackages = [ devenv.packages.x86_64-linux.devenv ];
-        jc'.srv.aria2.enable = true;
+        jc'.srv = {
+          aria2.enable = true;
+          caddy.enable = true;
+        };
         users.users.jd.extraGroups = [ "aria2" ];
       }
     ]
