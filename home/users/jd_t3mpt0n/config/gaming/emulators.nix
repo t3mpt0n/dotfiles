@@ -21,7 +21,12 @@
     pcsx2
     ppsspp-sdl-wayland
 
-    retroarch-bare
-  ]
-  ++ libretroCores;
+    (retroarch.withCores (
+      cores: with cores; [
+        mesen
+        mesen-s
+        swanstation
+      ]
+    ))
+  ];
 }
