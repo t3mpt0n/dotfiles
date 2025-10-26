@@ -22,6 +22,7 @@ in {
     styling_mod
     audio_mod
     ./editors/emacs/emacs.nix
+    ./editors/libreoffice.nix
     ./mail.nix
   ];
 }
