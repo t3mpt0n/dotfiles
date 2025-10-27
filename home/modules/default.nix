@@ -12,6 +12,7 @@ let
   daemon_mod = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./daemons);
   styling_mod = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./styling);
   audio_mod = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./audio);
+  gaming_mod = lib.filter (n: lib.hasSuffix ".nix" n) (lib.filesystem.listFilesRecursive ./gaming);
 in {
   imports = lib.lists.flatten [
     crypt_mod
@@ -21,6 +22,7 @@ in {
     daemon_mod
     styling_mod
     audio_mod
+    gaming_mod
     ./editors/emacs/emacs.nix
     ./editors/libreoffice.nix
     ./mail.nix

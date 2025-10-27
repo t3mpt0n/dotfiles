@@ -5,12 +5,6 @@
   ...
 }: {
   home.packages = with pkgs; let
-    libretroCores = with pkgs.libretro; [
-      mesen
-      mesen-s
-      mupen64plus
-      swanstation
-    ];
   in [
     mesen
     mame
@@ -20,13 +14,21 @@
     rmg-wayland
     pcsx2
     ppsspp-sdl-wayland
+    pegasus-frontend
+  ];
 
-    (retroarch.withCores (
-      cores: with cores; [
+  jc'.home.gaming = {
+    retroarch = {
+      enable = true;
+      corelist = with pkgs.libretro; [
+        mame
+        fbneo
         mesen
         mesen-s
+        beetle-pce
+        beetle-saturn
         swanstation
-      ]
-    ))
-  ];
+      ];
+    };
+  };
 }
