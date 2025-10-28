@@ -26,7 +26,10 @@
         "$mod, mouse:272, movewindow"
         "$mod, mouse:273, resizewindow"
       ];
-      bind =
+      bind = let
+        browser_setting = if config.custom.browser.chromium.brave.enable then "$mod, w, exec, ${lib.getExe pkgs.brave}"
+        else if config.programs.firefox.enable then "$mod, w, exec, ${lib.getExe config.programs.firefox.package}" else "";
+        in
         (builtins.concatLists (
           builtins.genList (
             i: let
@@ -37,8 +40,9 @@
             ]
           )
             9
-        ))
+        )) 
         ++ [
+          browser_setting
           "$mod, p, exec, ${lib.getExe pkgs.fuzzel}"
           "$mod, e, exec, ${lib.getExe' pkgs.emacs-pgtk "emacsclient"} -c -a 'emacs'"
           "$mod, h, movefocus, l"
