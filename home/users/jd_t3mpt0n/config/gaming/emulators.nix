@@ -15,6 +15,7 @@
     pcsx2
     ppsspp-sdl-wayland
     pegasus-frontend
+    dolphin-emu
   ];
 
   jc'.home.gaming = {
