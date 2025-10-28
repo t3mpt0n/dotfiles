@@ -31,7 +31,8 @@ nixpkgs.lib.nixosSystem {
       gamepads
       printer
       gamingmice
-      systemdboot      
+      systemdboot
+      services
       hm.nixosModules.home-manager
       nur.modules.nixos.default
       disko.nixosModules.disko
@@ -44,6 +45,11 @@ nixpkgs.lib.nixosSystem {
         programs.git.config.safe.directory = "/etc/nixos";
         nixpkgs.overlays = [ inputs.prismlauncher.outputs.overlays.default ];
         environment.systemPackages = [ devenv.packages.x86_64-linux.devenv ];
+        jc'.srv = {
+          aria2.enable = true;
+          caddy.enable = true;
+        };
+        users.users.jd.extraGroups = [ "aria2" ];
       }
     ]
     ++ imports';

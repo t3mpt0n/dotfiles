@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, config, ... }:
 {
   programs.git = {
     extraConfig = {
@@ -7,14 +7,16 @@
         sshCommand = "ssh -i ~/.ssh/ga";
       };
       gpg = {
-        format = "ssh";
-        ssh.allowedSignersFile = "~/.config/git/allowed_signers";
+        format = if config.programs.gpg.enable then "openpgp" else "ssh";
+        ssh.allowedSignersFile = lib.mkIf (config.programs.gpg.enable != true) "~/.config/git/allowed_signers";
       };
       signing = {
-        key = "/home/jd/.ssh/gc.pub";
+        key = if config.programs.gpg.enable then "A3E735D6C0921B17" else "/home/jd/.ssh/gc.pub";
         signByDefault = true;
       };
-      user.signingkey = "/home/jd/.ssh/gc.pub";
+      user = {
+        signingkey = config.programs.git.extraConfig.signing.key;
+      };
     };
   };
 }

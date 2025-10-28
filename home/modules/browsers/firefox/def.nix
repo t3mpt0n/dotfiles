@@ -4,7 +4,7 @@
   ...
 }: {
   programs.firefox = {
-    enable = true;
+    enable = lib.mkDefault false;
     nativeMessagingHosts = with pkgs; [
       keepassxc
     ];

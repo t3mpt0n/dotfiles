@@ -25,6 +25,7 @@
       }).run;
   in [
     steam-run
+    pkgs.steam-rom-manager
     pkgs.steamtinkerlaunch
   ];
 }

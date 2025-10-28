@@ -51,14 +51,17 @@ in
       validateSopsFiles = false;
 
       age = {
-        sshKeyPaths = [ "/etc/ssh/sydney" ];
+        sshKeyPaths = [
+          "/etc/ssh/sydney"
+          "/etc/ssh/ssh_host_ed25519_key"
+        ];
         generateKey = false;
       };
 
       secrets.jd-pass = {
         format = "json";
         sopsFile = ../sops/users.json;
-	neededForUsers = true;
+	    neededForUsers = true;
       };
 
       secrets.sydney_id = {
