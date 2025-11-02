@@ -23,6 +23,7 @@
       enable = true;
       corelist = with pkgs.libretro; [
         mame
+        blastem
         fbneo
         mesen
         mesen-s

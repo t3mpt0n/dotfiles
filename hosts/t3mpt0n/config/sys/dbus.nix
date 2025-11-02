@@ -11,7 +11,6 @@
 
   xdg.portal = {
     enable = true;
-    xdgOpenUsePortal = true;
     configPackages = [ pkgs.hyprland ];
     extraPortals = with pkgs; [
       xdg-desktop-portal-hyprland
