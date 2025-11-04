@@ -27,4 +27,9 @@ in {
     ./editors/libreoffice.nix
     ./mail.nix
   ];
+
+  home.packages = with pkgs; [
+    wget
+    usbutils
+  ];
 }

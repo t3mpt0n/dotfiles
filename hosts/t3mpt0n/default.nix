@@ -50,6 +50,7 @@ nixpkgs.lib.nixosSystem {
           caddy.enable = true;
         };
         users.users.jd.extraGroups = [ "aria2" ];
+        services.flatpak.enable = true;
       }
     ]
     ++ imports';
