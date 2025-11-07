@@ -10,7 +10,6 @@
   };
   environment.systemPackages = with pkgs; [
     android-tools
-    android-udev-rules
     android-file-transfer
     scrcpy # Control phone from PC
   ];

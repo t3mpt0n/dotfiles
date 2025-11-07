@@ -22,7 +22,7 @@
         shaderc
         vulkan-headers
         vulkan-loader
-        glxinfo
+        mesa-demos
         vulkan-tools
       ];
     };

@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
     owner = "ares-emulator";
     repo = "ares";
     rev = "v${version}";
-    hash = "sha256-DCHMr4nwTpZIY4t+c8XYfTQ3wzznmr83r4OdG2F0fWI=";
+    hash = "sha256-27gDc9Fb61VwTXjFzcjbL9avi+zQOtDUXesRCcMlfrg=";
   };
 
   nativeBuildInputs = [

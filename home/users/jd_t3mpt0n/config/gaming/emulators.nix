@@ -10,12 +10,8 @@
     mame
     mame-tools
     flycast
-    retrofe
     rmg-wayland
-    pcsx2
     ppsspp-sdl-wayland
-    pegasus-frontend
-    dolphin-emu
   ];
 
   jc'.home.gaming = {
@@ -30,6 +26,7 @@
         beetle-pce
         beetle-saturn
         swanstation
+        pcsx2
       ];
     };
   };

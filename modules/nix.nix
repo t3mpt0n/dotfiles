@@ -20,14 +20,13 @@
         "prismlauncher.cachix.org-1:9/n/FGyABA2jLUVfY+DEp4hKds/rwO+SCOtbOkDzd+c="
       ];
       trusted-users = [
-        "root"
         "@wheel"
       ];
     };
     gc = {
       automatic = true;
       dates = "weekly";
-      options = "--delete-older-than 30d";
+      options = "--delete-older-than 12d";
     };
   };
 
