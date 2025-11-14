@@ -10,5 +10,6 @@
     winetricks
     protontricks
     protonup-qt
+    bottles
   ];
 }

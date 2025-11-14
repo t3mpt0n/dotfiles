@@ -10,8 +10,11 @@
     mame
     mame-tools
     flycast
-    rmg-wayland
     ppsspp-sdl-wayland
+    pcsx2
+    gopher64
+    xenia-canary
+    duckstation
   ];
 
   jc'.home.gaming = {

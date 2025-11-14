@@ -6,10 +6,10 @@
 }: let
   es-de-appimage = pkgs.appimageTools.wrapType2 {
     pname = "es-de";
-    version = "3.3.0";
+    version = "3.4.0";
     src = pkgs.fetchurl {
-      url = "https://gitlab.com/es-de/emulationstation-de/-/package_files/210210324/download";
-      hash = "sha256-xKh5422Pk0HaMfHpZiK1yt2Mhl7TVP70OtDxA66K7go=";
+      url = "https://gitlab.com/es-de/emulationstation-de/-/package_files/243196984/download";
+      hash = "sha256-R8VWlxHwOmYsQoz8dsnyUrPU5c1gSZgynENd+YMbBqA=";
     };
   };
 in {
