@@ -28,5 +28,6 @@
     pkgs.steam-rom-manager
     pkgs.steamtinkerlaunch
     pkgs.gamemode
+    pkgs.mangohud
   ];
 }

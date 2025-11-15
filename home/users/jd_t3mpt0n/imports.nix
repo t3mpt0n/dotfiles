@@ -22,6 +22,8 @@ in
         fish.enable = true;
       };
 
+      t'.home.crypto.enable = true;
+      
       services.flatpak = {
         enable = true;
         packages = [

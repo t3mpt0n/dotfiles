@@ -55,6 +55,8 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak?ref=latest";
 
     catppuccin.url = "github:catppuccin/nix";
+
+    mango.url = "github:DreamMaoMao/mango";
   };
 
   outputs =
@@ -67,6 +69,7 @@
       disko,
       devenv,
       catppuccin,
+      mango,
       ...
     }:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
@@ -120,6 +123,7 @@
           systemdboot = import ./modules/systemd-boot.nix;
           sudo = import ./modules/sudo.nix;
           services = import ./modules/services;
+          desktop = import ./modules/desktop.nix;
         };
       };
     };

@@ -6,7 +6,8 @@ inputs@{
     nixpkgs-stable,
     devenv,
     disko,
-    catppuccin,
+  catppuccin,
+  mango,
     ...
 }:
 let
@@ -33,10 +34,12 @@ nixpkgs.lib.nixosSystem {
       gamingmice
       systemdboot
       services
+      desktop
       hm.nixosModules.home-manager
       nur.modules.nixos.default
       disko.nixosModules.disko
       catppuccin.nixosModules.catppuccin
+      mango.nixosModules.mango
       ./home.nix
       ../crypt.nix
       ./install.nix
@@ -51,6 +54,9 @@ nixpkgs.lib.nixosSystem {
         };
         users.users.jd.extraGroups = [ "aria2" ];
         services.flatpak.enable = true;
+        programs.mango.enable = true;
+        services.displayManager.sddm.enable = true;
+        services.desktopManager.plasma6.enable = true;
       }
     ]
     ++ imports';
