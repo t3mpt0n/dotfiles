@@ -12,6 +12,7 @@ in
     inputs.catppuccin.homeModules.catppuccin
     inputs.plasma-manager.homeModules.plasma-manager
     inputs.nix-flatpak.homeManagerModules.nix-flatpak
+    inputs.mango.hmModules.mango
     conf
     ../../modules
     ./profile.nix

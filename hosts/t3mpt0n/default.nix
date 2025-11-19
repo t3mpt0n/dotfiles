@@ -55,8 +55,6 @@ nixpkgs.lib.nixosSystem {
         users.users.jd.extraGroups = [ "aria2" ];
         services.flatpak.enable = true;
         programs.mango.enable = true;
-        services.displayManager.sddm.enable = true;
-        services.desktopManager.plasma6.enable = true;
       }
     ]
     ++ imports';

@@ -6,10 +6,10 @@
 }: {
   custom.browser = {
     chromium = {
-      enable = false;
-      brave.enable = false;
+      enable = true;
+      brave.enable = true;
     };
   };
 
-  programs.firefox.enable = true;
+  programs.firefox.enable = false;
 }
