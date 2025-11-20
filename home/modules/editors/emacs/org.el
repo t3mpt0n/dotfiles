@@ -1,3 +1,4 @@
+(leaf cdlatex :straight t)
 (leaf org
   :straight org-modern
   :bind (("C-c a" . org-agenda))
