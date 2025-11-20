@@ -23,11 +23,15 @@
 
 (leaf org-roam
   :straight t
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n i" . org-roam-node-insert)
+  :bind (("C-c n f" . org-roam-node-find)
+         ("C-c n r" . org-roam-node-random)
          (:org-mode-map
-          ("C-M-i" . completion-at-point)))
+          ("C-c n i" . org-roam-node-insert)
+          ("C-M-i" . completion-at-point)
+          ("C-c n o" . org-id-get-create)
+          ("C-c n t" . org-roam-tag-add)
+          ("C-c n a" . org-roam-alias-add)
+          ("C-c n l" . org-roam-buffer-toggle)))
   :config
   (org-roam-setup)
   :custom
