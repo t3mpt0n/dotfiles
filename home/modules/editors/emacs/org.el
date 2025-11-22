@@ -24,20 +24,34 @@
 
 (leaf org-roam
   :straight t
-  :bind (("C-c n f" . org-roam-node-find)
-         ("C-c n r" . org-roam-node-random)
-         (:org-mode-map
+  :bind ((:org-mode-map
           ("C-c n i" . org-roam-node-insert)
           ("C-M-i" . completion-at-point)
           ("C-c n o" . org-id-get-create)
           ("C-c n t" . org-roam-tag-add)
           ("C-c n a" . org-roam-alias-add)
           ("C-c n l" . org-roam-buffer-toggle)))
+  :setq
+  (org-roam-completion-system . 'ido)
   :config
   (org-roam-setup)
+  
   :custom
   (org-roam-directory . "~/Documents/Org/Roam")
   (org-roam-completion-everywhere . t))
+
+(leaf org-roam-ui :straight t)
+(leaf consult-org-roam
+  :straight t
+  :after org-roam
+  :bind (("C-c n e" . consult-org-roam-file-find)
+         ("C-c n s" . consult-org-roam-search))
+  :init
+  (consult-org-roam 1)
+
+  :config
+  (consult-customize
+   consult-org-roam-forward-links :preview-key "M-."))
 
 (leaf ob-mermaid
   :straight t

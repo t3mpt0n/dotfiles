@@ -6,14 +6,43 @@
   (prog-mode-hook . rainbow-delimiters-mode)
   (prog-mode-hook . electric-pair-mode))
 
-(leaf ivy/swiper/counsel
-  :straight ivy swiper counsel
-  :setq
-  (ivy-use-virtual-buffers . t)
-  (ivy-count-format . "(%d/%d) ")
+(leaf consult
+  :straight t
+  :hook (completion-list-mode-hook . consult-preview-at-point-mode))
+
+(leaf marginalia
+  :straight t
+  :config (marginalia-mode))
+
+(leaf savehist
+  :straight t
+  :init
+  (savehist-mode))
+
+(leaf vertico
+  :straight t
+  :init
+  (vertico-mode))
+
+(leaf embark
+  :straight t
+  :bind (("C-." . embark-act)
+         ("C-;" . embark-dwim)
+         ("C-h B" . embark-bindings))
+
   :config
-  (ivy-mode 1)
-  (counsel-mode 1))
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  :config
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+(leaf embark-consult
+  :straight t
+  :hook
+  (embark-collect-mode-hook . consult-preview-at-point-mode))
 
 (leaf orderless
   :straight t
@@ -27,19 +56,13 @@
   :straight t
   :bind ("C-S-c C-S-c" . 'mc/edit-lines))
 
-(leaf company
+(leaf corfu
   :straight t
-  :setq
-  (company-dabbrev-ignore-case . 'keep-prefix)
-  (company-dabbrev-other-buffers . nil)
-  (company-files-exclusions . '(".git/" ".DS_Store" ".devenv/" ".direnv/"))
-  (company-idle-delay . 0)
-  (company-tooltip-idle-delay . 1)
-  :hook (after-init-hook . global-company-mode))
+  :custom
+  (corfu-auto . t)
+  :init (global-corfu-mode))
 
 (leaf t3mpt0n/yasnippet
-  :require company
   :straight yasnippet yasnippet-snippets
   :config
-  (yas-global-mode 1)
-  (add-to-list 'company-backends '(company-capf :with company-yasnippet)))
+  (yas-global-mode 1))

@@ -62,9 +62,7 @@
   (elpy-mode-hook . (lambda ()
                       (add-hook 'before-save-hook
                                 'elpy-black-fix-code nil t)))
-  :setq (elpy-modules . (delq 'elpy-module-flymake elpy-modules))
-  :config
-  (add-to-list 'company-backends '(elpy-company-backend :with company-yasnippet)))
+  :setq (elpy-modules . (delq 'elpy-module-flymake elpy-modules)))
 
 (leaf prog/go
   :straight go-mode
