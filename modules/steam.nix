@@ -13,6 +13,11 @@
         wine
       ];
     };
+
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+    };
   };
 
   environment.systemPackages = let

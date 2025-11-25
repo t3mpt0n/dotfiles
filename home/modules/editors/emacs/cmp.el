@@ -66,3 +66,10 @@
   :straight yasnippet yasnippet-snippets
   :config
   (yas-global-mode 1))
+
+(leaf move-text
+  :straight t
+  :bind (("M-n" . move-text-down)
+         ("M-p" . move-text-up))
+  :config
+  (move-text-default-bindings))

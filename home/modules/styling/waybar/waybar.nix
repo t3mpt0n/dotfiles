@@ -17,6 +17,7 @@
         modules-left = lib.mkDefault [
           "sway/workspaces"
           "hyprland/workspaces"
+          "niri/workspaces"
           "disk"
         ];
         modules-center = lib.mkDefault [ "clock" ];

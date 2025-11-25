@@ -27,6 +27,11 @@ window#waybar.hidden {
   border-bottom: 2px solid #ffffff;
 }
 
+#workspaces button.focused {
+  background-color: rgba(43, 48, 59, 0.5);
+  border-bottom: 2px solid #ffffff;
+}
+
 #clock {
   border-bottom: 2px solid #ffffff;
 }

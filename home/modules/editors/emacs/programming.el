@@ -118,3 +118,7 @@
   :straight csv-mode
   :mode ("\\.csv\\'" . csv-mode)
   :hook (csv-mode-hook . csv-guess-set-seperator))
+
+(leaf markup/kdl ;; For Niri Config
+  :straight kdl-mode
+  :mode ("\\.kdl\\'" . kdl-mode))

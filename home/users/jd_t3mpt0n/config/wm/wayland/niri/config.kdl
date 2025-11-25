@@ -1,0 +1,86 @@
+prefer-no-csd
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+spawn-sh-at-startup "emacs --daemon"
+spawn-sh-at-startup "corectrl"
+spawn-sh-at-startup "waybar"
+
+input {
+    keyboard {
+        xkb {
+            layout "us"
+            variant "altgr-intl"
+            options "compose:ralt,grp:shifts_toggle"
+        }
+
+        repeat-delay 240
+        repeat-rate 40
+        numlock
+    }
+
+    mouse {
+        
+    }
+}
+
+output "DP-3" {
+    focus-at-startup
+    variable-refresh-rate on-demand=true
+    mode "2560x1440@165"    
+}
+
+binds {
+    Mod+Ctrl+B { focus-column-left; }
+    Mod+Ctrl+F { focus-column-right; }
+    Mod+Ctrl+N { focus-workspace-down; }
+    Mod+Ctrl+P { focus-workspace-up; }
+    Mod+Shift+Ctrl+N { move-workspace-down; }
+    Mod+Shift+Ctrl+P { move-workspace-up; }
+    Mod+Left { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Down { focus-workspace-down; }
+    Mod+Up { focus-workspace-up; }
+    Mod+Ctrl+Left { move-column-left; }
+    Mod+Ctrl+Right { move-column-right; }
+    Mod+Ctrl+Down { move-workspace-down; }
+    Mod+Ctrl+Up { move-workspace-up; }
+
+    XF86AudioLowerVolume { spawn "amixer" "sset" "Master" "5%-"; }
+    XF86AudioRaiseVolume { spawn "amixer" "sset" "Master" "5%+"; }
+    XF86AudioMute { spawn "amixer" "sset" "Master" "toggle"; }
+
+    Mod+Shift+Q { close-window; }
+    Mod+T { toggle-window-floating; }
+    Mod+M { maximize-column; }
+    Mod+F { fullscreen-window; }
+
+    Mod+Return { spawn-sh "emacsclient -c -e '(vterm (random))'"; }
+    Mod+P { spawn "fuzzel"; }
+    Mod+E { spawn-sh "emacsclient -c -a 'emacs'"; }
+    Mod+W { spawn "brave"; }
+}
+
+layout {
+    gaps 5
+    empty-workspace-above-first
+    default-column-display "tabbed"
+    default-column-width { proportion 0.5; }
+    
+    tab-indicator {
+        hide-when-single-tab
+    }
+
+    border {
+        off
+    }
+
+    focus-ring {
+        width 3
+
+        active-color "#94e2d5"
+        urgent-color "red"
+    }
+}
