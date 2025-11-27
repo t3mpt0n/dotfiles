@@ -36,6 +36,7 @@
       DisablePasswordReveal = true;
       DisableTelemetry = true;
       DisableFormHistory = true;
+      DisableFirefoxAccounts = true;
       EnableTrackingProtection = {
         Value = true;
         Locked = true;

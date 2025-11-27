@@ -60,7 +60,7 @@ binds {
     Mod+Return { spawn-sh "emacsclient -c -e '(vterm (random))'"; }
     Mod+P { spawn "fuzzel"; }
     Mod+E { spawn-sh "emacsclient -c -a 'emacs'"; }
-    Mod+W { spawn "brave"; }
+    Mod+W { spawn "firefox"; }
 }
 
 layout {

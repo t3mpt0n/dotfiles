@@ -18,7 +18,7 @@
     defaultFonts = {
       serif = [ "Noto Serif" ];
       sansSerif = [ "Noto Sans" ];
-      monospace = [ "Caskaydia Cove Nerd Font" ];
+      monospace = [ "Liberation Mono" ];
       emoji = [ "Noto Color Emoji" ];
     };
   };

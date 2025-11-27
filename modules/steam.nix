@@ -9,6 +9,9 @@
       enable = true;
       package = pkgs.steam.override {};
       extraPackages = with pkgs; [
+        SDL2
+        sdl3
+        SDL
         mono
         wine
       ];
