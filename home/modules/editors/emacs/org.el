@@ -43,7 +43,6 @@
 (leaf org-roam-ui :straight t)
 (leaf consult-org-roam
   :straight t
-  :after org-roam
   :bind (("C-c n e" . consult-org-roam-file-find)
          ("C-c n s" . consult-org-roam-search))
   :init

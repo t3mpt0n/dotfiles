@@ -21,6 +21,7 @@ in
       programs = {
         vesktop.enable = true;
         fish.enable = true;
+        rbw.enable = true;
       };
 
       t'.home.crypto.enable = true;
