@@ -18,7 +18,6 @@
         shaderc
         vulkan-headers
         vulkan-loader
-        glxinfo
         vulkan-tools
       ];
     };

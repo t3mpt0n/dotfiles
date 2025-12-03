@@ -6,6 +6,7 @@ in {
   imports = lib.lists.flatten [
     inputs.catppuccin.homeModules.catppuccin
     inputs.sops-nix.homeManagerModules.sops
+    inputs.nix-flatpak.homeManagerModules.nix-flatpak
     conf
     ./profile.nix
     ../../modules

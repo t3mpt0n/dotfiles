@@ -4,7 +4,7 @@
   ...
 }: {
   wayland.windowManager.hyprland = {
-    enable = true;
+    enable = false;
     settings = {
       monitor = [
         "DP-3, 2560x1440@165, 0x0, 1, vrr, 1"

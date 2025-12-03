@@ -9,6 +9,7 @@
     noto-fonts-cjk-serif
     noto-fonts-color-emoji
     noto-fonts
+    vista-fonts
     all_nerd
   ];
   
@@ -18,7 +19,7 @@
     defaultFonts = {
       serif = [ "Noto Serif" ];
       sansSerif = [ "Noto Sans" ];
-      monospace = [ "Liberation Mono" ];
+      monospace = [ "Consolas" ];
       emoji = [ "Noto Color Emoji" ];
     };
   };
