@@ -35,6 +35,7 @@ nixpkgs.lib.nixosSystem {
       ../crypt.nix
       {
         environment.systemPackages = [ devenv.packages.x86_64-linux.devenv ];
+        programs.niri.enable = true;
       }
     ]
     ++ imports';

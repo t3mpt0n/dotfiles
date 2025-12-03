@@ -5,7 +5,6 @@ hotkey-overlay {
 }
 
 spawn-sh-at-startup "emacs --daemon"
-spawn-sh-at-startup "corectrl"
 spawn-sh-at-startup "waybar"
 
 input {

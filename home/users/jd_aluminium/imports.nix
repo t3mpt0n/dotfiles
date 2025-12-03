@@ -16,6 +16,7 @@ in {
         vesktop.enable = true;
         fish.enable = true;
       };
+      catppuccin.enable = true;
     }
   ];
 }

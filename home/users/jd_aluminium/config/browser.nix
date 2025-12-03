@@ -10,4 +10,6 @@
       brave.enable = true;
     };
   };
+
+  programs.firefox.enable = true;
 }
