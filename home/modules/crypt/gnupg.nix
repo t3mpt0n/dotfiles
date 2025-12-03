@@ -30,4 +30,8 @@
       allow-loopback-pinentry
     '';
   };
+
+  home.packages = with pkgs; [
+    monkeysphere
+  ];
 }
