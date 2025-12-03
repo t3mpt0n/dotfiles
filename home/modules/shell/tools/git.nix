@@ -13,6 +13,7 @@
       init.defaultBranch = "main";
       commit.gpgSign = true;
       user.signingkey = "A3E735D6C0921B17";
+      gpg.program = "${pkgs.gnupg}";
       core = {
         autocrlf = "input";
       };
